@@ -441,7 +441,7 @@ An illustrated guide covers the main screens and journeys: registration, email v
 
 **[📄 Open the User Guide](docs/User Guide-GOV.pdf)**
 
-> Place the PDF at `docs/User Guide-GOV.pdf` for the link to work on GitHub.
+
 
 ## Scope and Limitations
 
