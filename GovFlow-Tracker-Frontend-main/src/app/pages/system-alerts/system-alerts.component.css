@@ -1,0 +1,217 @@
+/* =================================
+   Professional System Alerts Styles
+   ================================= */
+
+/* Keyframe animation for the card's entry */
+@keyframes cardEntry {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Keyframe animation for each alert item's entry */
+@keyframes itemFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Main card styling */
+.alerts-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 2rem;
+  /* Apply the entry animation */
+  animation: cardEntry 0.5s ease-out 0.4s forwards;
+  opacity: 0; /* Start hidden for animation */
+  min-height: 150px; /* Ensure card has a minimum height */
+}
+
+/* Header styling */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.mark-as-read-btn {
+  background: none;
+  border: none;
+  color: #3A4A7B;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+.mark-as-read-btn:hover { color: #2D4059; }
+.mark-as-read-btn:disabled {
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+
+/* List of alerts styling */
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Individual alert item styling */
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border-width: 1px;
+  border-style: solid;
+  position: relative; /* For positioning the dismiss button */
+  animation: itemFadeIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* Staggered animation for alert items */
+.alert-item:nth-child(1) { animation-delay: 0.1s; }
+.alert-item:nth-child(2) { animation-delay: 0.2s; }
+.alert-item:nth-child(3) { animation-delay: 0.3s; }
+/* Add more if needed */
+
+.alert-icon-wrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.alert-content {
+  flex-grow: 1;
+}
+
+.alert-title {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: inherit; /* Inherit color from parent */
+}
+
+.alert-message {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.dismiss-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit; /* Inherit color from parent */
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.dismiss-btn:hover {
+  opacity: 1;
+}
+
+
+.alert-warning {
+  background-color: #FEFBEB;
+  border-color: #FDE68A;
+  color: #B45309;
+}
+.alert-warning .alert-icon-wrapper { background-color: #FDE68A; }
+
+.alert-error {
+  background-color: #FEF2F2;
+  border-color: #FECACA;
+  color: #B91C1C;
+}
+.alert-error .alert-icon-wrapper { background-color: #FECACA; }
+
+.alert-info {
+  background-color: #EFF6FF;
+  border-color: #BFDBFE;
+  color: #1E40AF;
+}
+.alert-info .alert-icon-wrapper { background-color: #BFDBFE; }
+
+/* Styles for the new empty and loading states */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.empty-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #F3F4F6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.empty-icon .fas {
+  font-size: 1.75rem;
+  color: #9CA3AF;
+}
+.empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.25rem 0;
+}
+.empty-subtitle {
+  font-size: 0.9rem;
+  color: #6B7B9B;
+  margin: 0;
+}
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: #6B7B9B;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #3A4A7B;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

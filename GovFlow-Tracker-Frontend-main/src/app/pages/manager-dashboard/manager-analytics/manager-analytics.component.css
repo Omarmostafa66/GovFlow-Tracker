@@ -1,0 +1,71 @@
+/* =================================
+   Professional Analytics Card Styles V2
+   ================================= */
+@keyframes cardEntry {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progressBarFill { from { width: 0% !important; } }
+
+.analytics-container {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  background-color: #FFFFFF; padding: 1.5rem; border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); animation: cardEntry 0.5s ease-out forwards;
+  opacity: 0; /* Start hidden for animation */
+}
+
+.stat-card {
+  display: flex; flex-direction: column; padding: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.stat-card:hover { transform: translateY(-5px); }
+
+/* ✅ START: إضافة لتنسيق الأيقونات والعناوين */
+.card-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.card-icon-wrapper {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: #FFFFFF; font-size: 1.1rem; flex-shrink: 0;
+}
+.card-icon-wrapper.blue { background: linear-gradient(135deg, #4F80E1, #3A4A7B); }
+.card-icon-wrapper.green { background: linear-gradient(135deg, #34D399, #10B981); }
+.card-icon-wrapper.orange { background: linear-gradient(135deg, #FBBF24, #F59E0B); }
+/* ✅ END: نهاية الإضافة */
+
+.card-title {
+  font-size: 1.1rem; font-weight: 600; color: #374151;
+  margin: 0;
+}
+
+/* Card 1: Progress Bars */
+.progress-list { display: flex; flex-direction: column; gap: 1.25rem; }
+.progress-item { display: flex; align-items: center; font-size: 0.95rem; }
+.progress-label { color: #4B5563; width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.progress-bar-container {
+  flex-grow: 1; height: 8px; background-color: #F3F4F6;
+  border-radius: 99px; margin: 0 1rem; overflow: hidden;
+}
+.progress-bar { height: 100%; border-radius: 99px; animation: progressBarFill 1s ease-out; }
+.progress-bar.lice, .progress-bar.vehi { background-color: #3B82F6; } /* Blue */
+.progress-bar.buil, .progress-bar.reno { background-color: #10B981; } /* Green */
+.progress-bar.comp { background-color: #F59E0B; } /* Yellow */
+.progress-value { font-weight: 500; color: #6B7B9B; }
+.empty-state { color: #9CA3AF; text-align: center; padding: 2rem 0; }
+
+/* Card 2 & 3: Rates */
+.rate-summary { text-align: center; margin-bottom: 1.5rem; }
+.rate-percentage { font-size: 2.5rem; font-weight: 700; color: #10B981; }
+.rate-percentage-large { font-size: 2.5rem; font-weight: 700; color: #374151; }
+.rate-subtitle { color: #6B7B9B; margin: 0.25rem 0 0 0; }
+.rate-details { display: flex; flex-direction: column; gap: 1rem; }
+.rate-item { display: flex; justify-content: space-between; font-size: 0.95rem; color: #4B5563; }
+.rate-value { font-weight: 600; }
+.rate-value.green { color: #10B981; }
+.rate-value.red { color: #EF4444; }
+
+/* Responsive */
+@media (max-width: 1024px) { .analytics-container { grid-template-columns: 1fr; } }

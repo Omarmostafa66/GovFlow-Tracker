@@ -1,0 +1,276 @@
+/* =================================
+    Modern Register Card Styles
+    ================================= */
+.register-card { background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 2.5rem; max-width: 550px; width: 100%; margin: 3rem auto 0; border-top: 5px solid #3A4A7B; font-family: 'Cairo', sans-serif; }
+.register-header { text-align: center; margin-bottom: 2rem; }
+.register-icon { font-size: 3rem; color: #3A4A7B; margin-bottom: 1rem; }
+.register-title { font-size: 1.8rem; font-weight: 700; color: #2D4059; }
+.register-subtitle { color: #6B7B9B; margin-top: 0.5rem; }
+.register-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; }
+.form-label { font-size: 0.9rem; font-weight: 500; color: #3A4A7B; margin-bottom: 0.5rem; }
+.form-input, .form-select { width: 100%; padding: 0.8rem 1rem; border: 1px solid #D1D5DB; border-radius: 8px; outline: none; transition: all 0.3s ease; box-sizing: border-box; background-color: #F5F7FA; }
+.form-input:focus, .form-select:focus { border-color: #3A4A7B; box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2); background-color: #FFFFFF; }
+.form-error { font-size: 0.8rem; color: #EF4444; margin-top: 0.25rem; display: block; }
+.register-button { display: flex; justify-content: center; align-items: center; background-color: #FF5722; color: #ffffff; padding: 0.8rem 1rem; border-radius: 8px; border: none; cursor: pointer; transition: all 0.3s ease; font-weight: 600; font-size: 1rem; margin: 1.5rem auto 0; }
+.register-button:hover:not(:disabled) { background-color: #E64A19; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3); }
+.register-button:disabled { background-color: #9CA3AF; cursor: not-allowed; }
+.register-links { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; }
+.link-action { color: #3A4A7B; text-decoration: none; font-weight: 500; }
+.link-action:hover { color: #FF5722; text-decoration: underline; }
+.hidden { display: none; }
+@media (max-width: 600px) { .register-card { margin: 1.5rem 1rem; padding: 2rem 1.5rem; } }
+
+/* =================================
+    Inline Popup Styles
+    ================================= */
+.popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; font-family: 'Cairo', sans-serif; }
+.popup-card { background-color: #ffffff; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); width: 90%; max-width: 450px; text-align: center; border-top: 5px solid #3A4A7B; }
+.popup-header { margin-bottom: 1.5rem; }
+.popup-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.popup-icon.success { color: #22C55E; }
+.popup-icon.error { color: #EF4444; }
+.popup-icon.warning { color: #F59E0B; }
+.popup-icon.info { color: #2D4059; }
+.popup-title { font-size: 1.75rem; font-weight: 700; color: #2D4059; margin: 0; }
+.popup-message { font-size: 1rem; color: #6B7B9B; line-height: 1.6; margin-bottom: 2rem; word-wrap: break-word; }
+.popup-close-btn { background-color: #FF5722; color: #ffffff; border: none; border-radius: 8px; padding: 0.8rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; width: 100%; }
+.popup-close-btn:hover { background-color: #E64A19; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3); }
+
+/* Custom Phone Input Styles */
+.phone-group { position: relative; }
+.phone-input-wrapper { display: flex; align-items: center; border: 1px solid #D1D5DB; border-radius: 8px; background-color: #F5F7FA; transition: all 0.3s ease; }
+.phone-input-wrapper:focus-within { border-color: #3A4A7B; box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2); background-color: #FFFFFF; }
+.dropdown-toggle { display: flex; align-items: center; padding: 0 0.75rem; cursor: pointer; border-right: 1px solid #D1D5DB; height: 100%; }
+.selected-flag { width: 24px; height: auto; margin-right: 0.5rem; border-radius: 3px; }
+.dial-code { font-size: 0.9rem; color: #3A4A7B; font-weight: 500; margin-right: 0.5rem; }
+.dropdown-arrow { font-size: 0.7rem; color: #6B7B9B; }
+.dropdown-menu { position: absolute; top: 100%; left: 0; width: 100%; background-color: #fff; border: 1px solid #D1D5DB; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; margin-top: 0.5rem; max-height: 200px; overflow-y: auto; }
+.dropdown-item { display: flex; align-items: center; padding: 0.75rem 1rem; cursor: pointer; transition: background-color 0.2s ease; }
+.dropdown-item:hover { background-color: #eef2ff; }
+.item-flag { width: 24px; margin-right: 0.75rem; border-radius: 3px; }
+.item-name { flex: 1; font-size: 0.9rem; color: #2D4059; }
+.item-dial-code { font-size: 0.9rem; color: #6B7B9B; }
+.phone-input { flex-grow: 1; border: none; background-color: transparent; box-shadow: none; }
+.phone-input:focus { border: none; box-shadow: none; }
+
+/* Styles from previous prompt */
+.password-steps { margin-top: 8px; font-size: 0.85rem; }
+.password-steps .step { display: flex; align-items: center; margin-bottom: 4px; color: grey; }
+.password-steps .valid-step { color: green; }
+.password-steps .invalid-step { color: red; }
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.password-wrapper .form-input {
+  padding-right: 2.5rem; /* Make space for the icon */
+}
+.password-toggle-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6B7B9B;
+}
+
+/* Loading Spinner Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  /* border-top-color is set inline in the HTML */
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pending Verification Screen */
+.pending-verification-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.pending-icon {
+  font-size: 64px;
+  color: #FF5722;
+  margin-bottom: 20px;
+}
+
+.pending-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.pending-subtitle {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.pending-info {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 25px;
+}
+
+.resend-status-message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: green;
+}
+
+.resend-status-message.error {
+  color: red;
+}
+
+/*
+ * أضف هذا الكود إلى نهاية ملف الـ CSS الخاص بك
+ */
+
+/* حاوية الأزرار */
+.popup-actions {
+  display: flex; /* يستخدم Flexbox لوضع الأزرار بجانب بعضها */
+  justify-content: space-between; /* يوزع المسافة حول الأزرار */
+  gap: 15px; /* يضيف مسافة ثابتة بين الأزرار */
+  margin-top: 25px; /* يضيف مسافة فوق الأزرار */
+}
+
+/* التنسيق الأساسي للزر */
+.popup-button {
+  flex: 1; /* يجعل كل زر يأخذ نصف المساحة المتاحة */
+  padding: 12px 15px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+/* تصميم الزر الأساسي (البرتقالي) */
+.popup-button.primary {
+  background-color: #FF5722; /* اللون الأساسي */
+  color: white;
+}
+
+.popup-button.primary:hover {
+  background-color: #e64a19; /* درجة أغمق عند التأشير */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* تصميم الزر الثانوي (الرمادي) */
+.popup-button.secondary {
+  background-color: #f0f2f5; /* لون رمادي فاتح */
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+.popup-button.secondary:hover {
+  background-color: #e4e6e9; /* درجة أغمق عند التأشير */
+  border-color: #ccc;
+}
+
+/* ✅ START: NEW STYLES TO HIDE BROWSER'S DEFAULT PASSWORD ICON */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-password-reveal-button {
+  display: none;
+  appearance: none;
+}
+/* ✅ END: NEW STYLES */
+
+
+/* =================================
+    ✅ START: NEW MODERN ROLE TOGGLE STYLES
+   ================================= */
+.role-toggle-group {
+  display: flex;
+  gap: 10px; /* المسافة بين الأزرار */
+  width: 100%;
+}
+
+/* إخفاء زر الراديو الأصلي */
+.role-toggle-input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+/* تصميم الزر (العلامة) */
+.role-toggle-label {
+  flex: 1; /* يجعل الأزرار الثلاثة متساوية في العرض */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* المسافة بين الأيقونة والنص */
+  padding: 0.8rem 1rem; /* يطابق حجم حقول الإدخال */
+  border: 1px solid #D1D5DB; /* يطابق حدود حقول الإدخال */
+  border-radius: 8px; /* يطابق حواف حقول الإدخال */
+  background-color: #F5F7FA; /* يطابق خلفية حقول الإدخال */
+  color: #3A4A7B; /* يطابق لون عنوان الحقل */
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* تأثير التمرير (Hover) على الأزرار غير المحددة */
+.role-toggle-input:not(:checked) + .role-toggle-label:hover {
+  background-color: #FFFFFF; /* يطابق تأثير التركيز على حقول الإدخال */
+  border-color: #aeb6d1;
+}
+
+/* التصميم الخاص بالزر النشط (المحدد) */
+.role-toggle-input:checked + .role-toggle-label {
+  background-color: #3A4A7B; /* اللون الأساسي للموقع */
+  color: #ffffff; /* نص أبيض */
+  border-color: #3A4A7B;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(58, 74, 123, 0.2); /* ظل ناعم للتأكيد */
+  transform: translateY(-2px); /* تأثير "بروز" بسيط عند الاختيار */
+}
+
+
+/* ================================================
+   ✅ The Final & Consolidated Responsive Fix
+   ================================================ */
+@media (max-width: 600px) {
+  .register-card {
+    margin: 1.5rem 1rem; /* تقليل الهامش الخارجي */
+    padding: 2rem 1.5rem; /* تقليل الهامش الداخلي */
+  }
+}
+
+@media (max-width: 500px) {
+  .role-toggle-group {
+    flex-direction: column; /* جعل أزرار اختيار الدور تحت بعضها */
+  }
+}

@@ -1,0 +1,234 @@
+<div class="page-container">
+  <nav class="breadcrumb">
+    <ol>
+      <li><a routerLink="/citizen-dashboard">Dashboard</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/my-requests">My Requests</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">Request Details #{{request?.id}}</li>
+    </ol>
+  </nav>
+
+  <div *ngIf="loading" class="loading-state">Loading request details...</div>
+  <div *ngIf="error" class="error-state">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && request" class="content-card">
+    <header class="page-header">
+      <h1>Request Details</h1>
+      <p>Detailed information about your service request.</p>
+    </header>
+
+    <div class="request-info-section">
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Service Name:</label>
+          <span class="value">
+            <ng-container *ngIf="request.serviceName.length > truncationLimit && !isExpanded('serviceName')">
+              {{ request.serviceName | slice:0:truncationLimit }}...
+            </ng-container>
+            <ng-container *ngIf="request.serviceName.length <= truncationLimit || isExpanded('serviceName')">
+              {{ request.serviceName }}
+            </ng-container>
+            <button *ngIf="request.serviceName.length > truncationLimit" (click)="toggleExpansion('serviceName')" class="toggle-text-btn">
+              {{ isExpanded('serviceName') ? 'Show Less' : 'Show More' }}
+            </button>
+          </span>
+        </div>
+        <div class="info-item">
+          <label>Request ID:</label>
+          <span class="value">#{{ request.id }}</span>
+        </div>
+        <div class="info-item">
+          <label>Department:</label>
+          <span class="value">
+             <ng-container *ngIf="request.department.length > truncationLimit && !isExpanded('department')">
+              {{ request.department | slice:0:truncationLimit }}...
+            </ng-container>
+            <ng-container *ngIf="request.department.length <= truncationLimit || isExpanded('department')">
+              {{ request.department }}
+            </ng-container>
+            <button *ngIf="request.department.length > truncationLimit" (click)="toggleExpansion('department')" class="toggle-text-btn">
+              {{ isExpanded('department') ? 'Show Less' : 'Show More' }}
+            </button>
+          </span>
+        </div>
+        <div class="info-item">
+          <label>Submitted Date:</label>
+          <span class="value">{{ request.submissionDate | date: 'mediumDate' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Submitted Time:</label>
+          <span class="value">{{ request.submissionDate | date: 'shortTime' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Status:</label>
+          <span class="status-badge" [ngClass]="getStatusClass(request.status)">{{ formatStatus(request.status) }}</span>
+        </div>
+        <div class="info-item" *ngIf="request.fee && request.fee > 0">
+          <label>Fee:</label>
+          <span class="value">{{ request.fee | currency:'EGP' }}</span>
+        </div>
+      </div>
+
+      <div class="details-section">
+        <label>Request Details:</label>
+        <div *ngIf="parsedDetails" class="info-grid" style="margin-top: 1rem;">
+          <div *ngFor="let detail of parsedDetails | keyvalue" class="info-item">
+            <label>{{ getDetailLabel(detail.key) }}:</label>
+            <span class="value">
+              <ng-container *ngIf="asString(detail.value).length > truncationLimit && !isExpanded('detail-' + detail.key)">
+                {{ asString(detail.value) | slice:0:truncationLimit }}...
+              </ng-container>
+              <ng-container *ngIf="asString(detail.value).length <= truncationLimit || isExpanded('detail-' + detail.key)">
+                {{ detail.value }}
+              </ng-container>
+              <button *ngIf="asString(detail.value).length > truncationLimit" (click)="toggleExpansion('detail-' + detail.key)" class="toggle-text-btn">
+                {{ isExpanded('detail-' + detail.key) ? 'Show Less' : 'Show More' }}
+              </button>
+            </span>
+          </div>
+        </div>
+        <div *ngIf="!parsedDetails">
+          <p class="details-content">
+            <ng-container *ngIf="(request.details || '').length > truncationLimit && !isExpanded('requestDetails')">
+              {{ request.details | slice:0:truncationLimit }}...
+            </ng-container>
+            <ng-container *ngIf="(request.details || '').length <= truncationLimit || isExpanded('requestDetails')">
+              {{ request.details || 'No additional details provided.' }}
+            </ng-container>
+            <button *ngIf="(request.details || '').length > truncationLimit" (click)="toggleExpansion('requestDetails')" class="toggle-text-btn">
+              {{ isExpanded('requestDetails') ? 'Show Less' : 'Show More' }}
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="approval-section">
+      <h3><i class="fas fa-user-check"></i> Employee Review</h3>
+
+      <div *ngIf="request.status === 'APPROVED' || request.status === 'REJECTED' || request.employeeComments || request.reasonForStatusChange" class="approval-content">
+        <div class="approval-status">
+          <span class="label">Decision:</span>
+          <span class="value" [ngClass]="{
+            'approved': request.status === 'APPROVED',
+            'rejected': request.status === 'REJECTED'
+          }">
+            {{ request.status === 'APPROVED' ? 'Approved' : (request.status === 'REJECTED' ? 'Rejected' : 'Under Review') }}
+          </span>
+        </div>
+
+        <div class="comments-section" *ngIf="request.reasonForStatusChange">
+          <span class="label">سبب تغير الحالة (Reason for Status Change):</span>
+          <p class="comments-content">{{ request.reasonForStatusChange }}</p>
+        </div>
+        <div class="comments-section" *ngIf="request.employeeComments">
+          <span class="label">Employee Comments:</span>
+          <p class="comments-content">
+            <ng-container *ngIf="request.employeeComments.length > truncationLimit && !isExpanded('employeeComments')">
+              {{ request.employeeComments | slice:0:truncationLimit }}...
+            </ng-container>
+            <ng-container *ngIf="request.employeeComments.length <= truncationLimit || isExpanded('employeeComments')">
+              {{ request.employeeComments }}
+            </ng-container>
+            <button *ngIf="request.employeeComments.length > truncationLimit" (click)="toggleExpansion('employeeComments')" class="toggle-text-btn">
+              {{ isExpanded('employeeComments') ? 'Show Less' : 'Show More' }}
+            </button>
+          </p>
+        </div>
+
+        <div class="review-date" *ngIf="request.updatedAt">
+          <span class="label">Last Updated:</span>
+          <span class="value">{{ request.updatedAt | date: 'medium' }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="request.status !== 'APPROVED' && request.status !== 'REJECTED' && !request.employeeComments && !request.reasonForStatusChange" class="no-review">
+        <p>No review has been submitted by an employee yet.</p>
+      </div>
+    </div>
+    <div class="documents-section">
+      <h3><i class="fas fa-file-alt"></i> Documents</h3>
+      <div class="document-stats">
+        <span>Uploaded Documents ({{request.uploadedDocuments?.length || 0}} / {{getRequiredDocsCount(request.serviceName)}})</span>
+      </div>
+
+      <div class="document-list">
+        <ul *ngIf="request.uploadedDocuments?.length">
+          <li *ngFor="let doc of request.uploadedDocuments">
+            <div class="doc-info">
+              <i class="fas" [ngClass]="getDocumentIconClass(doc.type)"></i>
+              <div class="doc-details">
+                <span class="doc-name">
+                  <ng-container *ngIf="doc.name.length > truncationLimit && !isExpanded('doc-' + doc.id)">
+                    {{ doc.name | slice:0:truncationLimit }}...
+                  </ng-container>
+                  <ng-container *ngIf="doc.name.length <= truncationLimit || isExpanded('doc-' + doc.id)">
+                    {{ doc.name }}
+                  </ng-container>
+                  <button *ngIf="doc.name.length > truncationLimit" (click)="toggleExpansion('doc-' + doc.id)" class="toggle-text-btn">
+                    {{ isExpanded('doc-' + doc.id) ? 'Show Less' : 'Show More' }}
+                  </button>
+                </span>
+                <span class="doc-date" *ngIf="doc.uploadedAt">Uploaded: {{ doc.uploadedAt | date: 'medium' }}</span>
+                <span class="doc-size" *ngIf="doc.size">Size: {{ formatFileSize(doc.size) }}</span>
+              </div>
+            </div>
+            <div class="doc-actions">
+              <button (click)="viewDocument(doc)" class="btn-link" title="View document">
+                <i class="fas fa-eye"></i> View
+              </button>
+              <button (click)="downloadDocument(doc)" class="btn-link" title="Download document">
+                <i class="fas fa-download"></i> Download
+              </button>
+
+              <button *ngIf="canReplaceDocument(request.status)" (click)="triggerReplace(doc.id)" class="btn-secondary" title="Replace document">
+                <i class="fas fa-exchange-alt"></i> Replace
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="!request.uploadedDocuments?.length" class="no-documents">
+          <i class="fas fa-folder-open"></i>
+          <p>No documents uploaded yet.</p>
+        </div>
+      </div>
+
+      <div *ngIf="canUploadMore(request)"
+           class="upload-box"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onDrop($event, request)"
+           [class.drag-over]="isDragging">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Upload missing documents</p>
+        <button (click)="fileInput.click()" class="upload-button">
+          <i class="fas fa-plus"></i> Choose Files
+        </button>
+      </div>
+      <input type="file" #fileInput style="display: none" (change)="onFileSelected($event, request)" accept="image/*,.pdf" />
+    </div>
+
+    <div class="action-buttons">
+      <button (click)="goBack()" class="btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Requests
+      </button>
+      <button *ngIf="request.status === 'APPROVED_PENDING_PAYMENT'" (click)="navigateToPayment()" class="btn-primary">
+        <i class="fas fa-credit-card"></i> Proceed to Payment
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showPopup" class="popup-overlay" (click)="closePopup()">
+    <div class="popup-card" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <i class="popup-icon" [ngClass]="popupIcon"></i>
+        <h2 class="popup-title">{{ popupTitle }}</h2>
+      </div>
+      <div class="popup-message">{{ popupMessage }}</div>
+      <div *ngIf="popupType === 'alert'" class="popup-actions">
+        <button (click)="closePopup()" class="popup-close-btn">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

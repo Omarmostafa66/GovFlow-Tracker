@@ -1,0 +1,179 @@
+/* =================================
+   Modern My Requests Table Styles
+   ================================= */
+:host {
+  font-family: 'Cairo', sans-serif;
+  background-color: #F5F7FA;
+  display: block;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.breadcrumb { margin-bottom: 1.2rem; margin-left: 1.2rem; }
+.breadcrumb ol {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  margin-left: -15px;
+}
+.breadcrumb li { color: #6B7B9B; }
+.breadcrumb a { color: #3A4A7B; text-decoration: none; font-weight: 500; }
+.breadcrumb i { font-size: 0.7rem; margin: 0 0.75rem; }
+.breadcrumb a:hover {
+  text-decoration: underline;
+  color: #FF5722;
+}
+
+.content-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2D4059;
+}
+.page-header p {
+  color: #6B7B9B;
+  margin-top: 0.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.filter-controls label {
+  font-weight: 600;
+  color: #2D4059;
+}
+.filter-controls select {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  background-color: #F9FAFB;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s ease;
+}
+.filter-controls select:focus {
+  outline: none;
+  border-color: #3A4A7B;
+  box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2);
+}
+
+/* Table Styles */
+.requests-table-container {
+  overflow-x: auto; /* For responsiveness on small screens */
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Prevents table from becoming too cramped */
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.requests-table thead th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6B7B9B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.requests-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.requests-table tbody tr:hover {
+  background-color: #F9FAFB;
+}
+
+/* ========================================================== */
+/* ✅ START: تم استبدال تعريفات الكلاسات القديمة بهذه المجموعة الموحدة */
+/* ========================================================== */
+
+/* Status Badges - الكلاس الأساسي */
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* الكلاسات الموحدة (نفس الموجودة في الداشبورد) */
+.status-under-review { background-color: #fff9db; color: #e8590c; } /* أصفر برتقالي */
+.status-approved { background-color: #e6fcf5; color: #2b8a3e; } /* أخضر */
+.status-in-progress { background-color: #e7f5ff; color: #1864ab; } /* أزرق */
+.status-rejected { background-color: #fff5f5; color: #c92a2a; } /* أحمر */
+.status-default {
+  background-color: #f8f9fa; /* رمادي فاتح */
+  color: #6c757d; /* نص رمادي */
+  border: 1px solid #dee2e6; /* حدود خفيفة */
+}
+/* ========================================================== */
+/* ✅ END: نهاية التعديل */
+/* ========================================================== */
+
+
+/* Action Button */
+.btn-link {
+  background: none;
+  border: none;
+  color: #3A4A7B;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-link:hover {
+  background-color: #eef2ff;
+  color: #FF5722;
+}
+
+/* Loading, Error, and No Data States */
+.loading-state,
+.error-state,
+.no-data-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6B7B9B;
+}
+.error-state {
+  color: #c92a2a;
+  background-color: #fff5f5;
+  border-radius: 8px;
+}
+.no-data-state i {
+  font-size: 3rem;
+  color: #D1D5DB;
+  margin-bottom: 1rem;
+  display: block;
+}

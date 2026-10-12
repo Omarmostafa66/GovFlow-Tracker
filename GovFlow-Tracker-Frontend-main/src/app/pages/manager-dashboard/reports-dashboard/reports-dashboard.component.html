@@ -1,0 +1,253 @@
+<div class="reports-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading Reports...</p>
+  </div>
+  <div *ngIf="errorMessage" class="error-container">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadReportData()" class="retry-btn">Try Again</button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && stats" class="fade-in">
+
+    <nav class="breadcrumb">
+      <ol>
+        <li><a routerLink="/manager-dashboard">Dashboard</a></li>
+        <li><i class="fas fa-chevron-right"></i></li>
+        <li class="active">Reports</li>
+      </ol>
+    </nav>
+    <header class="page-header">
+      <div>
+        <h1 class="page-title">Reports Dashboard</h1>
+        <p class="page-subtitle">{{ managerScope }}</p>
+      </div>
+      <div class="header-actions">
+        <select class="filter-select" [(ngModel)]="selectedPeriod" (change)="loadReportData()">
+          <option *ngFor="let period of periods">{{ period }}</option>
+        </select>
+        <button class="export-btn" (click)="showExportModal = true">
+          <i class="fas fa-download"></i> Export
+        </button>
+      </div>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper blue"><i class="fas fa-file-alt stat-icon"></i></div>
+        <div class="stat-info">
+          <p class="stat-label">Total Requests</p>
+          <p #totalRequestsValue class="stat-value">0</p>
+          <p *ngIf="stats.totalRequests.change !== undefined" class="stat-change" [ngClass]="getStatChangeClass(stats.totalRequests.change)">
+            <i class="fas" [class.fa-arrow-up]="stats.totalRequests.change >= 0" [class.fa-arrow-down]="stats.totalRequests.change < 0"></i>
+            {{ math.abs(stats.totalRequests.change) }}% from last period
+          </p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper green"><i class="fas fa-check-circle stat-icon"></i></div>
+        <div class="stat-info">
+          <p class="stat-label">Approved</p>
+          <p #approvedValue class="stat-value">0</p>
+          <p *ngIf="stats.approved.change !== undefined" class="stat-change" [ngClass]="getStatChangeClass(stats.approved.change)">
+            <i class="fas" [class.fa-arrow-up]="stats.approved.change >= 0" [class.fa-arrow-down]="stats.approved.change < 0"></i>
+            {{ math.abs(stats.approved.change) }}% from last period
+          </p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper red"><i class="fas fa-times-circle stat-icon"></i></div>
+        <div class="stat-info">
+          <p class="stat-label">Rejected</p>
+          <p #rejectedValue class="stat-value">0</p>
+          <p *ngIf="stats.rejected.change !== undefined" class="stat-change" [ngClass]="getStatChangeClass(stats.rejected.change)">
+            <i class="fas" [class.fa-arrow-up]="stats.rejected.change >= 0" [class.fa-arrow-down]="stats.rejected.change < 0"></i>
+            {{ math.abs(stats.rejected.change) }}% from last period
+          </p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper yellow"><i class="fas fa-clock stat-icon"></i></div>
+        <div class="stat-info">
+          <p class="stat-label">Avg. Processing Time</p>
+          <p class="stat-value"><span #avgTimeValue>0</span> <span class="days">days</span></p>
+          <p *ngIf="stats.avgProcessingTime.change !== undefined" class="stat-change" [ngClass]="getStatChangeClass(stats.avgProcessingTime.change)">
+            <i class="fas" [class.fa-arrow-down]="stats.avgProcessingTime.change > 0" [class.fa-arrow-up]="stats.avgProcessingTime.change < 0"></i>
+            {{ math.abs(stats.avgProcessingTime.change) }} days improvement
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3 class="card-title">Requests by Department</h3>
+        <div class="chart-wrapper">
+          <ngx-charts-pie-chart
+            *ngIf="requestsByDepartmentData.length > 0"
+            [results]="requestsByDepartmentData" [view]="view" [scheme]="colorSchemeDonut"
+            [gradient]="gradient" [legend]="showLegend"
+            [legendPosition]="legendPosition"
+            [labels]="showLabels" [doughnut]="isDoughnut" [animations]="true"
+            [labelFormatting]="pieChartLabelFormatting.bind(this)">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3 class="card-title">Approval Rate Trend</h3>
+        <div class="chart-wrapper">
+          <ngx-charts-line-chart
+            *ngIf="approvalRateTrendData.length > 0"
+            [results]="approvalRateTrendData"
+            [view]="view"
+            [scheme]="colorSchemeLine"
+            [legend]="showLegend"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [timeline]="timeline"
+            [autoScale]="autoScale"
+            [yScaleMin]="yScaleMin"
+            [yScaleMax]="yScaleMax"
+            [animations]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="card-header">
+        <h3 class="card-title">Detailed Performance Metrics</h3>
+        <select *ngIf="userScope === 'SUPER_MANAGER'" class="filter-select-small" [(ngModel)]="selectedCard" (change)="filterMetrics()">
+          <option *ngFor="let card of cards" [value]="card">{{ card }}</option>
+        </select>
+      </div>
+      <div class="table-wrapper">
+        <table class="metrics-table">
+          <thead>
+          <tr>
+            <th>Department</th>
+            <th>Total Requests</th>
+            <th>Approved</th>
+            <th>Rejected</th>
+            <th>Approval Rate (%)</th>
+            <th>Avg. Time (days)</th>
+            <th>SLA Compliance (%)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let metric of filteredPerformanceMetrics">
+            <td>{{ metric.department }}</td>
+            <td>{{ metric.totalRequests }}</td>
+            <td>{{ metric.approved }}</td>
+            <td>{{ metric.rejected }}</td>
+            <td>{{ metric.approvalRate }}</td>
+            <td>{{ metric.avgTime }}</td>
+            <td>{{ metric.slaCompliance }}</td>
+          </tr>
+          </tbody>
+          <tfoot *ngIf="totalMetrics">
+          <tr>
+            <td>{{ totalMetrics.department }}</td>
+            <td>{{ totalMetrics.totalRequests }}</td>
+            <td>{{ totalMetrics.approved }}</td>
+            <td>{{ totalMetrics.rejected }}</td>
+            <td>{{ totalMetrics.approvalRate }}%</td>
+            <td>{{ totalMetrics.avgTime }}</td>
+            <td>{{ totalMetrics.slaCompliance }}%</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="topPerformers.length > 0" class="performers-card">
+      <div class="card-header">
+        <h3 class="card-title">Top Performers</h3>
+        <select class="filter-select-small">
+          <option>This Month</option>
+        </select>
+      </div>
+      <div class="performers-grid">
+        <div class="performer" *ngFor="let performer of topPerformers">
+          <div class="performer-header">
+            <div class="performer-initials">{{ performer.initials }}</div>
+            <div>
+              <p class="performer-name">{{ performer.name }}</p>
+              <p class="performer-dept">{{ performer.department }}</p>
+            </div>
+          </div>
+          <div class="performer-stats">
+            <div>
+              <p class="p-stat-value">{{ performer.requestsProcessed }}</p>
+              <p class="p-stat-label">Requests Processed</p>
+            </div>
+            <div>
+              <p class="p-stat-value">{{ performer.approvalRate }}%</p>
+              <p class="p-stat-label">Approval Rate</p>
+            </div>
+            <div>
+              <p class="p-stat-value">{{ performer.avgTime }}d</p>
+              <p class="p-stat-label">Avg. Time</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showExportModal" (click)="showExportModal = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Export Report Summary</h2>
+        <button class="close-btn" (click)="showExportModal = false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="pdf-content">
+          <div class="report-header">
+            <h1>Performance Report</h1>
+            <p>Generated on: {{ currentDate | date:'fullDate' }}</p>
+          </div>
+          <div class="section" *ngIf="stats">
+            <h3>Overall Statistics</h3>
+            <div class="stats-summary">
+              <div><span>Total Requests:</span> <strong>{{ stats.totalRequests.value }}</strong></div>
+              <div><span>Approved:</span> <strong>{{ stats.approved.value }}</strong></div>
+              <div><span>Rejected:</span> <strong>{{ stats.rejected.value }}</strong></div>
+              <div><span>Avg. Processing Time:</span> <strong>{{ stats.avgProcessingTime.value }} days</strong></div>
+            </div>
+          </div>
+          <div class="section" *ngIf="performanceMetrics.length > 0">
+            <h3>Detailed Metrics by Department</h3>
+            <table class="report-table">
+              <thead>
+              <tr>
+                <th>Department</th><th>Requests</th><th>Approved</th><th>Rejected</th><th>Avg. Time</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let metric of performanceMetrics">
+                <td>{{ metric.department }}</td><td>{{ metric.totalRequests }}</td>
+                <td>{{ metric.approved }}</td><td>{{ metric.rejected }}</td><td>{{ metric.avgTime }}d</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="showExportModal = false">Cancel</button>
+        <button class="download-btn" (click)="downloadPdf()" [disabled]="isDownloading">
+          <span *ngIf="!isDownloading"><i class="fas fa-file-pdf"></i> Download PDF</span>
+          <div *ngIf="isDownloading" class="downloading-spinner"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

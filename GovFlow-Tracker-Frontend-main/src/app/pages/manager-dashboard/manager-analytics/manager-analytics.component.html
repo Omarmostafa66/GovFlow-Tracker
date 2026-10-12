@@ -1,0 +1,73 @@
+<div class="analytics-container" *ngIf="dashboardStats">
+
+  <div class="stat-card">
+    <div class="card-header">
+      <div class="card-icon-wrapper blue"><i class="fas fa-cogs"></i></div>
+      <h3 class="card-title">Requests by Service Type</h3>
+    </div>
+    <div class="progress-list" *ngIf="dashboardStats.serviceTypeStats && dashboardStats.serviceTypeStats.length > 0; else noServiceData">
+      <div *ngFor="let stat of dashboardStats.serviceTypeStats" class="progress-item">
+        <span class="progress-label">{{ stat.serviceName }}</span>
+        <div class="progress-bar-container">
+          <div class="progress-bar" [ngClass]="stat.serviceName | slice:0:4 | lowercase"
+               [style.width.%]="maxRequests > 0 ? (stat.requestCount / maxRequests) * 100 : 0">
+          </div>
+        </div>
+        <span class="progress-value">
+          {{ stat.requestCount }}
+          <ng-container *ngIf="stat.requestCount === 1; else plural"> request</ng-container>
+          <ng-template #plural> requests</ng-template>
+        </span>
+      </div>
+    </div>
+    <ng-template #noServiceData>
+      <div class="empty-state">No service data available.</div>
+    </ng-template>
+  </div>
+
+  <div class="stat-card">
+    <div class="card-header">
+      <div class="card-icon-wrapper green"><i class="fas fa-check-double"></i></div>
+      <h3 class="card-title">Approval Rates</h3>
+    </div>
+    <div class="rate-summary">
+      <div class="rate-percentage-large">{{ totalReviewed }}</div>
+      <p class="rate-subtitle">Total Reviewed Requests</p>
+    </div>
+    <div class="rate-details">
+      <div class="rate-item">
+        <span>Approved</span>
+        <span class="rate-value green">
+          {{ approvedCount }}
+          <ng-container *ngIf="approvedCount === 1; else pluralApproved"> request</ng-container>
+          <ng-template #pluralApproved> requests</ng-template>
+        </span>
+      </div>
+      <div class="rate-item">
+        <span>Rejected</span>
+        <span class="rate-value red">
+          {{ rejectedCount }}
+          <ng-container *ngIf="rejectedCount === 1; else pluralRejected"> request</ng-container>
+          <ng-template #pluralRejected> requests</ng-template>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="card-header">
+      <div class="card-icon-wrapper orange"><i class="fas fa-users"></i></div>
+      <h3 class="card-title">Team Overview</h3>
+    </div>
+    <div class="rate-summary">
+      <div class="rate-percentage-large">{{ dashboardStats.managedEmployeesCount }}</div>
+      <p class="rate-subtitle">Active Employees</p>
+    </div>
+    <div class="rate-details">
+      <div class="rate-item">
+        <span>Scope: {{ dashboardStats.managerScope }}</span>
+        <span class="rate-value">{{ dashboardStats.managedEmployeesCount }} employees</span>
+      </div>
+    </div>
+  </div>
+
+</div>

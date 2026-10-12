@@ -1,0 +1,70 @@
+<div class="page-container">
+  <nav class="breadcrumb">
+    <ol>
+      <li><a routerLink="/citizen-dashboard">Dashboard</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">My Requests</li>
+    </ol>
+  </nav>
+
+  <div class="content-card">
+    <header class="page-header">
+      <h1>My Service Requests</h1>
+      <p>Here you can track all the requests you have submitted.</p>
+    </header>
+
+    <div class="filter-controls">
+      <label for="statusFilter">Filter by status:</label>
+      <select id="statusFilter" [(ngModel)]="statusFilter" (change)="applyFilter()">
+        <option value="all">All</option>
+        <option value="SUBMITTED">Submitted</option>
+        <option value="UNDER_REVIEW">Under Review</option>
+        <option value="PENDING_CITIZEN_ACTION">Pending Your Action</option>
+        <option value="APPROVED_PENDING_PAYMENT">Pending Payment</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">Loading your requests...</div>
+    <div *ngIf="error" class="error-state">{{ error }}</div>
+
+    <div *ngIf="!loading && !error" class="requests-table-container">
+      <table class="requests-table" *ngIf="filteredRequests.length > 0; else noRequests">
+        <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Service Name</th>
+          <th>Submission Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let request of filteredRequests">
+          <td>#{{ request.id }}</td>
+          <td>{{ request.serviceName }}</td>
+          <td>{{ request.submissionDate | date: 'mediumDate' }}</td>
+          <td>
+              <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+                {{ formatStatus(request.status) }}
+              </span>
+          </td>
+          <td>
+            <button (click)="viewDetails(request.id)" class="btn-link">
+              <i class="fas fa-eye"></i> View Details
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <ng-template #noRequests>
+        <div class="no-data-state">
+          <i class="fas fa-folder-open"></i>
+          <p>You have no requests matching the selected filter.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="page">
+  <nav class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      <li><a routerLink="/citizen-dashboard" class="breadcrumb-link">Dashboard</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/municipality-services" class="breadcrumb-link">Municipality Services</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li class="breadcrumb-item active">Building Permit Issuance</li>
+    </ol>
+  </nav>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h1 class="form-title">{{ serviceInfo.title }}</h1>
+      <p class="form-description">{{ serviceInfo.description }}</p>
+      <div class="documents-container">
+        <h3 class="documents-title">Required Documents:</h3>
+        <ul class="documents-list">
+          <li *ngFor="let doc of requiredDocuments" class="document-item">• {{ doc.name }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <form [formGroup]="permitForm" (ngSubmit)="submitRequest()" class="service-form">
+      <h3 class="form-section-title">Personal Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Owner's Full Name</label>
+          <input type="text" formControlName="fullName" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">National ID</label>
+          <input type="text" formControlName="nationalId" readonly class="form-input readonly-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" formControlName="mobileNumber" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" formControlName="email" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <h3 class="form-section-title">Permit Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="governorate" class="form-label">Governorate<span class="required-asterisk">*</span></label>
+          <select id="governorate" formControlName="governorate" class="form-select" [ngClass]="{ 'input-error': permitForm.get('governorate')?.invalid && permitForm.get('governorate')?.touched }">
+            <option value="" disabled>Select Governorate</option>
+            <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
+          </select>
+          <div *ngIf="permitForm.get('governorate')?.invalid && permitForm.get('governorate')?.touched" class="error-message">
+            <span>This field is required.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address" class="form-label">Detailed Property Address<span class="required-asterisk">*</span></label>
+          <input id="address" type="text" formControlName="address" class="form-input" placeholder="e.g., 5th District, Plot No. 123" [ngClass]="{ 'input-error': permitForm.get('address')?.invalid && permitForm.get('address')?.touched }">
+          <div *ngIf="permitForm.get('address')?.invalid && permitForm.get('address')?.touched" class="error-message">
+            <span>This field is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="consultantOffice" class="form-label">Consultant Office Name<span class="required-asterisk">*</span></label>
+          <input id="consultantOffice" type="text" formControlName="consultantOffice" class="form-input" placeholder="e.g., Modern Design Office" [ngClass]="{ 'input-error': permitForm.get('consultantOffice')?.invalid && permitForm.get('consultantOffice')?.touched }">
+          <div *ngIf="permitForm.get('consultantOffice')?.invalid && permitForm.get('consultantOffice')?.touched" class="error-message">
+            <span *ngIf="permitForm.get('consultantOffice')?.errors?.['required']">This field is required.</span>
+            <span *ngIf="permitForm.get('consultantOffice')?.errors?.['pattern']">Please enter a valid name (letters and spaces only).</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="engineerName" class="form-label">Supervising Engineer's Name<span class="required-asterisk">*</span></label>
+          <input id="engineerName" type="text" formControlName="engineerName" class="form-input" placeholder="e.g., Mohamed Ahmed Ali Hassan" [ngClass]="{ 'input-error': permitForm.get('engineerName')?.invalid && permitForm.get('engineerName')?.touched }">
+          <div *ngIf="permitForm.get('engineerName')?.invalid && permitForm.get('engineerName')?.touched" class="error-message">
+            <span *ngIf="permitForm.get('engineerName')?.errors?.['required']">This field is required.</span>
+            <span *ngIf="permitForm.get('engineerName')?.errors?.['pattern']">Please enter a valid name (letters and spaces only).</span>
+            <span *ngIf="permitForm.get('engineerName')?.errors?.['requiresFourNames']">Please enter the full four-part name.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Attach Documents<span class="required-asterisk">*</span></label>
+        <div class="documents-upload-list">
+          <div *ngFor="let doc of requiredDocuments; let i = index" class="document-upload-item">
+            <div class="document-info">
+              <span class="document-name">{{ doc.name }}</span>
+              <span class="document-description">{{ doc.description }}</span>
+            </div>
+            <div *ngIf="doc.file" class="file-uploaded-state">
+              <span class="file-name">{{ doc.file.name }}</span>
+              <button type="button" (click)="removeFile(i)" class="remove-file-button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div *ngIf="!doc.file" class="file-upload-action">
+              <input type="file" [id]="doc.id" (change)="onFileSelected($event, i)" class="file-input" #fileInput>
+              <button type="button" class="upload-button" (click)="fileInput.click()">
+                Choose File
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="processing-info">
+        <p class="processing-text"><i class="fas fa-clock"></i> {{ serviceInfo.processingTime }}</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!permitForm.valid || isLoading || !areAllDocumentsUploaded()" class="submit-button">
+          <i class="fas fa-paper-plane"></i>
+          {{ isLoading ? 'Submitting...' : 'Submit Request' }}
+        </button>
+        <button type="button" (click)="cancel()" class="cancel-button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="isAlertVisible" (click)="hideAlert()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="alertType">
+    <div class="icon-wrapper">
+      <i *ngIf="alertType === 'success'" class="fas fa-check-circle"></i>
+      <i *ngIf="alertType === 'error'" class="fas fa-times-circle"></i>
+    </div>
+    <h2 class="modal-title">{{ alertTitle }}</h2>
+    <p class="modal-message">{{ alertMessage }}</p>
+    <button class="modal-button" (click)="hideAlert()">Close</button>
+  </div>
+</div>

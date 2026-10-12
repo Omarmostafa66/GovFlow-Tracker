@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  # --- Added code to handle file size limits ---
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/GovFlow_Tracker}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  # --- JPA & Hibernate Configuration ---
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # --- Database Migration Configuration ---
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000 # 1 hour
+
+# File Upload Configuration
+file:
+  upload-dir: ./uploads
+
+app:
+  base-url: http://localhost:8080
+  frontend-url: http://localhost:4200

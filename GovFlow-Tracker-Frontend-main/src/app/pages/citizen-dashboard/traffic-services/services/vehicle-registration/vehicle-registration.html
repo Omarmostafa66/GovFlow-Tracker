@@ -1,0 +1,230 @@
+<div class="page">
+  <nav class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      <li><a routerLink="/citizen-dashboard" class="breadcrumb-link">Dashboard</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/traffic-services" class="breadcrumb-link">Traffic Services</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li class="breadcrumb-item active">Vehicle Registration</li>
+    </ol>
+  </nav>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h1 class="form-title">Vehicle Registration</h1>
+      <p class="form-description">Apply for a new vehicle registration by providing the required information and documents.</p>
+      <div class="documents-container">
+        <h3 class="documents-title">Required Documents:</h3>
+        <ul class="documents-list">
+          <li *ngFor="let doc of requiredDocuments" class="document-item">• {{ doc.name }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="service-form">
+      <h3 class="form-section-title">Personal Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" formControlName="fullName" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">National ID</label>
+          <input type="text" formControlName="nationalId" readonly class="form-input readonly-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age" class="form-label">Age</label>
+          <input id="age" type="text" formControlName="age" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label for="governorate" class="form-label">Governorate<span class="required-asterisk">*</span></label>
+          <select id="governorate" formControlName="governorate" class="form-select" [ngClass]="{ 'input-error': registrationForm.get('governorate')?.invalid && registrationForm.get('governorate')?.touched }">
+            <option value="" disabled>Select Governorate</option>
+            <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
+          </select>
+          <div *ngIf="registrationForm.get('governorate')?.invalid && registrationForm.get('governorate')?.touched" class="error-message">
+            <span>Governorate is required.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="mobileNumber" class="form-label">Mobile Number</label>
+          <input id="mobileNumber" type="tel" formControlName="mobileNumber" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input id="email" type="email" formControlName="email" readonly class="form-input readonly-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="currentAddress" class="form-label">Address Details</label>
+          <input id="currentAddress" type="text" formControlName="currentAddress" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <h3 class="form-section-title">Vehicle Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="vehicleMake" class="form-label">Vehicle Make (e.g., Toyota)<span class="required-asterisk">*</span></label>
+          <input id="vehicleMake" type="text" formControlName="vehicleMake" class="form-input" [class.input-error]="registrationForm.get('vehicleMake')?.invalid && registrationForm.get('vehicleMake')?.touched">
+          <div *ngIf="registrationForm.get('vehicleMake')?.invalid && registrationForm.get('vehicleMake')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('vehicleMake')?.errors?.['required']">Vehicle make is required.</span>
+            <span *ngIf="registrationForm.get('vehicleMake')?.errors?.['pattern']">Please use letters, numbers, and spaces only.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="vehicleModel" class="form-label">Vehicle Model (e.g., Corolla)<span class="required-asterisk">*</span></label>
+          <input id="vehicleModel" type="text" formControlName="vehicleModel" class="form-input" [class.input-error]="registrationForm.get('vehicleModel')?.invalid && registrationForm.get('vehicleModel')?.touched">
+          <div *ngIf="registrationForm.get('vehicleModel')?.invalid && registrationForm.get('vehicleModel')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('vehicleModel')?.errors?.['required']">Vehicle model is required.</span>
+            <span *ngIf="registrationForm.get('vehicleModel')?.errors?.['pattern']">Please use letters, numbers, and spaces only.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="yearOfManufacture" class="form-label">Year of Manufacture<span class="required-asterisk">*</span></label>
+          <input id="yearOfManufacture" type="text" formControlName="yearOfManufacture" class="form-input" placeholder="e.g. 2015" maxlength="4" [class.input-error]="registrationForm.get('yearOfManufacture')?.invalid && registrationForm.get('yearOfManufacture')?.touched">
+          <div *ngIf="registrationForm.get('yearOfManufacture')?.invalid && registrationForm.get('yearOfManufacture')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('yearOfManufacture')?.errors?.['required']">Year is required.</span>
+            <span *ngIf="registrationForm.get('yearOfManufacture')?.errors?.['pattern']">Please enter a valid 4-digit year.</span>
+            <span *ngIf="registrationForm.get('yearOfManufacture')?.errors?.['futureYear']">Year cannot be in the future.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="vehicleColor" class="form-label">Vehicle Color (Hex Code)<span class="required-asterisk">*</span></label>
+          <div class="color-input-container">
+            <input type="color"
+                   class="color-picker-swatch"
+                   [value]="registrationForm.get('vehicleColor')?.value"
+                   (input)="onColorPickerChange($event)">
+            <input id="vehicleColor"
+                   type="text"
+                   formControlName="vehicleColor"
+                   class="form-input color-text-input"
+                   placeholder="e.g. #FF5733"
+                   maxlength="7"
+                   [class.input-error]="registrationForm.get('vehicleColor')?.invalid && registrationForm.get('vehicleColor')?.touched">
+          </div>
+          <div *ngIf="registrationForm.get('vehicleColor')?.invalid && registrationForm.get('vehicleColor')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('vehicleColor')?.errors?.['required']">Vehicle color is required.</span>
+            <span *ngIf="registrationForm.get('vehicleColor')?.errors?.['pattern']">Must be a valid hex code (e.g. #FF5733).</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Chassis Number (VIN)<span class="required-asterisk">*</span></label>
+          <input type="text" formControlName="vin" class="form-input" placeholder="e.g. 1HGCM82633A123456" maxlength="17" [class.input-error]="registrationForm.get('vin')?.invalid && registrationForm.get('vin')?.touched">
+          <div *ngIf="registrationForm.get('vin')?.invalid && registrationForm.get('vin')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('vin')?.errors?.['required']">Chassis number is required.</span>
+            <span *ngIf="registrationForm.get('vin')?.errors?.['pattern']">Please enter a valid Chassis Number.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Engine Number<span class="required-asterisk">*</span></label>
+          <input type="text" formControlName="engineNumber" class="form-input" placeholder="e.g. ENG12345XYZ" maxlength="20" [class.input-error]="registrationForm.get('engineNumber')?.invalid && registrationForm.get('engineNumber')?.touched">
+          <div *ngIf="registrationForm.get('engineNumber')?.invalid && registrationForm.get('engineNumber')?.touched" class="error-message">
+            <span *ngIf="registrationForm.get('engineNumber')?.errors?.['required']">Engine number is required.</span>
+            <span *ngIf="registrationForm.get('engineNumber')?.errors?.['pattern']">Please enter a valid Engine Number.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="deliveryMethod" class="form-label">Registration Delivery Method<span class="required-asterisk">*</span></label>
+          <select id="deliveryMethod" formControlName="deliveryMethod" class="form-select">
+            <option *ngFor="let method of deliveryOptions" [value]="method">{{ method }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Document Attachments<span class="required-asterisk">*</span></label>
+        <div class="documents-upload-list">
+          <div *ngFor="let doc of requiredDocuments; let i = index" class="document-upload-item">
+            <div class="document-info">
+              <span class="document-name">{{ doc.name }}</span>
+              <span class="document-description">{{ doc.description }}</span>
+            </div>
+            <div *ngIf="doc.file" class="file-uploaded-state">
+              <span class="file-name">{{ doc.file.name }}</span>
+              <button type="button" (click)="removeFile(i)" class="remove-file-button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div *ngIf="!doc.file" class="file-upload-action">
+              <input type="file" [id]="doc.id" (change)="onFileSelected($event, i)" class="file-input" #fileInput>
+              <button type="button" class="upload-button" (click)="fileInput.click()">
+                Choose File
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="processing-info">
+        <p class="processing-text"><i class="fas fa-clock"></i> Estimated processing time: 3-5 business days</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button" [disabled]="isLoading || !registrationForm.valid || !areAllDocumentsUploaded()">
+          <i class="fas fa-paper-plane"></i>
+          {{ isLoading ? 'Submitting...' : 'Submit Request' }}
+        </button>
+        <button type="button" (click)="cancel()" class="cancel-button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="isAlertVisible" (click)="hideAlert()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="alertType">
+    <div class="icon-wrapper">
+      <i *ngIf="alertType === 'success'" class="fas fa-check-circle"></i>
+      <i *ngIf="alertType === 'error'" class="fas fa-times-circle"></i>
+    </div>
+    <h2 class="modal-title">{{ alertTitle }}</h2>
+    <p class="modal-message">{{ alertMessage }}</p>
+    <button class="modal-button" (click)="hideAlert()">Close</button>
+  </div>
+</div>
+
+<style>
+  .color-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .color-picker-swatch {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #d1d5db; /* gray-300 */
+  }
+  .color-picker-swatch::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+  }
+  .color-picker-swatch::-moz-color-swatch {
+    border: none;
+    border-radius: 4px;
+  }
+  .color-text-input {
+    flex-grow: 1;
+  }
+</style>

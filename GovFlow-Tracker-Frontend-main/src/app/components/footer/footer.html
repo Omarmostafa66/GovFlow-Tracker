@@ -1,0 +1,47 @@
+<footer class="footer">
+  <!-- ======================================================= -->
+  <!-- START: This container will now hide/show based on user role -->
+  <!-- ======================================================= -->
+  <div *ngIf="showFullFooter" class="footer-container">
+    <div class="footer-brand">
+      <h2 class="logo">GovFlow Tracker</h2>
+      <p class="tagline">Your gateway to streamlined government services</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a (click)="scrollToServices()" style="cursor: pointer;">Services</a></li>
+        <li><a routerLink="/login">Login</a></li>
+        <li><a routerLink="/register">Register</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contact</h3>
+      <p>
+        <i class="fas fa-envelope"></i>
+        <a [href]="complaintMailto" class="footer-email-link" target="_blank" rel="noopener noreferrer">
+          support&#64;govflow.com
+        </a>
+      </p>
+      <p><i class="fas fa-phone"></i> 16444</p>
+    </div>
+
+    <div class="footer-hotline">
+      <h3>Hotline & Support</h3>
+      <p><i class="fas fa-phone-alt"></i> 16444 </p>
+      <p><i class="fas fa-clock"></i> Working Hours: Sun - Thu, 9 AM - 5 PM</p>
+    </div>
+  </div>
+  <!-- ======================================================= -->
+  <!-- END: End of conditional container -->
+  <!-- ======================================================= -->
+
+  <!-- This bottom part will always be visible to everyone -->
+  <div class="footer-bottom">
+    <p>&copy; 2025 GovFlow Tracker. All rights reserved.</p>
+  </div>
+</footer>
+

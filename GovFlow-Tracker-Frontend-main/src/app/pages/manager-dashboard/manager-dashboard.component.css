@@ -1,0 +1,232 @@
+/*!* =================================*/
+/*   Professional Dashboard Styles V3*/
+/*   ================================= *!*/
+/*:host {*/
+/*  font-family: 'Cairo', sans-serif;*/
+/*  background-color: #F8F9FC;*/
+/*}*/
+
+/*!* --- Sidebar Styles (Unchanged) --- *!*/
+/*.sidebar {*/
+/*  width: 280px; flex-shrink: 0; background: #FFFFFF; padding: 1.5rem;*/
+/*  border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);*/
+/*}*/
+/*.user-info {*/
+/*  display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem;*/
+/*  border-bottom: 1px solid #E5E7EB; margin-bottom: 1rem;*/
+/*}*/
+/*.user-avatar {*/
+/*  width: 80px; height: 80px; border-radius: 50%; background: #3A4A7B;*/
+/*  color: #FFFFFF; display: flex; align-items: center; justify-content: center;*/
+/*  font-weight: 700; font-size: 1.4rem; flex-shrink: 0;*/
+/*}*/
+/*.user-name { font-weight: 600; color: #2D4059; font-size: 1.1rem; margin: 0; }*/
+/*.user-role { font-size: 0.9rem; color: #6B7B9B; margin: 0; }*/
+/*.sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; }*/
+/*.nav-link {*/
+/*  display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem;*/
+/*  border-radius: 8px; color: #6B7B9B; text-decoration: none;*/
+/*  font-weight: 500; transition: all 0.2s ease-in-out;*/
+/*}*/
+/*.nav-link:hover { background: #eef2ff; color: #3A4A7B; }*/
+/*.nav-link.active {*/
+/*  background: #3A4A7B; color: #FFFFFF; font-weight: 600;*/
+/*  box-shadow: 0 4px 10px rgba(58, 74, 123, 0.3);*/
+/*}*/
+/*.nav-link i { width: 1.25rem; text-align: center; }*/
+/*!* --- End of Sidebar Styles --- *!*/
+
+/*!* --- Main Content & Layout --- *!*/
+/*@keyframes fadeIn {*/
+/*  from { opacity: 0; transform: translateY(15px); }*/
+/*  to { opacity: 1; transform: translateY(0); }*/
+/*}*/
+/*@keyframes spin {*/
+/*  to { transform: rotate(360deg); }*/
+/*}*/
+
+/*.dashboard-layout { display: flex; gap: 2rem; padding: 2rem; background-color: #F8F9FC; min-height: 100vh; }*/
+/*.main-content { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }*/
+/*.header { animation: fadeIn 0.5s ease-out; }*/
+/*.header-title { font-size: 2.2rem; font-weight: 600; margin: 0; color: #2D4059; }*/
+/*.header-subtitle { color: #6B7B9B; margin-top: 0.25rem; font-size: 1rem; }*/
+/*.components-wrapper { display: flex; flex-direction: column; gap: 2rem; }*/
+/*.loading-indicator { display: flex; justify-content: center; padding: 3rem; }*/
+/*.spinner { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top-color: #3A4A7B; border-radius: 50%; animation: spin 1s linear infinite; }*/
+
+/*!* ========================================================== *!*/
+/*!* START: Pop-up Window Styles *!*/
+/*!* ========================================================== *!*/
+/*.modal-overlay {*/
+/*  position: fixed; top: 0; left: 0; width: 100%; height: 100%;*/
+/*  background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center;*/
+/*  opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; z-index: 1000;*/
+/*}*/
+/*.modal-overlay:target { opacity: 1; visibility: visible; transition-delay: 0s; }*/
+/*.modal-content {*/
+/*  background: #FFFFFF; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);*/
+/*  width: 90%; max-width: 550px; transform: scale(0.95); transition: transform 0.3s ease;*/
+/*}*/
+/*.modal-overlay:target .modal-content { transform: scale(1); }*/
+/*.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }*/
+/*.modal-title { font-size: 1.25rem; font-weight: 600; color: #2D4059; margin: 0; }*/
+/*.modal-close-button { text-decoration: none; font-size: 2rem; color: #9CA3AF; line-height: 1; transition: color 0.2s ease; }*/
+/*.modal-close-button:hover { color: #2D4059; }*/
+/*.modal-body { padding: 1.5rem; }*/
+/*.modal-close-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: default; }*/
+
+/*.details-grid { display: flex; flex-direction: column; gap: 1rem; }*/
+/*.detail-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background-color: #F8F9FC; border-radius: 8px; }*/
+/*.detail-label { color: #6B7B9B; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }*/
+/*.detail-value { color: #2D4059; font-weight: 600; }*/
+/*.detail-value.performance-excellent { color: #10B981; }*/
+/*.detail-value.performance-good { color: #3B82F6; }*/
+/*.detail-value.performance-average { color: #F59E0B; }*/
+/*.detail-value.performance-default { color: #EF4444; }*/
+/*!* ========================================================== *!*/
+/*!* END: Pop-up Window Styles *!*/
+/*!* ========================================================== *!*/
+
+
+/* =================================
+   Professional Dashboard Styles V3
+   ================================= */
+:host {
+  font-family: 'Cairo', sans-serif;
+  background-color: #F8F9FC;
+}
+
+/* --- Sidebar Styles (Unchanged) --- */
+.sidebar {
+  width: 280px; flex-shrink: 0; background: #FFFFFF; padding: 1.5rem;
+  border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+.user-info {
+  display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E5E7EB; margin-bottom: 1rem;
+}
+
+a.user-info-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.user-avatar {
+  width: 80px; height: 80px; border-radius: 50%; background: #3A4A7B;
+  color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.4rem; flex-shrink: 0;
+
+  border: 3px solid rgb(106, 122, 154);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+.user-avatar-img {
+  object-fit: cover; /* Ensures the image covers the circle */
+}
+
+.user-name { font-weight: 600; color: #2D4059; font-size: 1.1rem; margin: 0; }
+.user-role { font-size: 0.9rem; color: #6B7B9B; margin: 0; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; }
+.nav-link {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem;
+  border-radius: 8px; color: #6B7B9B; text-decoration: none;
+  font-weight: 500; transition: all 0.2s ease-in-out;
+}
+.nav-link:hover { background: #eef2ff; color: #3A4A7B; }
+.nav-link.active {
+  background: #3A4A7B; color: #FFFFFF; font-weight: 600;
+  box-shadow: 0 4px 10px rgba(58, 74, 123, 0.3);
+}
+.nav-link i { width: 1.25rem; text-align: center; }
+/* --- End of Sidebar Styles --- */
+
+/* --- Main Content & Layout --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.dashboard-layout { display: flex; gap: 2rem; padding: 2rem; background-color: #F8F9FC; min-height: 100vh; }
+.main-content { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+.header { animation: fadeIn 0.5s ease-out; }
+
+.header-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2D4059;
+  /* ========================================================== */
+  /* START: ✅ التعديل المطلوب: إضافة هامش سفلي للعنوان */
+  /* ========================================================== */
+  margin-bottom: 0.5rem; /* أضف هامش سفلي لتباعد العنوان عن النص الفرعي */
+  /* ========================================================== */
+  /* END: ✅ نهاية التعديل */
+  /* ========================================================== */
+}
+.header-subtitle { color: #6B7B9B; margin-top: 0.25rem; font-size: 1rem; }
+.components-wrapper { display: flex; flex-direction: column; gap: 2rem; }
+.loading-indicator { display: flex; justify-content: center; padding: 3rem; }
+.spinner { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top-color: #3A4A7B; border-radius: 50%; animation: spin 1s linear infinite; }
+
+/* ========================================================== */
+/* START: Pop-up Window Styles */
+/* ========================================================== */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; z-index: 1000;
+}
+.modal-overlay:target { opacity: 1; visibility: visible; transition-delay: 0s; }
+.modal-content {
+  background: #FFFFFF; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  width: 90%; max-width: 550px; transform: scale(0.95); transition: transform 0.3s ease;
+}
+.modal-overlay:target .modal-content { transform: scale(1); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }
+.modal-title { font-size: 1.25rem; font-weight: 600; color: #2D4059; margin: 0; }
+.modal-close-button { text-decoration: none; font-size: 2rem; color: #9CA3AF; line-height: 1; transition: color 0.2s ease; }
+.modal-close-button:hover { color: #2D4059; }
+.modal-body { padding: 1.5rem; }
+.modal-close-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: default; }
+
+.details-grid { display: flex; flex-direction: column; gap: 1rem; }
+.detail-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background-color: #F8F9FC; border-radius: 8px; }
+.detail-label { color: #6B7B9B; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+.detail-value { color: #2D4059; font-weight: 600; }
+.detail-value.performance-excellent { color: #10B981; }
+.detail-value.performance-good { color: #3B82F6; }
+.detail-value.performance-average { color: #F59E0B; }
+.detail-value.performance-default { color: #EF4444; }
+/* ========================================================== */
+/* END: Pop-up Window Styles */
+/* ========================================================== */
+
+/* In manager-dashboard.component.css */
+
+/* =================================
+   Responsive Layout for Mobile
+   ================================= */
+@media (max-width: 992px) {
+  .dashboard-layout {
+    /* 👇 أهم سطر: بيحول الترتيب من أفقي إلى رأسي (تحت بعض) */
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%; /* اجعل الشريط الجانبي يأخذ عرض الشاشة بالكامل */
+  }
+
+  .main-content {
+    /* ممكن تضيف هنا مسافات داخلية لو حسيت إن المحتوى لازق في حواف الشاشة */
+    padding: 1rem;
+  }
+}

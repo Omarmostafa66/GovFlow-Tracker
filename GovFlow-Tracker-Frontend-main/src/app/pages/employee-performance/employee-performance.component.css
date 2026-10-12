@@ -1,0 +1,225 @@
+/*!* =================================*/
+/*   Professional Performance Table V2*/
+/*   ================================= *!*/
+/*@keyframes rowFadeIn {*/
+/*  from { opacity: 0; transform: translateX(20px); }*/
+/*  to { opacity: 1; transform: translateX(0); }*/
+/*}*/
+
+/*@keyframes cardEntry {*/
+/*  from { opacity: 0; transform: translateY(15px); }*/
+/*  to { opacity: 1; transform: translateY(0); }*/
+/*}*/
+
+/*.performance-card {*/
+/*  background-color: #FFFFFF; border-radius: 16px;*/
+/*  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);*/
+/*  animation: cardEntry 0.5s ease-out 0.2s forwards;*/
+/*  opacity: 0; padding: 2rem;*/
+/*}*/
+
+/*.card-header {*/
+/*  display: flex; justify-content: space-between; align-items: center;*/
+/*  margin-bottom: 1.5rem;*/
+/*}*/
+/*.card-title { font-size: 1.1rem; font-weight: 600; color: #374151; }*/
+/*.filters { display: flex; gap: 1rem; }*/
+/*.filter-select {*/
+/*  padding: 0.5rem 1rem; border: 1px solid #D1D5DB; border-radius: 8px;*/
+/*  background-color: #FFFFFF; transition: all 0.2s ease;*/
+/*  -webkit-appearance: none; appearance: none;*/
+/*  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");*/
+/*  background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;*/
+/*  padding-right: 2.5rem;*/
+/*}*/
+/*.filter-select:focus { outline: none; border-color: #3A4A7B; box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.15); }*/
+
+/*!* ✅ START: Styles for the new top performer highlight section *!*/
+/*.top-performer-highlight {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  background: linear-gradient(135deg, #FDFBFB, #EBEDEE);*/
+/*  border: 1px solid #E5E7EB;*/
+/*  border-radius: 12px;*/
+/*  padding: 1rem 1.5rem;*/
+/*  margin-bottom: 1.5rem;*/
+/*  box-shadow: 0 4px 10px rgba(0,0,0,0.04);*/
+/*}*/
+/*.trophy-icon { font-size: 2rem; margin-right: 1.5rem; }*/
+/*.performer-details { display: flex; flex-direction: column; flex-grow: 1; }*/
+/*.performer-title { font-size: 0.8rem; color: #6B7B9B; font-weight: 500; text-transform: uppercase; }*/
+/*.performer-name { font-size: 1.2rem; font-weight: 600; color: #2D4059; }*/
+/*.performer-stats { text-align: right; }*/
+/*.stat-value { font-size: 1.5rem; font-weight: 700; color: #10B981; display: block; }*/
+/*.stat-label { font-size: 0.8rem; color: #6B7B9B; }*/
+/*!* ✅ END: End of new styles *!*/
+
+
+/*.table-wrapper { overflow-x: auto; }*/
+/*.performance-table { width: 100%; border-collapse: collapse; }*/
+/*.performance-table th, .performance-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #E5E7EB; }*/
+/*.performance-table th { font-size: 0.8rem; font-weight: 500; color: #6B7B9B; text-transform: uppercase; letter-spacing: 0.5px; }*/
+/*.performance-table td { font-size: 0.95rem; color: #374151; }*/
+/*.performance-table tbody tr:last-child td { border-bottom: none; }*/
+/*.performance-table tbody tr:hover { background-color: #F9FAFB; }*/
+
+/*.table-row { animation: rowFadeIn 0.5s ease-out forwards; }*/
+
+/*.performance-badge {*/
+/*  display: inline-flex; align-items: center; gap: 0.4rem;*/
+/*  padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem;*/
+/*  font-weight: 500;*/
+/*}*/
+/*.badge-icon { font-size: 0.5rem; }*/
+/*.performance-excellent { background-color: #D1FAE5; color: #065F46; }*/
+/*.performance-good { background-color: #DBEAFE; color: #1E40AF; }*/
+/*.performance-average { background-color: #FEF3C7; color: #92400E; }*/
+/*.performance-default { background-color: #FEE2E2; color: #991B1B; }*/
+
+/*.action-button {*/
+/*  text-decoration: none; color: #3A4A7B; font-weight: 500;*/
+/*  padding: 0.3rem 0.8rem; border: 1px solid #D1D5DB; border-radius: 6px;*/
+/*  transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.4rem;*/
+/*}*/
+/*.action-button:hover { background-color: #eef2ff; border-color: #3A4A7B; }*/
+/*.empty-state { text-align: center; color: #9CA3AF; padding: 2rem; }*/
+
+/*!* ✅ START: Styles for the new empty state container *!*/
+/*.empty-state-container {*/
+/*  text-align: center;*/
+/*  padding: 3rem 1rem;*/
+/*  color: #9CA3AF;*/
+/*  border: 2px dashed #E5E7EB;*/
+/*  border-radius: 12px;*/
+/*  margin-top: 1rem;*/
+/*}*/
+/*!* ✅ END: End of new styles *!*/
+
+
+
+/* =================================
+   Professional Performance Table V2
+   ================================= */
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes cardEntry {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.performance-card {
+  background-color: #FFFFFF; border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: cardEntry 0.5s ease-out 0.2s forwards;
+  opacity: 0; padding: 2rem;
+}
+
+.card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.5rem;
+}
+.card-title { font-size: 1.1rem; font-weight: 600; color: #374151; }
+.filters { display: flex; gap: 1rem; }
+.filter-select {
+  padding: 0.5rem 1rem; border: 1px solid #D1D5DB; border-radius: 8px;
+  background-color: #FFFFFF; transition: all 0.2s ease;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+.filter-select:focus { outline: none; border-color: #3A4A7B; box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.15); }
+
+/* ✅ START: Styles for the new top performer highlight section */
+.top-performer-highlight {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #FDFBFB, #EBEDEE);
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+.trophy-icon { font-size: 2rem; margin-right: 1.5rem; }
+.performer-details { display: flex; flex-direction: column; flex-grow: 1; }
+.performer-title { font-size: 0.8rem; color: #6B7B9B; font-weight: 500; text-transform: uppercase; }
+.performer-name { font-size: 1.2rem; font-weight: 600; color: #2D4059; }
+.performer-stats { text-align: right; }
+.stat-value { font-size: 1.5rem; font-weight: 700; color: #10B981; display: block; }
+.stat-label { font-size: 0.8rem; color: #6B7B9B; }
+/* ✅ END: End of new styles */
+
+
+.table-wrapper { overflow-x: auto; }
+.performance-table { width: 100%; border-collapse: collapse; }
+.performance-table th, .performance-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #E5E7EB; }
+.performance-table th { font-size: 0.8rem; font-weight: 500; color: #6B7B9B; text-transform: uppercase; letter-spacing: 0.5px; }
+.performance-table td { font-size: 0.95rem; color: #374151; }
+.performance-table tbody tr:last-child td { border-bottom: none; }
+.performance-table tbody tr:hover { background-color: #F9FAFB; }
+
+.table-row { animation: rowFadeIn 0.5s ease-out forwards; }
+
+.performance-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem;
+  font-weight: 500;
+}
+.badge-icon { font-size: 0.5rem; }
+.performance-excellent { background-color: #D1FAE5; color: #065F46; }
+.performance-good { background-color: #DBEAFE; color: #1E40AF; }
+.performance-average { background-color: #FEF3C7; color: #92400E; }
+.performance-default { background-color: #FEE2E2; color: #991B1B; }
+
+.action-button {
+  text-decoration: none; color: #3A4A7B; font-weight: 500;
+  padding: 0.3rem 0.8rem; border: 1px solid #D1D5DB; border-radius: 6px;
+  transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.action-button:hover { background-color: #eef2ff; border-color: #3A4A7B; }
+.empty-state { text-align: center; color: #9CA3AF; padding: 2rem; }
+
+/* ✅ START: Styles for the new empty state container */
+.empty-state-container {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #9CA3AF;
+  border: 2px dashed #E5E7EB;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+/* ✅ END: End of new styles */
+
+/* ================================================
+   ✅ The Final Responsive Fix
+   ================================================ */
+
+@media (max-width: 768px) {
+  .performance-card {
+    padding: 1.5rem; /* تقليل هوامش الكارت */
+  }
+
+  .card-header {
+    flex-direction: column; /* جعل العنوان والفلاتر تحت بعض */
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .filters {
+    width: 100%; /* جعل الفلاتر تأخذ عرض الشاشة */
+  }
+  .filter-select {
+    width: 100%;
+  }
+
+  /* ملاحظة: الكود عندك بالفعل يستخدم .table-wrapper وهو التصميم الصحيح.
+     السطر التالي في الـ media query غير ضروري لأن overflow-x: auto;
+     يعمل بشكل جيد في كل الحالات، لكننا سنضيفه للتأكيد. */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+}

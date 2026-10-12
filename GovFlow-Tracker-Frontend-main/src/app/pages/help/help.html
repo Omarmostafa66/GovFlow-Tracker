@@ -1,0 +1,75 @@
+<div class="help-container">
+  <div class="help-header">
+    <i class="fas fa-question-circle help-icon"></i>
+    <h1 class="help-title">Help & Support Center</h1>
+    <p class="help-subtitle">
+      Welcome to GovFlow Tracker. Select a role or use the search to find what you need.
+    </p>
+  </div>
+
+  <div class="role-tabs">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'all'"
+      (click)="setActiveTab('all')">
+      <i class="fas fa-globe-americas"></i> All
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'citizen'"
+      (click)="setActiveTab('citizen')">
+      <i class="fas fa-user"></i> For Citizens
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'employee'"
+      (click)="setActiveTab('employee')">
+      <i class="fas fa-briefcase"></i> For Employees
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'manager'"
+      (click)="setActiveTab('manager')">
+      <i class="fas fa-chart-line"></i> For Managers
+    </button>
+  </div>
+
+  <div class="help-controls">
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        placeholder="Search for questions..."
+        [(ngModel)]="searchTerm"
+        class="help-search">
+    </div>
+    <select [(ngModel)]="selectedCategory" class="help-filter">
+      <option value="all">All Categories</option>
+      <option *ngFor="let categoryKey of availableCategories" [value]="categoryKey">
+        {{ categoryDisplayMap[categoryKey] || categoryKey }}
+      </option>
+    </select>
+  </div>
+
+  <div class="faq-content">
+    <div class="faq-list">
+      <ng-container *ngIf="(filteredFaqs).length > 0; else noResults">
+        <div *ngFor="let faq of filteredFaqs" class="faq-item" (click)="toggleAccordion(faq)">
+          <div class="faq-question-wrapper">
+            <h3 class="faq-question">{{ faq.question }}</h3>
+            <span class="faq-toggle" [class.open]="faq.open">
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+          <div *ngIf="faq.open" class="faq-answer" [innerHTML]="faq.answer"></div>
+        </div>
+      </ng-container>
+      <ng-template #noResults>
+        <p class="no-results-message">
+          <i class="fas fa-exclamation-circle"></i>
+          No results found for your search. Please try different keywords or filters.
+        </p>
+      </ng-template>
+    </div>
+  </div>
+</div>

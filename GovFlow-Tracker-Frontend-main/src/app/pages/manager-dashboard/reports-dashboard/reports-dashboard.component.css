@@ -1,0 +1,534 @@
+/* =================================
+   MODIFIED: Modern Styles Applied to Reports Dashboard
+   ================================= */
+
+:host {
+  display: block;
+  background-color: #F5F7FA;
+  padding: 2rem;
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh; /* Ensure it takes full height */
+}
+
+.reports-container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =================================
+   NEW: Loading and Error State Styles
+   ================================= */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  text-align: center;
+  color: #6B7B9B;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #eef2ff;
+  border-top-color: #3A4A7B;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-container {
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  border-radius: 16px;
+  padding: 2rem;
+  color: #b91c1c;
+}
+.error-container i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.retry-btn {
+  margin-top: 1.5rem;
+  background-color: #3A4A7B;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.retry-btn:hover {
+  background-color: #2D4059;
+}
+
+
+/* Breadcrumb Styles */
+.breadcrumb {
+  margin-bottom: 2rem;
+}
+.breadcrumb ol {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  font-size: 0.9rem;
+  margin: 0;
+}
+.breadcrumb li { color: #6B7B9B; }
+.breadcrumb a {
+  color: #3A4A7B;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+.breadcrumb a:hover { text-decoration: underline; color: #FF5722; }
+.breadcrumb i { font-size: 0.7rem; margin: 0 0.75rem; color: #9ca3af; }
+.breadcrumb .active { font-weight: 600; color: #2D4059; }
+
+/* Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.page-title { font-size: 2rem; font-weight: 700; color: #2D4059; margin: 0; }
+.page-subtitle { color: #6B7B9B; margin: 0.25rem 0 0; }
+.header-actions { display: flex; gap: 1rem; }
+.filter-select {
+  padding: 0.7rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+.filter-select:focus {
+  outline: none;
+  border-color: #3A4A7B;
+  box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2);
+}
+.export-btn {
+  background-color: #FF5722;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.export-btn:hover {
+  background-color: #E64A19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+}
+
+/* Stats Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+.stat-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+}
+.stat-icon-wrapper {
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon-wrapper.blue { background-color: #eef2ff; color: #3A4A7B; }
+.stat-icon-wrapper.green { background-color: #dcfce7; color: #16a34a; }
+.stat-icon-wrapper.red { background-color: #fee2e2; color: #dc2626; }
+.stat-icon-wrapper.yellow { background-color: #fef9c3; color: #f59e0b; }
+.stat-label { color: #6B7B9B; font-size: 0.9rem; margin: 0 0 0.25rem; }
+.stat-value { font-size: 2.25rem; font-weight: 700; color: #2D4059; margin: 0; }
+.stat-value .days { font-size: 1rem; color: #6B7B9B; font-weight: 500; }
+.stat-change { font-size: 0.875rem; display: flex; align-items: center; gap: 0.25rem; }
+.stat-change-positive { color: #16a34a; }
+.stat-change-negative { color: #dc2626; }
+
+/* Charts & General Card Styles */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+.chart-card, .table-card, .performers-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+
+:host ::ng-deep .ngx-charts-legend {
+  display: flex !important;
+  justify-content: center !important; /* يخلي الـ legend في النص */
+  align-items: center !important;
+  margin-top: 1rem !important; /* يخليه قريب من الرسمة مش نازل تحت */
+}
+
+:host ::ng-deep .ngx-charts-legend .legend-labels {
+  display: flex !important;
+  flex-wrap: wrap !important;  /* يخليهم جنب بعض بدل ما ينزلوا تحت */
+  gap: 1rem !important;
+  justify-content: center !important;
+}
+
+
+.card-title { font-size: 1.25rem; font-weight: 600; margin: 0 0 1.5rem 0; color: #2D4059; }
+
+/* =================================
+   NEW: Chart Wrapper Styles
+   ================================= */
+.chart-wrapper {
+  height: 320px; /* Fixed height for chart container */
+  width: 100%;
+  display: flex;
+  position: relative;
+  /*justify-content: center;*/
+  /*align-items: center;*/
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.filter-select-small {
+  padding: 0.5rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  font-size: 0.875rem;
+}
+
+/* Table Styles */
+.table-wrapper { overflow-x: auto; }
+.metrics-table { width: 100%; border-collapse: collapse; }
+.metrics-table th, .metrics-table td { padding: 1rem; text-align: left; }
+.metrics-table thead th {
+  background-color: #F5F7FA;
+  font-size: 0.8rem;
+  color: #6B7B9B;
+  text-transform: uppercase;
+  border-bottom: 2px solid #E5E7EB;
+}
+.metrics-table tbody tr { transition: background-color 0.2s ease; }
+.metrics-table tbody tr:hover { background-color: #F5F7FA; }
+.metrics-table tbody tr:not(:last-child) { border-bottom: 1px solid #f3f4f6; }
+.metrics-table tfoot td { font-weight: 700; color: #2D4059; border-top: 2px solid #E5E7EB; }
+
+/* Top Performers */
+.performers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.performer {
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.performer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+.performer-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.performer-initials {
+  width: 48px; height: 48px; border-radius: 50%;
+  background-color: #eef2ff; color: #3A4A7B;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; flex-shrink: 0; font-size: 1.1rem;
+}
+.performer:nth-child(2) .performer-initials { background-color: #dcfce7; color: #16a34a; }
+.performer:nth-child(3) .performer-initials { background-color: #e0f2fe; color: #0ea5e9; }
+.performer-name { font-weight: 600; color: #2D4059; margin: 0; }
+.performer-dept { font-size: 0.875rem; color: #6B7B9B; margin: 0; }
+.performer-stats { display: flex; justify-content: space-between; text-align: center; }
+.p-stat-value { font-size: 1.25rem; font-weight: 700; color: #2D4059; margin: 0 0 0.25rem; }
+.p-stat-label { font-size: 0.75rem; color: #6B7B9B; margin: 0; }
+
+
+:host {
+  display: block;
+  background-color: #F5F7FA;
+  padding: 2rem;
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh;
+}
+
+/* =================================
+   NEW: Styles for PDF Export Modal
+   ================================= */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(45, 64, 89, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.4s ease-out;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  color: #2D4059;
+  margin: 0;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #9ca3af;
+  line-height: 1;
+  padding: 0;
+}
+.close-btn:hover {
+  color: #2D4059;
+}
+
+.modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  color: #333;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background-color: #f9fafb;
+  flex-shrink: 0;
+}
+
+.cancel-btn {
+  background-color: #e5e7eb;
+  color: #4b5563;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.cancel-btn:hover {
+  background-color: #d1d5db;
+}
+
+.download-btn {
+  background-color: #FF5722;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 150px;
+}
+.download-btn:hover {
+  background-color: #E64A19;
+}
+.download-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+.downloading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+
+/* PDF Content Styling */
+#pdf-content {
+  font-family: Arial, sans-serif;
+}
+.report-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #FF5722;
+  padding-bottom: 1rem;
+}
+.report-header h1 {
+  color: #2D4059;
+  margin: 0;
+}
+.report-header p {
+  color: #6B7B9B;
+  margin: 0.5rem 0 0;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+.section h3 {
+  color: #3A4A7B;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+}
+.stats-summary > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.report-table th,
+.report-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+.report-table thead th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* =================================
+   FIX: Enlarge legend items for full text visibility
+   ================================= */
+:host ::ng-deep .ngx-charts-legend .legend-label {
+  max-width: 250px !important; /* Increase available width */
+}
+
+:host ::ng-deep .ngx-charts-legend .legend-label-text {
+  white-space: normal !important; /* Allow text to wrap */
+  text-overflow: clip !important; /* Prevent text from being cut off with "..." */
+  overflow: visible !important;
+}
+
+
+
+
+
+
+
+
+/* ================================================
+   ✅ The Final & Consolidated Responsive Fix
+   ================================================ */
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .performers-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :host { padding: 1rem; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: stretch; }
+  .header-actions { flex-direction: column; }
+  .chart-card, .table-card, .performers-card { padding: 1.5rem; }
+}
+
+/* ================================================
+   ✅ FIX: Custom Arrow for Dropdowns
+   ================================================ */
+
+.filter-select, .filter-select-small {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7B9B' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.7rem center;
+  background-repeat: no-repeat;
+}
+
+.filter-select {
+  background-size: 1.5em 1.5em;
+  padding: 0.7rem 2.8rem 0.7rem 1rem;
+}
+
+.filter-select-small {
+  background-size: 1.25em 1.25em;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+}

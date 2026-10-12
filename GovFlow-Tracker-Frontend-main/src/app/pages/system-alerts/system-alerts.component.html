@@ -1,0 +1,44 @@
+<div *ngIf="isLoading && alerts.length === 0" class="loading-state">
+  <div class="spinner"></div>
+  <p>Loading Alerts...</p>
+</div>
+
+<div class="alerts-card" *ngIf="!isLoading">
+  <div class="card-header">
+    <h3 class="card-title">System Alerts</h3>
+    <button class="mark-as-read-btn" (click)="markAllAsRead()" [disabled]="alerts.length === 0">
+      Mark All as Read
+    </button>
+  </div>
+
+  <ng-container *ngIf="alerts.length > 0; else noAlertsTemplate">
+    <div class="alerts-list">
+      <div *ngFor="let alert of alerts; let i = index" class="alert-item" [ngClass]="'alert-' + alert.type">
+
+        <div class="alert-icon-wrapper">
+          <i [ngClass]="alert.icon"></i>
+        </div>
+
+        <div class="alert-content">
+          <p class="alert-title">{{ alert.title }}</p>
+          <p class="alert-message">{{ alert.message }}</p>
+        </div>
+
+        <button class="dismiss-btn" (click)="dismissAlert(alert.id)" title="Dismiss Alert">
+          &times;
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noAlertsTemplate>
+    <div class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-bell-slash"></i>
+      </div>
+      <p class="empty-title">No New Alerts</p>
+      <p class="empty-subtitle">You're all caught up. New system alerts will appear here automatically.</p>
+    </div>
+  </ng-template>
+
+</div>

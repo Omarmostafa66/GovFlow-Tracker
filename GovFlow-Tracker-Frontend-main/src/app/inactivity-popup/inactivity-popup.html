@@ -1,0 +1,16 @@
+<div *ngIf="showPopup$ | async" class="popup-overlay">
+  <div class="popup-card">
+    <div class="popup-header">
+      <i class="fas fa-exclamation-triangle popup-icon warning"></i>
+      <h2 class="popup-title">Session Expiring Soon</h2>
+    </div>
+    <p class="popup-message">
+      You have been inactive for a while. For your security, you will be automatically logged out in
+      <strong>{{ countdown$ | async }}</strong> seconds.
+    </p>
+    <div class="popup-actions">
+      <button (click)="logout()" class="popup-button secondary">Logout</button>
+      <button (click)="stayLoggedIn()" class="popup-button primary">Stay Logged In</button>
+    </div>
+  </div>
+</div>

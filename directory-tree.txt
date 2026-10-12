@@ -1,0 +1,380 @@
+GovFlow-Tracker/
+├── GovFlow-Tracker-Backend-main/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   ├── com/
+│   │   │   │       ├── example/
+│   │   │   │           ├── backend/
+│   │   │   │               ├── govflow/
+│   │   │   │                   ├── controller/
+│   │   │   │                   │   ├── AuthController.java
+│   │   │   │                   │   ├── CitizenController.java
+│   │   │   │                   │   ├── EmployeeController.java
+│   │   │   │                   │   ├── FileController.java
+│   │   │   │                   │   ├── ManagerController.java
+│   │   │   │                   │   ├── MunicipalityController.java
+│   │   │   │                   │   ├── NotificationController.java
+│   │   │   │                   │   ├── PaymentController.java
+│   │   │   │                   │   ├── ProfileController.java
+│   │   │   │                   │   ├── ServiceRequestController.java
+│   │   │   │                   │   └── TrafficController.java
+│   │   │   │                   ├── dto/
+│   │   │   │                   │   ├── AuthRequest.java
+│   │   │   │                   │   ├── AuthResponse.java
+│   │   │   │                   │   ├── ChangePasswordDto.java
+│   │   │   │                   │   ├── CitizenDashboardDataDto.java
+│   │   │   │                   │   ├── CitizenPaymentSummaryDto.java
+│   │   │   │                   │   ├── CreateEmployeeDto.java
+│   │   │   │                   │   ├── CreateEmployeeRequestDto.java
+│   │   │   │                   │   ├── CreateServiceRequestDto.java
+│   │   │   │                   │   ├── DashboardStatsDto.java
+│   │   │   │                   │   ├── DepartmentDto.java
+│   │   │   │                   │   ├── DocumentDto.java
+│   │   │   │                   │   ├── EmployeeDashboardDto.java
+│   │   │   │                   │   ├── EmployeeDetailsDto.java
+│   │   │   │                   │   ├── EmployeePerformanceDto.java
+│   │   │   │                   │   ├── EmployeeTaskDto.java
+│   │   │   │                   │   ├── ErrorResponse.java
+│   │   │   │                   │   ├── ManagedEmployeeDto.java
+│   │   │   │                   │   ├── ManagerDashboardDto.java
+│   │   │   │                   │   ├── NotificationDto.java
+│   │   │   │                   │   ├── PasswordResetCompletionDto.java
+│   │   │   │                   │   ├── PasswordResetRequestDto.java
+│   │   │   │                   │   ├── PayableServiceDto.java
+│   │   │   │                   │   ├── PaymentRecordDto.java
+│   │   │   │                   │   ├── PerformanceMetricDto.java
+│   │   │   │                   │   ├── ProcessPaymentDto.java
+│   │   │   │                   │   ├── ProfileDto.java
+│   │   │   │                   │   ├── RegisterRequest.java
+│   │   │   │                   │   ├── ReportDataDto.java
+│   │   │   │                   │   ├── ReportStatValue.java
+│   │   │   │                   │   ├── ReportStatsDto.java
+│   │   │   │                   │   ├── RequestCommentDto.java
+│   │   │   │                   │   ├── RequestItemDto.java
+│   │   │   │                   │   ├── ReviewRequestDto.java
+│   │   │   │                   │   ├── ScopedReportDto.java
+│   │   │   │                   │   ├── ServiceCategoryDto.java
+│   │   │   │                   │   ├── ServiceRequestDto.java
+│   │   │   │                   │   ├── ServiceScopeDto.java
+│   │   │   │                   │   ├── ServiceTypeStatDto.java
+│   │   │   │                   │   ├── TopPerformerDto.java
+│   │   │   │                   │   ├── TrafficServiceItemDto.java
+│   │   │   │                   │   ├── UpdateEmployeeDto.java
+│   │   │   │                   │   ├── UpdateProfileDto.java
+│   │   │   │                   │   ├── UpdateRequestStatusDto.java
+│   │   │   │                   │   └── UserDto.java
+│   │   │   │                   ├── entity/
+│   │   │   │                   │   ├── Department.java
+│   │   │   │                   │   ├── Document.java
+│   │   │   │                   │   ├── Employee.java
+│   │   │   │                   │   ├── Manager.java
+│   │   │   │                   │   ├── Notification.java
+│   │   │   │                   │   ├── Payment.java
+│   │   │   │                   │   ├── PendingRegistration.java
+│   │   │   │                   │   ├── RequestComment.java
+│   │   │   │                   │   ├── RequestStatus.java
+│   │   │   │                   │   ├── Role.java
+│   │   │   │                   │   ├── Service.java
+│   │   │   │                   │   ├── ServiceRequest.java
+│   │   │   │                   │   └── User.java
+│   │   │   │                   ├── exception/
+│   │   │   │                   │   ├── GlobalExceptionHandler.java
+│   │   │   │                   │   ├── PendingVerificationException.java
+│   │   │   │                   │   ├── RegistrationException.java
+│   │   │   │                   │   └── ServiceCapacityExceededException.java
+│   │   │   │                   ├── repository/
+│   │   │   │                   │   ├── DepartmentRepository.java
+│   │   │   │                   │   ├── DocumentRepository.java
+│   │   │   │                   │   ├── EmployeeRepository.java
+│   │   │   │                   │   ├── ManagerRepository.java
+│   │   │   │                   │   ├── NotificationRepository.java
+│   │   │   │                   │   ├── PaymentRepository.java
+│   │   │   │                   │   ├── PendingRegistrationRepository.java
+│   │   │   │                   │   ├── RequestCommentRepository.java
+│   │   │   │                   │   ├── RoleRepository.java
+│   │   │   │                   │   ├── ServiceRepository.java
+│   │   │   │                   │   ├── ServiceRequestRepository.java
+│   │   │   │                   │   └── UserRepository.java
+│   │   │   │                   ├── security/
+│   │   │   │                   │   ├── jwt/
+│   │   │   │                   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │                   │   │   └── JwtService.java
+│   │   │   │                   │   ├── FileStorageProperties.java
+│   │   │   │                   │   ├── SecurityConfig.java
+│   │   │   │                   │   └── WebConfig.java
+│   │   │   │                   ├── service/
+│   │   │   │                   │   ├── EmailService.java
+│   │   │   │                   │   ├── EmployeeService.java
+│   │   │   │                   │   ├── FileStorageService.java
+│   │   │   │                   │   ├── FileStorageServiceImpl.java
+│   │   │   │                   │   ├── ManagerService.java
+│   │   │   │                   │   ├── NotificationService.java
+│   │   │   │                   │   ├── PaymentService.java
+│   │   │   │                   │   ├── RegistrationCleanupService.java
+│   │   │   │                   │   ├── ServiceRequestService.java
+│   │   │   │                   │   └── UserService.java
+│   │   │   │                   └── BackendApplication.java
+│   │   │   ├── resources/
+│   │   │       ├── db/
+│   │   │       │   ├── migration/
+│   │   │       │       ├── V1__initial_schema_and_data.sql
+│   │   │       │       ├── V2__Add_Fee_To_Requests.sql
+│   │   │       │       ├── V3__Add_Predefined_Employees_And_Managers.sql
+│   │   │       │       ├── V4__Add_Employee_ID_And_Task_Distribution_Fields.sql
+│   │   │       │       └── V5__Enhance_Manager_Structure.sql
+│   │   │       └── application.yaml
+│   │   ├── test/
+│   │       ├── java/
+│   │           ├── com/
+│   │               ├── example/
+│   │                   ├── backend/
+│   │                       └── BackendApplicationTests.java
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   └── pom.xml
+├── GovFlow-Tracker-Frontend-main/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/
+│   │   │   │   ├── footer/
+│   │   │   │   │   ├── footer.css
+│   │   │   │   │   ├── footer.html
+│   │   │   │   │   ├── footer.spec.ts
+│   │   │   │   │   └── footer.ts
+│   │   │   │   ├── navbar/
+│   │   │   │       ├── navbar.css
+│   │   │   │       ├── navbar.html
+│   │   │   │       ├── navbar.spec.ts
+│   │   │   │       └── navbar.ts
+│   │   │   ├── directives/
+│   │   │   │   ├── date-mask.spec.ts
+│   │   │   │   └── date-mask.ts
+│   │   │   ├── guards/
+│   │   │   │   ├── age.guard.ts
+│   │   │   │   ├── auth.guard.ts
+│   │   │   │   ├── guest.guard.ts
+│   │   │   │   └── role.guard.ts
+│   │   │   ├── inactivity-popup/
+│   │   │   │   ├── inactivity-popup.css
+│   │   │   │   ├── inactivity-popup.html
+│   │   │   │   ├── inactivity-popup.spec.ts
+│   │   │   │   └── inactivity-popup.ts
+│   │   │   ├── interfaces/
+│   │   │   │   └── user.interface.ts
+│   │   │   ├── pages/
+│   │   │   │   ├── citizen-dashboard/
+│   │   │   │   │   ├── municipality-services/
+│   │   │   │   │   │   ├── services/
+│   │   │   │   │   │   │   ├── building-permit/
+│   │   │   │   │   │   │   │   ├── building-permit.css
+│   │   │   │   │   │   │   │   ├── building-permit.html
+│   │   │   │   │   │   │   │   ├── building-permit.spec.ts
+│   │   │   │   │   │   │   │   └── building-permit.ts
+│   │   │   │   │   │   │   ├── building-permit-renewal/
+│   │   │   │   │   │   │   │   ├── building-permit-renewal.css
+│   │   │   │   │   │   │   │   ├── building-permit-renewal.html
+│   │   │   │   │   │   │   │   ├── building-permit-renewal.spec.ts
+│   │   │   │   │   │   │   │   └── building-permit-renewal.ts
+│   │   │   │   │   │   │   ├── building-violation-complaint/
+│   │   │   │   │   │   │   │   ├── building-violation-complaint.css
+│   │   │   │   │   │   │   │   ├── building-violation-complaint.html
+│   │   │   │   │   │   │   │   ├── building-violation-complaint.spec.ts
+│   │   │   │   │   │   │   │   └── building-violation-complaint.ts
+│   │   │   │   │   │   │   ├── cleanliness-complaint/
+│   │   │   │   │   │   │   │   ├── cleanliness-complaint.css
+│   │   │   │   │   │   │   │   ├── cleanliness-complaint.html
+│   │   │   │   │   │   │   │   ├── cleanliness-complaint.spec.ts
+│   │   │   │   │   │   │   │   └── cleanliness-complaint.ts
+│   │   │   │   │   │   │   ├── renovation-permit/
+│   │   │   │   │   │   │       ├── renovation-permit.css
+│   │   │   │   │   │   │       ├── renovation-permit.html
+│   │   │   │   │   │   │       ├── renovation-permit.spec.ts
+│   │   │   │   │   │   │       └── renovation-permit.ts
+│   │   │   │   │   │   ├── municipality-services.css
+│   │   │   │   │   │   ├── municipality-services.html
+│   │   │   │   │   │   └── municipality-services.ts
+│   │   │   │   │   ├── my-requests/
+│   │   │   │   │   │   ├── request-details/
+│   │   │   │   │   │   │   ├── request-details.component.css
+│   │   │   │   │   │   │   ├── request-details.component.html
+│   │   │   │   │   │   │   └── request-details.component.ts
+│   │   │   │   │   │   ├── my-requests.component.css
+│   │   │   │   │   │   ├── my-requests.component.html
+│   │   │   │   │   │   └── my-requests.component.ts
+│   │   │   │   │   ├── payment-history/
+│   │   │   │   │   │   ├── payment-history.css
+│   │   │   │   │   │   ├── payment-history.html
+│   │   │   │   │   │   ├── payment-history.spec.ts
+│   │   │   │   │   │   └── payment-history.ts
+│   │   │   │   │   ├── payments/
+│   │   │   │   │   │   ├── payments.component.css
+│   │   │   │   │   │   ├── payments.component.html
+│   │   │   │   │   │   └── payments.component.ts
+│   │   │   │   │   ├── traffic-services/
+│   │   │   │   │   │   ├── services/
+│   │   │   │   │   │   │   ├── drivers-license-issuance/
+│   │   │   │   │   │   │   │   ├── drivers-license-issuance.css
+│   │   │   │   │   │   │   │   ├── drivers-license-issuance.html
+│   │   │   │   │   │   │   │   ├── drivers-license-issuance.spec.ts
+│   │   │   │   │   │   │   │   └── drivers-license-issuance.ts
+│   │   │   │   │   │   │   ├── license-renewal/
+│   │   │   │   │   │   │   │   ├── license-renewal.css
+│   │   │   │   │   │   │   │   ├── license-renewal.html
+│   │   │   │   │   │   │   │   ├── license-renewal.spec.ts
+│   │   │   │   │   │   │   │   └── license-renewal.ts
+│   │   │   │   │   │   │   ├── license-replacement/
+│   │   │   │   │   │   │   │   ├── license-replacement.css
+│   │   │   │   │   │   │   │   ├── license-replacement.html
+│   │   │   │   │   │   │   │   ├── license-replacement.spec.ts
+│   │   │   │   │   │   │   │   └── license-replacement.ts
+│   │   │   │   │   │   │   ├── traffic-violations/
+│   │   │   │   │   │   │   │   ├── traffic-violations.css
+│   │   │   │   │   │   │   │   ├── traffic-violations.html
+│   │   │   │   │   │   │   │   ├── traffic-violations.spec.ts
+│   │   │   │   │   │   │   │   └── traffic-violations.ts
+│   │   │   │   │   │   │   ├── vehicle-registration/
+│   │   │   │   │   │   │       ├── vehicle-registration.css
+│   │   │   │   │   │   │       ├── vehicle-registration.html
+│   │   │   │   │   │   │       ├── vehicle-registration.spec.ts
+│   │   │   │   │   │   │       └── vehicle-registration.ts
+│   │   │   │   │   │   ├── traffic-services.css
+│   │   │   │   │   │   ├── traffic-services.html
+│   │   │   │   │   │   └── traffic-services.ts
+│   │   │   │   │   ├── citizen-dashboard.css
+│   │   │   │   │   ├── citizen-dashboard.html
+│   │   │   │   │   └── citizen-dashboard.ts
+│   │   │   │   ├── employee-dashboard/
+│   │   │   │   │   ├── employee-tasks/
+│   │   │   │   │   │   ├── employee-tasks.css
+│   │   │   │   │   │   ├── employee-tasks.html
+│   │   │   │   │   │   └── employee-tasks.ts
+│   │   │   │   │   ├── employee-dashboard.css
+│   │   │   │   │   ├── employee-dashboard.html
+│   │   │   │   │   └── employee-dashboard.ts
+│   │   │   │   ├── employee-management/
+│   │   │   │   │   ├── employee-management.component.css
+│   │   │   │   │   ├── employee-management.component.html
+│   │   │   │   │   └── employee-management.component.ts
+│   │   │   │   ├── employee-performance/
+│   │   │   │   │   ├── employee-performance.component.css
+│   │   │   │   │   ├── employee-performance.component.html
+│   │   │   │   │   └── employee-performance.component.ts
+│   │   │   │   ├── forgot-password/
+│   │   │   │   │   ├── forgot-password.css
+│   │   │   │   │   ├── forgot-password.html
+│   │   │   │   │   ├── forgot-password.spec.ts
+│   │   │   │   │   └── forgot-password.ts
+│   │   │   │   ├── help/
+│   │   │   │   │   ├── help.css
+│   │   │   │   │   ├── help.html
+│   │   │   │   │   ├── help.spec.ts
+│   │   │   │   │   └── help.ts
+│   │   │   │   ├── home/
+│   │   │   │   │   ├── home.css
+│   │   │   │   │   ├── home.html
+│   │   │   │   │   ├── home.spec.ts
+│   │   │   │   │   └── home.ts
+│   │   │   │   ├── login/
+│   │   │   │   │   ├── login.css
+│   │   │   │   │   ├── login.html
+│   │   │   │   │   ├── login.spec.ts
+│   │   │   │   │   └── login.ts
+│   │   │   │   ├── manager-dashboard/
+│   │   │   │   │   ├── manager-analytics/
+│   │   │   │   │   │   ├── manager-analytics.component.css
+│   │   │   │   │   │   ├── manager-analytics.component.html
+│   │   │   │   │   │   └── manager-analytics.component.ts
+│   │   │   │   │   ├── reports-dashboard/
+│   │   │   │   │   │   ├── reports-dashboard.component.css
+│   │   │   │   │   │   ├── reports-dashboard.component.html
+│   │   │   │   │   │   └── reports-dashboard.component.ts
+│   │   │   │   │   ├── manager-dashboard.component.css
+│   │   │   │   │   ├── manager-dashboard.component.html
+│   │   │   │   │   └── manager-dashboard.component.ts
+│   │   │   │   ├── notifications/
+│   │   │   │   │   ├── notifications.css
+│   │   │   │   │   ├── notifications.html
+│   │   │   │   │   ├── notifications.spec.ts
+│   │   │   │   │   └── notifications.ts
+│   │   │   │   ├── profile/
+│   │   │   │   │   ├── profile.css
+│   │   │   │   │   ├── profile.html
+│   │   │   │   │   └── profile.ts
+│   │   │   │   ├── register/
+│   │   │   │   │   ├── register.css
+│   │   │   │   │   ├── register.html
+│   │   │   │   │   ├── register.spec.ts
+│   │   │   │   │   └── register.ts
+│   │   │   │   ├── reset-password/
+│   │   │   │   │   ├── reset-password.css
+│   │   │   │   │   ├── reset-password.html
+│   │   │   │   │   ├── reset-password.spec.ts
+│   │   │   │   │   └── reset-password.ts
+│   │   │   │   ├── system-alerts/
+│   │   │   │       ├── system-alerts.component.css
+│   │   │   │       ├── system-alerts.component.html
+│   │   │   │       └── system-alerts.component.ts
+│   │   │   ├── services/
+│   │   │   │   ├── auth.interceptor.ts
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── citizen.service.ts
+│   │   │   │   ├── employee.service.ts
+│   │   │   │   ├── language.service.ts
+│   │   │   │   ├── manager.service.ts
+│   │   │   │   ├── municipality.service.ts
+│   │   │   │   ├── notification.service.ts
+│   │   │   │   ├── payment.service.ts
+│   │   │   │   ├── profile.service.ts
+│   │   │   │   ├── service-request.service.ts
+│   │   │   │   ├── traffic.service.ts
+│   │   │   │   └── user.service.ts
+│   │   │   ├── app.config.ts
+│   │   │   ├── app.css
+│   │   │   ├── app.html
+│   │   │   ├── app.routes.ts
+│   │   │   ├── app.spec.ts
+│   │   │   └── app.ts
+│   │   ├── assets/
+│   │   │   ├── flags/
+│   │   │   │   ├── eg.png
+│   │   │   │   └── sa.png
+│   │   │   ├── images/
+│   │   │   │   ├── Logo Tab.png
+│   │   │   │   ├── NTG Logo.png
+│   │   │   │   ├── NTG-Logo-2.jpg
+│   │   │   │   ├── NTG-Logo-2.png
+│   │   │   │   ├── NTG-Logo-3.png
+│   │   │   │   ├── OIP.webp
+│   │   │   │   ├── OMAR YASSER.jpg
+│   │   │   │   ├── Omar Mustafa.jpg
+│   │   │   │   ├── Youssef Atef.jpg
+│   │   │   │   ├── img.png
+│   │   │   │   └── ntgLogo.png
+│   │   │   ├── imageshome/
+│   │   │       ├── Mohamed Khaled.jpg
+│   │   │       ├── Mohammed Mosleh.jpg
+│   │   │       ├── OMAR YASSER.jpg
+│   │   │       ├── Omar Mustafa.jpg
+│   │   │       ├── Youssef Atef.jpg
+│   │   │       ├── construction-site-build-construction-work-159306.webp
+│   │   │       ├── pexels-photo-3183150.webp
+│   │   │       ├── pexels-photo-3184418.webp
+│   │   │       └── pexels-photo-955395.webp
+│   │   ├── custom-theme.scss
+│   │   ├── index.html
+│   │   ├── main.ts
+│   │   └── styles.css
+│   ├── README.md
+│   ├── angular.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   └── tsconfig.spec.json
+├── docs/
+│   ├── ERD.pdf
+│   ├── User Guide-GOV.pdf
+│   └── supabase-schema-zimaprveolvmrfpemgfz.svg
+├── GovFlow-Tracker-README.md
+└── directory-tree.txt

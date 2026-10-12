@@ -1,0 +1,50 @@
+<div class="notifications-container">
+  <nav class="breadcrumb">
+    <ol>
+      <li><a [routerLink]="dashboardLink()">{{ dashboardName() }}</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">Notifications</li>
+    </ol>
+  </nav>
+
+  <div class="header">
+    <h1 class="title">Notifications</h1>
+    <p class="subtitle">You have <span class="unread-count">{{ unreadCount() }}</span> unread notifications.</p>
+
+    <div class="header-actions" *ngIf="notifications().length > 0">
+      <button (click)="markAllAsRead()" [disabled]="unreadCount() === 0" class="btn btn-primary">Mark all as read</button>
+      <button (click)="clearAllNotifications()" class="btn btn-outline-danger">Clear All</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="loading-state">
+    <p>Loading notifications...</p>
+  </div>
+
+  <div *ngIf="!isLoading()" class="notifications-list">
+    <div *ngIf="notifications().length === 0" class="empty-state">
+      <i class="fas fa-bell-slash"></i>
+      <p>You're all caught up!</p>
+    </div>
+
+    <div *ngFor="let notif of notifications()" class="notification-card" [class.unread]="!notif.read" [attr.data-type]="notif.type">
+      <div class="notification-icon">
+        <i [class]="getIconForType(notif.type)"></i>
+      </div>
+      <div class="notification-content">
+        <h3 class="notification-title">{{ notif.title }}</h3>
+        <p class="notification-message">{{ notif.message }}</p>
+        <span class="notification-date">{{ notif.createdAt | date:'short' }}</span>
+      </div>
+
+      <div class="notification-actions">
+        <button *ngIf="!notif.read" class="action-btn" title="Mark as read" (click)="markAsRead(notif.id)">
+          <i class="fas fa-check"></i>
+        </button>
+        <button class="action-btn delete-btn" title="Delete notification" (click)="deleteNotification(notif.id)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

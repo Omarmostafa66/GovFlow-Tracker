@@ -1,0 +1,28 @@
+﻿# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Java / Maven
+**/target/
+*.class
+
+# Angular / Node.js
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini

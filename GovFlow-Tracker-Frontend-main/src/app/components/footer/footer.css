@@ -1,0 +1,178 @@
+/* ================================================
+  Updated Footer Styles with New Color Palette
+  ================================================
+*/
+
+.footer {
+  background-color: #2D4059; /*Using new dark blue for background */
+  color: #FFFFFF;
+  padding: 50px 20px 20px;
+  margin-top: 60px;
+  border-top: 4px solid #FF5722; /* accent color border */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+.footer-brand .logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+}
+
+.footer-brand .tagline {
+  font-size: 0.9rem;
+  /* Using a lighter, less prominent color for the tagline */
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===SELECTOR === */
+/* تم دمج الهوتلاين هنا وحذف السوشيال */
+.footer-links h3,
+.footer-contact h3,
+.footer-hotline h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  /* CHANGED: Using light accent color for headers */
+  color: #FF9A6C;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+  /* CHANGED: Using a lighter text color */
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links ul li a:hover {
+  color: #FFFFFF;
+}
+
+/* === SELECTOR === */
+/* دمج أنماط الهوتلاين هنا لتتطابق مع الكونتاكت */
+.footer-contact p,
+.footer-hotline p {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* === SELECTOR === */
+/*  دمج أيقونات الهوتلاين هنا */
+.footer-contact i,
+.footer-hotline i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+  width: 20px; /* Align icons */
+  text-align: center;
+}
+
+/* =========================================== */
+/* ===> كود مضاف لتنسيق رابط البريد الإلكتروني <=== */
+/* =========================================== */
+.footer-contact a.footer-email-link {
+  color: inherit; /* اجعله يرث اللون من الأب (الذي هو أبيض باهت) */
+  text-decoration: none; /* إزالة الخط الافتراضي */
+  transition: color 0.3s;
+}
+
+.footer-contact a.footer-email-link:hover {
+  color: #FFFFFF; /* عند التمرير، اجعله أبيض ناصعًا */
+  text-decoration: underline; /* أضف خطًا عند التمرير للتوضيح */
+}
+
+
+
+.footer-bottom {
+  text-align: center;
+  /*Using medium blue for the border */
+  border-top: 1px solid #3A4A7B;
+  padding-top: 20px;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  /* === UPDATED SELECTOR === */
+  .footer-links,
+  .footer-contact,
+  .footer-hotline {
+    margin-top: 20px;
+  }
+
+  /* === UPDATED SELECTOR === */
+  .footer-contact p,
+  .footer-hotline p {
+    justify-content: center;
+  }
+}
+
+/* === أسلوب للموقع كله === */
+
+/* ده الستايل الأساسي (للشاشات الكبيرة) */
+.main-content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 أعمدة جنب بعض */
+  gap: 20px;
+}
+
+.sidebar {
+  display: block; /* الشريط الجانبي ظاهر */
+}
+
+
+/* =============================================== */
+/* === الجزء اللي عشان الموبايل والتابلت === */
+/* =============================================== */
+@media (max-width: 768px) {
+  /* تعديلات للتابلت */
+  .main-content-grid {
+    grid-template-columns: repeat(2, 1fr); /* خليهم عمودين بس */
+  }
+
+  .sidebar {
+    display: none; /* اخفي الشريط الجانبي في التابلت */
+  }
+
+  /* ممكن تعدل حجم الخط مثلا */
+  body {
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  /* تعديلات للموبايل (شاشات أصغر) */
+  .main-content-grid {
+    grid-template-columns: 1fr; /* خليهم عمود واحد بس */
+  }
+
+  /* ممكن تعدل الـ padding عشان توفر مساحة */
+  .container {
+    padding: 10px;
+  }
+}

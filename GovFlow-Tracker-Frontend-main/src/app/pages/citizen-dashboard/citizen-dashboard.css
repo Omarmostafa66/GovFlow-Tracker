@@ -1,0 +1,405 @@
+/* =================================
+   Modern Dashboard Styles
+   ================================= */
+:host {
+  font-family: 'Cairo', sans-serif;
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: start;
+  background-color: #F5F7FA;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  background: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 2rem;
+}
+
+/* ========================================================== */
+/* ✅ START: تعديلات الأفاتار والربط */
+/* ========================================================== */
+
+/* كلاس الرابط الجديد لإزالة التنسيق الافتراضي للرابط */
+a.user-info-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E5F7EB;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 80px; /* Adjusted size for consistency */
+  height: 80px;
+  border-radius: 50%;
+  background: #3A4A7B;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+  flex-shrink: 0; /* Prevents shrinking */
+
+  /* === START: إضافة الفريم والظل والانتقال === */
+  border: 3px solid rgb(106, 122, 154);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  /* === END: الإضافة === */
+}
+
+/* === START: إضافة حركة الـ Hover === */
+.avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+/* === END: الإضافة === */
+
+/* ========================================================== */
+/* ✅ END: نهاية تعديلات الأفاتار */
+/* ========================================================== */
+
+.avatar-img {
+  object-fit: cover; /* Ensures the image covers the circle */
+}
+
+.user-info .name { font-weight: 600; color: #2D4059; font-size: 1.1rem; margin:0; }
+
+.user-info .role { font-size: 0.9rem; color: #6B7B9B; margin: 0; }
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  color: #6B7B9B;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+.nav-links a.active, .nav-links a:hover {
+  background: #eef2ff;
+  color: #3A4A7B;
+  font-weight: 600;
+}
+
+/* Main Content: General Card Style */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+/* تم تقسيم هذه القاعدة. الإحصائيات (.stats) لم تعد تحتاج خلفية أو شادو */
+.header, .categories, .recent-requests, .quick-actions {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Header & Search */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header h1 { font-size: 2rem; font-weight: 700; margin: 0; color: #2D4059;   line-height: 1.2; }
+.header p { color: #6B7B9B; margin-top: 1rem; font-size: 1rem; }
+
+.search { position: relative; }
+.search input {
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  width: 20rem;
+  background-color: #F5F7FA;
+  transition: all 0.2s ease;
+}
+.search input:focus {
+  outline: none;
+  border-color: #3A4A7B;
+  box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2);
+  background-color: #FFFFFF;
+}
+.search i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+/* ========================================================== */
+/* ✅ START: تعديل الإحصائيات لتكون أصغر وفي سطر واحد */
+/* ========================================================== */
+.stats {
+  display: flex; /* استخدام Flexbox لوضعهم جنباً إلى جنب */
+  justify-content: space-between; /* توزيع المسافات بينهم */
+  gap: 1rem; /* تقليل المسافة بين الكروت */
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem; /* تقليل المسافة بين الأيقونة والنص */
+
+  background-color: #ffffff;
+  padding: 1rem; /* تقليل الحشو الداخلي للكرت */
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+
+  flex: 1; /* جعل الكروت تأخذ مساحة متساوية */
+  min-width: 0; /* السماح للكروت بالانكماش عند الحاجة */
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card .icon {
+  width: 40px; /* تصغير حجم دائرة الأيقونة */
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem; /* تصغير حجم الأيقونة نفسها */
+  color: #FFFFFF;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card .label {
+  font-size: 0.85rem; /* تصغير حجم الليبل */
+  color: #6B7B9B;
+  margin: 0;
+  white-space: nowrap; /* منع نزول العنوان لسطر جديد */
+}
+.stat-card .count {
+  font-size: 1.8rem;  /* تصغير حجم الرقم */
+  font-weight: 700;
+  color: #2D4059;
+  margin: 0;
+}
+/* ========================================================== */
+/* ✅ END: نهاية تعديل الإحصائيات */
+/* ========================================================== */
+
+
+.stat-card:hover .icon {
+  transform: scale(1.15) rotate(-10deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.bg-blue { background: linear-gradient(45deg, #3A4A7B, #6B7B9B); }
+.bg-green { background: linear-gradient(45deg, #28a745, #20c997); }
+.bg-yellow { background: linear-gradient(45deg, #FF9A6C, #FF5722); }
+.bg-red { background: linear-gradient(45deg, #dc3545, #e06c75); }
+.bg-purple { background: linear-gradient(45deg, #6a1b9a, #9c27b0); }
+
+
+/* Categories Section */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.category-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.category-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+.category-header i {
+  font-size: 1.75rem;
+  color: #3A4A7B;
+  transition: transform 0.3s ease;
+}
+.category-header h3 { font-size: 1.25rem; font-weight: 600; margin: 0; color: #2D4059; }
+.category-card:hover .category-header i {
+  transform: scale(1.2);
+}
+.category-card .tags { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.category-card .tags span {
+  background-color: #eef2ff;
+  color: #3A4A7B;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Recent Requests Table */
+.requests-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.requests-header h3 { font-size: 1.25rem; font-weight: 600; margin: 0; color: #2D4059;}
+.requests-table { width: 100%; border-collapse: collapse; }
+.requests-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6B7B9B;
+  text-transform: uppercase;
+  border-bottom: 2px solid #E5E7EB;
+}
+.requests-table td {
+  padding: 1.25rem 1rem;
+  font-size: 0.95rem;
+  color: #2D4059;
+  border-bottom: 1px solid #F5F7FA;
+}
+.requests-table tbody tr:hover { background-color: #F5F7FA; }
+
+/* Status Badge */
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.status-under-review { background-color: #fff9db; color: #e8590c; }
+.status-approved { background-color: #e6fcf5; color: #2b8a3e; }
+.status-in-progress { background-color: #e7f5ff; color: #1864ab; }
+.status-rejected { background-color: #fff5f5; color: #c92a2a; }
+
+.status-default {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+
+/* Quick Actions & Buttons */
+.quick-actions h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #2D4059;}
+.actions-container { display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn-primary, .btn-secondary, .btn-link {
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary i, .btn-secondary i {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary { background-color: #FF5722; color: #FFFFFF; }
+.btn-primary:hover { background-color: #E64A19; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3); }
+.btn-primary:hover i, .btn-secondary:hover i {
+  transform: translateX(-3px) scale(1.1);
+}
+
+.btn-secondary { background-color: #eef2ff; color: #3A4A7B; }
+.btn-secondary:hover { background-color: #e0e7ff; }
+
+.btn-link { background: none; color: #3A4A7B; padding: 0; }
+.btn-link:hover { color: #FF5722; text-decoration: underline; }
+
+/* ================================================
+   ✅ The Final & Corrected Responsive Fix
+   ================================================ */
+
+/* === شاشات اللابتوب الصغيرة (أقل من 1200 بكسل) === */
+@media (max-width: 1200px) {
+  .page-grid {
+    grid-template-columns: 1fr; /* جعل الشريط الجانبي والمحتوى تحت بعض */
+  }
+  .sidebar {
+    position: static; /* إلغاء تثبيت الشريط الجانبي */
+    width: 100%;
+  }
+}
+
+/* === شاشات التابلت (أقل من 992 بكسل) === */
+@media (max-width: 992px) {
+  /* 👇 أهم إصلاح: جعل كروت الإحصائيات تنزل تحت بعضها مبكرًا */
+  .stats {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .stat-card {
+    flex-basis: calc(50% - 0.5rem); /* كل كرت يأخذ نصف العرض */
+  }
+}
+
+/* === شاشات الموبايل (أقل من 768 بكسل) === */
+@media (max-width: 768px) {
+  .page-grid {
+    padding: 1rem; /* تقليل الهوامش العامة للصفحة */
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .search input {
+    width: 100%;
+  }
+
+
+  .recent-requests {
+    overflow-x: auto;
+  }
+}
+
+/* === شاشات الموبايل الصغيرة (أقل من 576 بكسل) === */
+@media (max-width: 576px) {
+  /* جعل كروت الإحصائيات واحد فقط في السطر (تحت بعض) */
+  .stat-card {
+    flex-basis: 100%;
+  }
+
+  .actions-container {
+    flex-direction: column; /* جعل أزرار الإجراءات السريعة تحت بعض */
+  }
+  .actions-container .btn-primary,
+  .actions-container .btn-secondary {
+    width: 100%; /* جعل كل زر يأخذ العرض الكامل */
+    justify-content: center;
+  }
+}

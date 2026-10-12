@@ -1,0 +1,207 @@
+<!--<div class="dashboard-layout">-->
+<!--  <aside class="sidebar">-->
+<!--    <div *ngIf="user() as currentUser" class="user-info">-->
+<!--      <img *ngIf="currentUser.avatar"-->
+<!--           [src]="'http://localhost:8080/uploads/' + currentUser.avatar"-->
+<!--           alt="User Avatar"-->
+<!--           class="user-avatar user-avatar-img">-->
+<!--      <div *ngIf="!currentUser.avatar" class="user-avatar">-->
+<!--        <span>{{ getInitials(currentUser.fullName) }}</span>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <p class="user-name">{{ currentUser.fullName }}</p>-->
+<!--        <p class="user-role">{{ currentUser.role | titlecase }}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <nav class="sidebar-nav">-->
+<!--      <a routerLink="/manager-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">-->
+<!--        <i class="fas fa-tachometer-alt"></i>Dashboard-->
+<!--      </a>-->
+<!--      <a routerLink="/reports" routerLinkActive="active" class="nav-link">-->
+<!--        <i class="fas fa-chart-bar"></i>Reports-->
+<!--      </a>-->
+<!--      <a routerLink="/employees" routerLinkActive="active" class="nav-link">-->
+<!--        <i class="fas fa-users"></i>Employees-->
+<!--      </a>-->
+<!--      <a routerLink="/profile" routerLinkActive="active" class="nav-link">-->
+<!--        <i class="fas fa-user"></i>Profile-->
+<!--      </a>-->
+<!--    </nav>-->
+<!--  </aside>-->
+
+<!--  <main class="main-content">-->
+<!--    <header class="header">-->
+<!--      <h1 class="header-title">Manager Dashboard</h1>-->
+<!--      <p class="header-subtitle">-->
+<!--        Monitor performance and analytics across departments-->
+<!--      </p>-->
+<!--    </header>-->
+
+<!--    <div class="components-wrapper">-->
+<!--      <ng-container *ngIf="dashboardData$ | async as dashboardData; else loading">-->
+
+<!--        <app-manager-analytics [dashboardStats]="dashboardData"></app-manager-analytics>-->
+
+<!--        <app-employee-performance-->
+<!--          (viewDetails)="handleViewDetails($event)">-->
+<!--        </app-employee-performance>-->
+<!--        <app-system-alerts></app-system-alerts>-->
+
+<!--      </ng-container>-->
+
+<!--      <ng-template #loading>-->
+<!--        <div class="loading-indicator">-->
+<!--          <div class="spinner"></div>-->
+<!--        </div>-->
+<!--      </ng-template>-->
+<!--    </div>-->
+<!--  </main>-->
+<!--</div>-->
+
+
+<!--<div id="employee-details-modal" class="modal-overlay">-->
+<!--  <a href="#" class="modal-close-background"></a>-->
+<!--  <div class="modal-content">-->
+<!--    <div class="modal-header">-->
+<!--      <h3 class="modal-title">Employee Details</h3>-->
+<!--      <a href="#" class="modal-close-button">&times;</a>-->
+<!--    </div>-->
+<!--    <div class="modal-body" *ngIf="selectedEmployee() as employee; else noEmployeeData">-->
+<!--      <div class="details-grid">-->
+<!--        <div class="detail-item">-->
+<!--          <span class="detail-label"><i class="fas fa-user"></i> Name</span>-->
+<!--          <span class="detail-value">{{ employee.name }}</span>-->
+<!--        </div>-->
+<!--        <div class="detail-item">-->
+<!--          <span class="detail-label"><i class="fas fa-building"></i> Department</span>-->
+<!--          <span class="detail-value">{{ employee.department }}</span>-->
+<!--        </div>-->
+<!--        <div class="detail-item">-->
+<!--          <span class="detail-label"><i class="fas fa-tasks"></i> Processed Tasks</span>-->
+<!--          <span class="detail-value">{{ employee.processed }}</span>-->
+<!--        </div>-->
+<!--        <div class="detail-item">-->
+<!--          <span class="detail-label"><i class="fas fa-check"></i> Approval Rate</span>-->
+<!--          <span class="detail-value">{{ employee.approvalRate }}</span>-->
+<!--        </div>-->
+<!--        <div class="detail-item">-->
+<!--          <span class="detail-label"><i class="fas fa-chart-line"></i> Performance</span>-->
+<!--          <span class="detail-value" [ngClass]="getPerformanceClass(employee.performance)">-->
+<!--                        {{ employee.performance }}-->
+<!--                    </span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <ng-template #noEmployeeData>-->
+<!--      <div class="modal-body">-->
+<!--        <p>No employee selected.</p>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <a routerLink="/profile" class="user-info-link">
+      <div *ngIf="user() as currentUser" class="user-info">
+        <img *ngIf="currentUser.avatar"
+             [src]="'http://localhost:8080/uploads/' + currentUser.avatar"
+             alt="User Avatar"
+             class="user-avatar user-avatar-img">
+        <div *ngIf="!currentUser.avatar" class="user-avatar">
+          <span>{{ getInitials(currentUser.fullName) }}</span>
+        </div>
+        <div>
+          <p class="user-name">{{ currentUser.fullName }}</p>
+          <p class="user-role">{{ currentUser.role | titlecase }}</p>
+        </div>
+      </div>
+    </a>
+    <nav class="sidebar-nav">
+      <a routerLink="/manager-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        <i class="fas fa-tachometer-alt"></i>Dashboard
+      </a>
+      <a routerLink="/reports" routerLinkActive="active" class="nav-link">
+        <i class="fas fa-chart-bar"></i>Reports
+      </a>
+      <a routerLink="/employees" routerLinkActive="active" class="nav-link">
+        <i class="fas fa-users"></i>Employees
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="nav-link">
+        <i class="fas fa-user"></i>Profile
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="header">
+      <h1 class="header-title">Manager Dashboard</h1>
+      <p class="header-subtitle">
+        Monitor performance and analytics across departments
+      </p>
+    </header>
+
+    <div class="components-wrapper">
+      <ng-container *ngIf="dashboardData$ | async as dashboardData; else loading">
+
+        <app-manager-analytics [dashboardStats]="dashboardData"></app-manager-analytics>
+
+        <app-employee-performance
+          (viewDetails)="handleViewDetails($event)">
+        </app-employee-performance>
+        <app-system-alerts></app-system-alerts>
+
+      </ng-container>
+
+      <ng-template #loading>
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+        </div>
+      </ng-template>
+    </div>
+  </main>
+</div>
+
+
+<div id="employee-details-modal" class="modal-overlay">
+  <a href="#" class="modal-close-background"></a>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Employee Details</h3>
+      <a href="#" class="modal-close-button">&times;</a>
+    </div>
+    <div class="modal-body" *ngIf="selectedEmployee() as employee; else noEmployeeData">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label"><i class="fas fa-user"></i> Name</span>
+          <span class="detail-value">{{ employee.name }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label"><i class="fas fa-building"></i> Department</span>
+          <span class="detail-value">{{ employee.department }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label"><i class="fas fa-tasks"></i> Processed Tasks</span>
+          <span class="detail-value">{{ employee.processed }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label"><i class="fas fa-check"></i> Approval Rate</span>
+          <span class="detail-value">{{ employee.approvalRate }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label"><i class="fas fa-chart-line"></i> Performance</span>
+          <span class="detail-value" [ngClass]="getPerformanceClass(employee.performance)">
+                        {{ employee.performance }}
+                    </span>
+        </div>
+      </div>
+    </div>
+    <ng-template #noEmployeeData>
+      <div class="modal-body">
+        <p>No employee selected.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

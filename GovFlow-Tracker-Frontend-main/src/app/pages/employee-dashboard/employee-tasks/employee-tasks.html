@@ -1,0 +1,312 @@
+<div class="employee-dashboard">
+  <div class="dashboard-container">
+    <div class="dashboard-layout">
+      <div class="sidebar">
+        <a routerLink="/profile" class="user-info-link">
+          <div class="employee-info">
+            <img *ngIf="employee.avatar"
+                 [src]="'http://localhost:8080/uploads/' + employee.avatar"
+                 alt="User Avatar"
+                 class="avatar avatar-img">
+            <div *ngIf="!employee.avatar" class="avatar">
+              {{ employee.initial }}
+            </div>
+            <div>
+              <p class="employee-name">{{ employee.name }}</p>
+              <p class="employee-department">{{ employee.department }}</p>
+            </div>
+          </div>
+        </a>
+        <nav class="sidebar-nav">
+          <a routerLink="/employee-dashboard" class="nav-item">
+            <i class="fas fa-tachometer-alt nav-icon"></i> Dashboard
+          </a>
+          <a routerLink="/employee-tasks" class="nav-item active">
+            <i class="fas fa-tasks nav-icon"></i> My Tasks
+          </a>
+          <a routerLink="/profile" class="nav-item">
+            <i class="fas fa-user nav-icon"></i> Profile
+          </a>
+          <a routerLink="/help" class="nav-item">
+            <i class="fas fa-question-circle nav-icon"></i> Help Center
+          </a>
+        </nav>
+      </div>
+
+      <div class="main-content">
+        <div class="dashboard-header">
+          <h1 class="dashboard-title">My Tasks</h1>
+          <p class="dashboard-subtitle">Review and manage your assigned tasks</p>
+        </div>
+
+        <div class="requests-table">
+          <div class="table-header">
+            <h3 class="table-title">Assigned Tasks</h3>
+            <div class="table-filters">
+              <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search by citizen or service..." [(ngModel)]="searchTerm" (input)="applyFilters()">
+              </div>
+              <select class="filter-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+                <option value="all">All Statuses</option>
+                <option value="APPROVED_PENDING_PAYMENT">Pending Payment</option>
+                <option value="PENDING_CITIZEN_ACTION">Pending Citizen Action</option>
+                <option value="UNDER_REVIEW">Under Review</option>
+                <option value="PENDING">Pending</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="REJECTED">Rejected</option>
+              </select>
+              <select class="filter-select" [(ngModel)]="priorityFilter" (change)="applyFilters()">
+                <option value="all">All Priorities</option>
+                <option value="high">High</option>
+                <option value="normal">Normal</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+              <tr>
+                <th>Task ID</th>
+                <th>Citizen</th>
+                <th>Service</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let task of filteredTasks" [ngClass]="getHoverClass(task.status)">
+                <td>{{ task.id }}</td>
+                <td>
+                  <ng-container *ngIf="task.citizenName.length > truncationLimit && !isExpanded('citizen-' + task.id)">
+                    {{ task.citizenName | slice:0:truncationLimit }}...
+                  </ng-container>
+                  <ng-container *ngIf="task.citizenName.length <= truncationLimit || isExpanded('citizen-' + task.id)">
+                    {{ task.citizenName }}
+                  </ng-container>
+                  <button *ngIf="task.citizenName.length > truncationLimit" (click)="toggleExpansion('citizen-' + task.id)" class="toggle-text-btn">
+                    {{ isExpanded('citizen-' + task.id) ? 'Show Less' : 'Show More' }}
+                  </button>
+                </td>
+                <td>
+                  <ng-container *ngIf="task.serviceType.length > truncationLimit && !isExpanded('service-' + task.id)">
+                    {{ task.serviceType | slice:0:truncationLimit }}...
+                  </ng-container>
+                  <ng-container *ngIf="task.serviceType.length <= truncationLimit || isExpanded('service-' + task.id)">
+                    {{ task.serviceType }}
+                  </ng-container>
+                  <button *ngIf="task.serviceType.length > truncationLimit" (click)="toggleExpansion('service-' + task.id)" class="toggle-text-btn">
+                    {{ isExpanded('service-' + task.id) ? 'Show Less' : 'Show More' }}
+                  </button>
+                </td>
+                <td>{{ task.dueDate | date:'MMM d, y' }}</td>
+                <td>
+                    <span class="priority-badge" [ngClass]="{
+                      'priority-high': task.priority === 'high',
+                      'priority-normal': task.priority === 'normal',
+                      'priority-low': task.priority === 'low'
+                    }">{{ task.priority }}</span>
+                </td>
+                <td>
+                    <span class="status-badge" [ngClass]="getStatusClass(task.status)">
+                      {{ formatStatus(task.status) }}
+                    </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn view-btn" (click)="viewTaskDetails(task.id)">View Details</button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!isLoading && filteredTasks.length === 0">
+                <td colspan="7" class="no-results">No tasks found matching your criteria.</td>
+              </tr>
+              </tbody>
+            </table>
+            <div *ngIf="isLoading" class="loading-spinner">
+              <p>Loading tasks...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="isModalVisible" (click)="closeModal()">
+  <div class="modal-content professional-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">
+        Task Details
+        <span *ngIf="selectedTaskDetails">#{{ selectedTaskDetails.id }}</span>
+      </h2>
+      <button class="modal-close-btn" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div *ngIf="isDetailsLoading" class="modal-body"><p class="loading-state">Loading details...</p></div>
+    <div *ngIf="modalError" class="modal-body"><p class="error-state">{{ modalError }}</p></div>
+
+    <div class="modal-body" *ngIf="!isDetailsLoading && selectedTaskDetails as task">
+      <div class="request-info-section">
+        <h3 class="section-title"><i class="fas fa-info-circle"></i> Request Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Citizen Name:</label>
+            <span class="value">
+              <ng-container *ngIf="task.citizenName.length > truncationLimit && !isExpanded('modal-citizen')">
+                {{ task.citizenName | slice:0:truncationLimit }}...
+              </ng-container>
+              <ng-container *ngIf="task.citizenName.length <= truncationLimit || isExpanded('modal-citizen')">
+                {{ task.citizenName }}
+              </ng-container>
+              <button *ngIf="task.citizenName.length > truncationLimit" (click)="toggleExpansion('modal-citizen')" class="toggle-text-btn">
+                {{ isExpanded('modal-citizen') ? 'Show Less' : 'Show More' }}
+              </button>
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Service Name:</label>
+            <span class="value">
+              <ng-container *ngIf="task.serviceName.length > truncationLimit && !isExpanded('modal-service')">
+                {{ task.serviceName | slice:0:truncationLimit }}...
+              </ng-container>
+              <ng-container *ngIf="task.serviceName.length <= truncationLimit || isExpanded('modal-service')">
+                {{ task.serviceName }}
+              </ng-container>
+              <button *ngIf="task.serviceName.length > truncationLimit" (click)="toggleExpansion('modal-service')" class="toggle-text-btn">
+                {{ isExpanded('modal-service') ? 'Show Less' : 'Show More' }}
+              </button>
+            </span>
+          </div>
+          <div class="info-item">
+            <label>Department:</label>
+            <span class="value">
+              <ng-container *ngIf="task.department.length > truncationLimit && !isExpanded('modal-dept')">
+                {{ task.department | slice:0:truncationLimit }}...
+              </ng-container>
+              <ng-container *ngIf="task.department.length <= truncationLimit || isExpanded('modal-dept')">
+                {{ task.department }}
+              </ng-container>
+              <button *ngIf="task.department.length > truncationLimit" (click)="toggleExpansion('modal-dept')" class="toggle-text-btn">
+                {{ isExpanded('modal-dept') ? 'Show Less' : 'Show More' }}
+              </button>
+            </span>
+          </div>
+          <div class="info-item"><label>Submitted Date:</label><span class="value">{{ task.submissionDate | date: 'fullDate' }}</span></div>
+          <div class="info-item"><label>Status:</label><span class="status-badge" [ngClass]="getStatusClass(task.status)">{{ formatStatus(task.status) }}</span></div>
+
+          <div class="info-item">
+            <label>Payment Status:</label>
+            <span *ngIf="!task.fee || task.fee === 0" class="status-badge status-free">
+              No Payment Required
+            </span>
+            <ng-container *ngIf="task.fee && task.fee > 0">
+              <span *ngIf="task.status === 'APPROVED_PENDING_PAYMENT'" class="status-badge status-unpaid">
+                Pending Payment (Due: {{ task.fee | currency:'EGP' }})
+              </span>
+              <span *ngIf="task.status !== 'APPROVED_PENDING_PAYMENT'" class="status-badge status-paid">
+                Paid ({{ task.fee | currency:'EGP' }})
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="parsedDetails" class="details-section">
+        <h3 class="section-title"><i class="fas fa-list-alt"></i> Request Specifics</h3>
+        <div class="info-grid">
+          <div *ngFor="let detail of parsedDetails | keyvalue" class="info-item">
+            <label>{{ getDetailLabel(detail.key) }}:</label>
+            <span class="value">
+                <ng-container *ngIf="asString(detail.value).length > truncationLimit && !isExpanded('detail-' + detail.key)">
+                  {{ asString(detail.value) | slice:0:truncationLimit }}...
+                </ng-container>
+                <ng-container *ngIf="asString(detail.value).length <= truncationLimit || isExpanded('detail-' + detail.key)">
+                  {{ detail.value }}
+                </ng-container>
+                <button *ngIf="asString(detail.value).length > truncationLimit" (click)="toggleExpansion('detail-' + detail.key)" class="toggle-text-btn">
+                  {{ isExpanded('detail-' + detail.key) ? 'Show Less' : 'Show More' }}
+                </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="documents-section">
+        <h3 class="section-title"><i class="fas fa-folder-open"></i> Attached Documents</h3>
+        <div *ngIf="task.uploadedDocuments?.length; else noDocuments" class="document-list">
+          <ul>
+            <li *ngFor="let doc of task.uploadedDocuments">
+              <div class="doc-info">
+                <i class="fas" [ngClass]="getDocumentIconClass(doc.type)"></i>
+                <div class="doc-details">
+                  <span class="doc-name">
+                     <ng-container *ngIf="doc.name.length > truncationLimit && !isExpanded('doc-' + doc.id)">
+                       {{ doc.name | slice:0:truncationLimit }}...
+                     </ng-container>
+                     <ng-container *ngIf="doc.name.length <= truncationLimit || isExpanded('doc-' + doc.id)">
+                       {{ doc.name }}
+                     </ng-container>
+                     <button *ngIf="doc.name.length > truncationLimit" (click)="toggleExpansion('doc-' + doc.id)" class="toggle-text-btn">
+                       {{ isExpanded('doc-' + doc.id) ? 'Show Less' : 'Show More' }}
+                     </button>
+                  </span>
+                  <span class="doc-date" *ngIf="doc.uploadedAt">Uploaded: {{ doc.uploadedAt | date: 'medium' }}</span>
+                </div>
+              </div>
+              <div class="doc-actions">
+                <button (click)="viewFile(doc)" class="btn-link"><i class="fas fa-eye"></i> View</button>
+                <button (click)="downloadFile(doc)" class="btn-link"><i class="fas fa-download"></i> Download</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <ng-template #noDocuments>
+          <p class="no-results">No documents have been uploaded by the citizen.</p>
+        </ng-template>
+      </div>
+
+      <div class="review-section">
+        <h3 class="section-title"><i class="fas fa-user-edit"></i> Your Review & Action</h3>
+        <div *ngIf="isActionBlockedByPayment" class="payment-hold-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+            <h4>Action Required: Notify Citizen for Payment</h4>
+            <p>This request has been approved and is pending payment. By confirming, you will notify the citizen to proceed with the payment to finalize the process.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="taskStatusToggle">Update Task Status:</label>
+          <select id="taskStatusToggle" class="form-control" [(ngModel)]="selectedTaskStatus" [disabled]="task.status === 'COMPLETED' || task.status === 'REJECTED' || isActionBlockedByPayment">
+            <option value="PENDING_CITIZEN_ACTION">Pending (Waiting for Citizen)</option>
+            <option value="UNDER_REVIEW">Under Review (In Progress)</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="COMPLETED">Completed (Approved)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="employeeComment">Comments for Citizen (will be visible to them)</label>
+          <textarea id="employeeComment" class="form-control" rows="4" placeholder="e.g., Please provide a clearer copy of the national ID..." [(ngModel)]="employeeComment" [disabled]="task.status === 'COMPLETED' || task.status === 'REJECTED'"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" *ngIf="!isDetailsLoading && selectedTaskDetails as task">
+      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+      <div *ngIf="task.status !== 'COMPLETED' && task.status !== 'REJECTED'" class="action-buttons-group">
+        <button class="btn btn-success" (click)="confirmReview()" [disabled]="isDetailsLoading">
+          <i class="fas" [ngClass]="isActionBlockedByPayment ? 'fa-paper-plane' : 'fa-check-circle'"></i>
+          {{ isActionBlockedByPayment ? 'Notify Citizen to Pay' : 'Confirm Review' }}
+        </button>
+      </div>
+      <div *ngIf="task.status === 'COMPLETED' || task.status === 'REJECTED'">
+        <p class="review-submitted-text">This task has already been reviewed.</p>
+      </div>
+    </div>
+  </div>
+</div>

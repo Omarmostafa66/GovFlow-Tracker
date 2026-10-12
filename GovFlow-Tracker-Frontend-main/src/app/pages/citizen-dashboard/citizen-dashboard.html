@@ -1,0 +1,119 @@
+<div *ngIf="loading()" class="loading">Loading dashboard...</div>
+<div *ngIf="error()" class="error">{{ error() }}</div>
+
+<ng-container *ngIf="currentUser() as user">
+  <div *ngIf="dashboardData() as data" class="page-grid">
+    <aside class="sidebar">
+      <a routerLink="/profile" class="user-info-link">
+        <div class="user-info">
+          <img *ngIf="user.avatar"
+               [src]="'http://localhost:8080/uploads/' + user.avatar"
+               alt="User Avatar"
+               class="avatar avatar-img">
+          <div *ngIf="!user.avatar" class="avatar">
+            {{ getInitials() }}
+          </div>
+          <div>
+            <p class="name">{{ user.fullName }}</p>
+            <p class="role">Citizen</p>
+          </div>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a routerLink="/citizen-dashboard" class="active">Dashboard</a>
+        <a routerLink="/my-requests">My Requests</a>
+        <a routerLink="/payments">Payments</a>
+        <a routerLink="/help">Help Center</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="header">
+        <div>
+          <h1>Welcome, {{ user.fullName }}</h1>
+          <p>Access government services quickly and efficiently</p>
+        </div>
+        <div class="search">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            placeholder="Search services..."
+            [(ngModel)]="searchQuery"
+            (input)="filterCategories()"
+          />
+        </div>
+      </header>
+
+      <section class="stats">
+        <a class="stat-card"
+           *ngFor="let s of data.stats"
+           [routerLink]="['/my-requests']"
+           [queryParams]="{ status: getStatusKeyForLabel(s.label) }">
+
+          <div class="icon" [ngClass]="s.colorClass">
+            <i class="{{ s.icon }}"></i>
+          </div>
+          <div>
+            <p class="label">{{ s.label }}</p>
+            <p class="count">{{ s.count }}</p>
+          </div>
+        </a>
+      </section>
+
+      <section class="categories">
+        <a *ngFor="let category of filteredCategories()" class="category-card" [routerLink]="['/' + category.id + '-services']">
+          <div class="category-header">
+            <i class="{{ category.icon }}"></i>
+            <h3>{{ category.name }}</h3>
+          </div>
+          <p>{{ category.description }}</p>
+          <div class="tags">
+            <span *ngFor="let tag of category.tags">{{ tag }}</span>
+          </div>
+        </a>
+      </section>
+
+      <section class="recent-requests">
+        <div class="requests-header">
+          <h3>Recent Requests</h3>
+          <a routerLink="/my-requests" class="btn-link">View All</a>
+        </div>
+        <table class="requests-table">
+          <thead>
+          <tr>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let r of data.recentRequests">
+            <td>{{ r.service }}</td>
+            <td>{{ r.date | date: 'mediumDate' }}</td>
+
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(r.status)">
+                {{ formatStatus(r.status) }}
+              </span>
+            </td>
+            <td><a class="btn-link" [routerLink]="['/my-requests', r.id]">Track</a></td>
+          </tr>
+          <tr *ngIf="data.recentRequests.length === 0">
+            <td colspan="4" style="text-align: center; padding: 1rem;">No recent requests found.</td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="actions-container">
+          <button class="btn-primary"  routerLink="/payments"><i class="fas fa-credit-card"></i> Make a Payment</button>
+          <button class="btn-secondary" routerLink="/traffic-services"><i class="fas fa-car"></i> Traffic Services</button>
+          <button class="btn-secondary" routerLink="/municipality-services"><i class="fas fa-city"></i> Municipality Services</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</ng-container>

@@ -1,0 +1,179 @@
+<div class="page">
+  <nav class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      <li><a routerLink="/citizen-dashboard" class="breadcrumb-link">Dashboard</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/municipality-services" class="breadcrumb-link">Municipality Services</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li class="breadcrumb-item active">Submit Cleanliness Complaint</li>
+    </ol>
+  </nav>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h1 class="form-title">{{ serviceInfo.title }}</h1>
+      <p class="form-description">{{ serviceInfo.description }}</p>
+      <div class="documents-container">
+        <h3 class="documents-title">Required Information:</h3>
+        <ul class="documents-list">
+          <li class="document-item">• Accurately specify the type and location of the complaint.</li>
+          <li class="document-item">• Attach clear photos of the issue (optional but recommended).</li>
+        </ul>
+      </div>
+    </div>
+
+    <form [formGroup]="complaintForm" (ngSubmit)="submitRequest()" class="service-form">
+      <h3 class="form-section-title">Complainant Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Complainant's Full Name</label>
+          <input type="text" formControlName="fullName" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">National ID</label>
+          <input type="text" formControlName="nationalId" readonly class="form-input readonly-input">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Contact Mobile Number</label>
+          <input type="tel" formControlName="mobileNumber" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" formControlName="email" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <h3 class="form-section-title">Complaint Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="governorate" class="form-label">Governorate<span class="required-asterisk">*</span></label>
+          <select id="governorate" formControlName="governorate" class="form-select" [ngClass]="{ 'input-error': complaintForm.get('governorate')?.invalid && complaintForm.get('governorate')?.touched }">
+            <option value="" disabled>Select Governorate</option>
+            <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
+          </select>
+          <div *ngIf="complaintForm.get('governorate')?.invalid && complaintForm.get('governorate')?.touched" class="error-message">
+            <span>This field is required.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="city" class="form-label">City / District<span class="required-asterisk">*</span></label>
+          <select id="city" formControlName="city" class="form-select" [ngClass]="{ 'input-error': complaintForm.get('city')?.invalid && complaintForm.get('city')?.touched }">
+            <option value="" disabled>Select City / District</option>
+            <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+          </select>
+          <div *ngIf="complaintForm.get('city')?.invalid && complaintForm.get('city')?.touched" class="error-message">
+            <span *ngIf="complaintForm.get('city')?.errors?.['required']">This field is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address" class="form-label">Detailed Address (Street, nearest landmark)<span class="required-asterisk">*</span></label>
+        <input id="address" type="text" formControlName="address" class="form-input" placeholder="e.g., 10 Abbas El Akkad St, in front of the park" [ngClass]="{ 'input-error': complaintForm.get('address')?.invalid && complaintForm.get('address')?.touched }">
+        <div *ngIf="complaintForm.get('address')?.invalid && complaintForm.get('address')?.touched" class="error-message">
+          <span>This field is required.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="complaintType" class="form-label">Problem Type<span class="required-asterisk">*</span></label>
+          <select id="complaintType" formControlName="complaintType" class="form-select" [ngClass]="{ 'input-error': complaintForm.get('complaintType')?.invalid && complaintForm.get('complaintType')?.touched }">
+            <option value="" disabled>Select problem type</option>
+            <option *ngFor="let type of complaintTypes" [value]="type">{{ type }}</option>
+          </select>
+          <div *ngIf="complaintForm.get('complaintType')?.invalid && complaintForm.get('complaintType')?.touched" class="error-message">
+            <span>This field is required.</span>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="complaintForm.get('complaintType')?.value === 'Other'">
+          <label for="otherProblemDescription" class="form-label">Specify Problem<span class="required-asterisk">*</span></label>
+          <input id="otherProblemDescription" type="text" formControlName="otherProblemDescription" class="form-input" placeholder="e.g., fallen tree" [ngClass]="{ 'input-error': complaintForm.get('otherProblemDescription')?.invalid && complaintForm.get('otherProblemDescription')?.touched }">
+          <div *ngIf="complaintForm.get('otherProblemDescription')?.invalid && complaintForm.get('otherProblemDescription')?.touched" class="error-message">
+            <span *ngIf="complaintForm.get('otherProblemDescription')?.errors?.['required']">This field is required.</span>
+            <span *ngIf="complaintForm.get('otherProblemDescription')?.errors?.['minTwoWords']">Please describe the problem in at least two words.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="form-label">Brief Description of the Problem (at least 50 characters)<span class="required-asterisk">*</span></label>
+        <div class="textarea-container">
+          <textarea id="description" formControlName="description" class="form-input" rows="4" placeholder="Write a description of the problem here..." [ngClass]="{ 'input-error': complaintForm.get('description')?.invalid && complaintForm.get('description')?.touched }" maxlength="1000"></textarea>
+          <span class="char-counter">{{ complaintForm.get('description')?.value?.length || 0 }} / 1000</span>
+        </div>
+        <div *ngIf="complaintForm.get('description')?.invalid && complaintForm.get('description')?.touched" class="error-message">
+          <span *ngIf="complaintForm.get('description')?.errors?.['required']">Description is required.</span>
+          <span *ngIf="complaintForm.get('description')?.errors?.['minlength']">Description must be at least 50 characters long.</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Attach Photos or Videos (Optional)</label>
+        <div class="documents-upload-list">
+          <div *ngFor="let doc of attachments; let i = index" class="document-upload-item">
+            <div class="document-info">
+              <span class="document-name">{{ doc.name }}</span>
+              <span class="document-description">{{ doc.description }}</span>
+            </div>
+            <div *ngIf="doc.file" class="file-uploaded-state">
+              <span class="file-name">{{ doc.file.name }}</span>
+              <button type="button" (click)="removeFile(i)" class="remove-file-button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div *ngIf="!doc.file" class="file-upload-action">
+              <input type="file" [id]="doc.id" (change)="onFileSelected($event, i)" class="file-input" #fileInput>
+              <button type="button" class="upload-button" (click)="fileInput.click()">
+                Choose File
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="processing-info">
+        <p class="processing-text"><i class="fas fa-clock"></i> {{ serviceInfo.processingTime }}</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!complaintForm.valid || isLoading" class="submit-button">
+          <i class="fas fa-paper-plane"></i>
+          {{ isLoading ? 'Submitting...' : 'Submit Complaint' }}
+        </button>
+        <button type="button" (click)="cancel()" class="cancel-button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="isAlertVisible" (click)="hideAlert()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="alertType">
+    <div class="icon-wrapper">
+      <i *ngIf="alertType === 'success'" class="fas fa-check-circle"></i>
+      <i *ngIf="alertType === 'error'" class="fas fa-times-circle"></i>
+    </div>
+    <h2 class="modal-title">{{ alertTitle }}</h2>
+    <p class="modal-message">{{ alertMessage }}</p>
+    <button class="modal-button" (click)="hideAlert()">Close</button>
+  </div>
+</div>
+
+<style>
+  .form-input {
+    resize: none;
+  }
+  .textarea-container {
+    position: relative;
+  }
+  .char-counter {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.75rem;
+    color: #6b7280;
+    user-select: none;
+  }
+</style>

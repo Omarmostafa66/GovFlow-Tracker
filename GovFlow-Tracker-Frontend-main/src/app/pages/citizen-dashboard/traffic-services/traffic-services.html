@@ -1,0 +1,88 @@
+<div class="page">
+  <nav class="breadcrumb">
+    <ol>
+      <li><a routerLink="/citizen-dashboard">Dashboard</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">Traffic Department Services</li>
+    </ol>
+  </nav>
+
+  <div class="card">
+    <div class="header">
+      <h1 class="page-title">Traffic Department Services</h1>
+      <div class="filters">
+        <div class="search">
+          <input
+            type="text"
+            placeholder="Search services..."
+            [(ngModel)]="searchQuery"
+            (input)="filterServices()"
+          />
+          <i class="fas fa-search"></i>
+        </div>
+        <select [(ngModel)]="selectedCategory" (change)="filterServices()">
+          <option value="all">All Services</option>
+          <option value="license">License Services</option>
+          <option value="violations">Violations</option>
+          <option value="vehicles">Vehicle Services</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">Loading services...</div>
+    <div *ngIf="error" class="error-state">{{ error }}</div>
+
+    <div *ngIf="!loading && !error" class="grid">
+      <div
+        *ngFor="let service of filteredServices"
+        class="service-card"
+        [ngClass]="{
+          'out-of-service': service.title === 'Pay Traffic Violation',
+          'age-restricted': isUnderage && service.category === 'license'
+        }"
+      >
+        <div *ngIf="service.title === 'Pay Traffic Violation'" class="service-overlay">
+          <div class="overlay-content">
+            <h3>Out of Service</h3>
+            <p>This service is currently under development.</p>
+          </div>
+        </div>
+
+        <div *ngIf="isUnderage && service.category === 'license'" class="service-overlay age-restriction-overlay">
+          <div class="overlay-content">
+            <h3>Age Restricted</h3>
+            <p>You are under the legal age (18 years) for this service.</p>
+          </div>
+        </div>
+
+        <div class="title">
+          <i class="fas icon" [class]="service.icon"></i>
+          <h3>{{ service.title }}</h3>
+        </div>
+        <p class="description">{{ service.description }}</p>
+        <div class="documents">
+          <p class="label">Required Documents:</p>
+          <div class="tags">
+            <span *ngFor="let doc of service.requiredDocuments" class="tag">
+              {{ doc }}
+            </span>
+          </div>
+        </div>
+        <div class="meta">
+          <span><i class="fas fa-clock"></i> {{ service.processingTime }}</span>
+          <span class="fee">{{ service.fee }}</span>
+        </div>
+        <button
+          class="apply-btn"
+          (click)="applyForService(service)"
+          [disabled]="service.title === 'Pay Traffic Violation' || (isUnderage && service.category === 'license')">
+          {{ service.title === 'Pay Traffic Violation' ? 'Unavailable' : 'Apply Now' }}
+        </button>
+      </div>
+
+      <div *ngIf="filteredServices.length === 0" class="no-results">
+        No services found matching your criteria.
+      </div>
+    </div>
+  </div>
+</div>

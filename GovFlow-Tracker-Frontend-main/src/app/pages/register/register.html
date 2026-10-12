@@ -1,0 +1,201 @@
+<div class="register-card">
+  <ng-container *ngIf="registrationState === 'form'; else pendingVerification">
+    <div class="register-header">
+      <i class="fas fa-user-plus register-icon"></i>
+      <h1 class="register-title">Register</h1>
+      <p class="register-subtitle">Create your account</p>
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="register()" class="register-form">
+
+      <div class="form-group">
+        <label for="fullName" class="form-label">Full Name</label>
+        <input type="text" id="fullName" name="fullName" [(ngModel)]="fullName" required pattern="^(\S+\s+){3,}\S+$" #fullNameInput="ngModel" class="form-input" placeholder="Enter your full name (4 words)" />
+        <div *ngIf="fullNameInput.invalid && (fullNameInput.dirty || fullNameInput.touched)" class="form-error">Full name must contain at least 4 words.</div>
+      </div>
+      <div class="form-group">
+        <label for="nationalId" class="form-label">National ID</label>
+        <input type="text" id="nationalId" name="nationalId" [(ngModel)]="nationalId" required pattern="^[23][0-9]{13}$"  maxlength="14" #nationalIdInput="ngModel" class="form-input" placeholder="Enter your 14-digit National ID" />
+        <div *ngIf="nationalIdInput.invalid && (nationalIdInput.dirty || nationalIdInput.touched)" class="form-error">Please enter a valid Egyptian National ID.</div>
+      </div>
+      <div class="form-group phone-group">
+        <label class="form-label">Phone Number</label>
+        <div class="phone-input-wrapper" #phoneWrapper>
+          <div class="dropdown-toggle" (click)="toggleDropdown()">
+            <img [src]="selectedCountry.flag" alt="{{ selectedCountry.name }}" class="selected-flag">
+            <span class="dial-code">{{ selectedCountry.dialCode }}</span>
+            <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </div>
+          <div class="dropdown-menu" *ngIf="isDropdownOpen">
+            <div class="dropdown-item" *ngFor="let c of countries" (click)="selectCountry(c)">
+              <img [src]="c.flag" alt="{{ c.name }}" class="item-flag">
+              <span class="item-name">{{ c.name }}</span>
+              <span class="item-dial-code">{{ c.dialCode }}</span>
+            </div>
+          </div>
+          <input type="tel" class="form-input phone-input" [(ngModel)]="phoneNumber" name="phoneNumber" [maxLength]="selectedCountry.maxLength" [placeholder]="selectedCountry.code === 'EG' ? 'e.g. 1012345678' : 'e.g. 512345678'" required (ngModelChange)="validatePhone()">
+        </div>
+        <div *ngIf="!isPhoneValid && (registerForm.controls['phoneNumber']?.dirty || registerForm.controls['phoneNumber']?.touched)" class="form-error">{{ phoneErrorMessage }}</div>
+      </div>
+      <div class="form-group">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" id="address" name="address" [(ngModel)]="address" required #addressInput="ngModel" class="form-input" placeholder="Enter your address" />
+        <div *ngIf="addressInput.invalid && (addressInput.dirty || addressInput.touched)" class="form-error">Address is required.</div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+          #emailInput="ngModel"
+          class="form-input"
+          placeholder="Enter your email"
+          pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|hotmail\.com|yahoo\.com)$" />
+        <div *ngIf="emailInput.errors?.['required'] && (emailInput.dirty || emailInput.touched)" class="form-error">
+          Email is required.
+        </div>
+        <div *ngIf="emailInput.errors?.['pattern'] && (emailInput.dirty || emailInput.touched)" class="form-error">
+          Please enter a valid Gmail, Outlook, Hotmail, or Yahoo email.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="password-wrapper">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            #passwordInput="ngModel"
+            (input)="validatePassword()"
+            class="form-input"
+            placeholder="Enter your password"
+            (copy)="false" (paste)="false" />
+          <i class="password-toggle-icon fas"
+             [class.fa-eye-slash]="passwordVisible"
+             [class.fa-eye]="!passwordVisible"
+             (click)="togglePasswordVisibility()"></i>
+        </div>
+        <div *ngIf="passwordInput.dirty || passwordInput.touched" class="password-steps">
+          <div *ngFor="let validation of passwordValidations | keyvalue" class="step">
+            <i *ngIf="validation.value.valid" class="fas fa-check-circle" style="color: green; margin-right: 5px;"></i>
+            <span [ngClass]="{
+              'valid-step': validation.value.valid,
+              'invalid-step': !validation.value.valid
+            }">
+              {{ validation.value.text }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="password-wrapper">
+          <input
+            [type]="confirmPasswordVisible ? 'text' : 'password'"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            required
+            #confirmPasswordInput="ngModel"
+            class="form-input"
+            placeholder="Confirm your password"
+            (copy)="false" (paste)="false" />
+          <i class="password-toggle-icon fas"
+             [class.fa-eye-slash]="confirmPasswordVisible"
+             [class.fa-eye]="!confirmPasswordVisible"
+             (click)="toggleConfirmPasswordVisibility()"></i>
+        </div>
+        <div *ngIf="confirmPasswordInput.touched && password !== confirmPassword" class="form-error">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div class="role-toggle-group">
+          <input type="radio" id="roleCitizen" name="role" value="citizen" [(ngModel)]="role" (change)="toggleRoleCode()" class="role-toggle-input">
+          <label for="roleCitizen" class="role-toggle-label">
+            <i class="fas fa-user"></i>
+            <span>Citizen</span>
+          </label>
+
+          <input type="radio" id="roleEmployee" name="role" value="employee" [(ngModel)]="role" (change)="toggleRoleCode()" class="role-toggle-input">
+          <label for="roleEmployee" class="role-toggle-label">
+            <i class="fas fa-briefcase"></i>
+            <span>Employee</span>
+          </label>
+
+          <input type="radio" id="roleManager" name="role" value="manager" [(ngModel)]="role" (change)="toggleRoleCode()" class="role-toggle-input">
+          <label for="roleManager" class="role-toggle-label">
+            <i class="fas fa-user-tie"></i>
+            <span>Manager</span>
+          </label>
+        </div>
+      </div>
+      <div id="roleCodeField" [class.hidden]="!showRoleCode" class="form-group">
+        <label for="jobRoleCode" class="form-label">Job Role Code</label>
+        <input type="text" id="jobRoleCode" [(ngModel)]="jobRoleCode" name="jobRoleCode" class="form-input" placeholder="Enter your job role code" [required]="showRoleCode">
+      </div>
+
+      <button type="submit" [disabled]="!registerForm.form.valid || !isPhoneValid || !isPasswordStrong || isLoading" class="register-button">Register</button>
+
+    </form>
+
+    <div class="register-links">
+      <a routerLink="/login" class="link-action">Already have an account? Login</a>
+    </div>
+  </ng-container>
+
+  <ng-template #pendingVerification>
+    <div class="pending-verification-container">
+      <i class="fas fa-envelope-open-text pending-icon"></i>
+      <h1 class="pending-title">Check Your Email</h1>
+      <p class="pending-subtitle">
+        A verification link has been sent to <strong>{{ email }}</strong>. Please click the link to complete your registration.
+      </p>
+      <p class="pending-info">Didn't receive the email? Check your spam folder or resend the link.</p>
+
+      <button (click)="resendLink()" [disabled]="resendDisabled" class="register-button">
+        Resend Verification Link
+      </button>
+      <div *ngIf="resendMessage" class="resend-status-message" [class.error]="isResendError">
+        {{ resendMessage }}
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="showConfirmationPopup" class="popup-overlay">
+  <div class="popup-card" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <i class="fas fa-question-circle popup-icon info"></i>
+      <h2 class="popup-title">Account Pending Verification</h2>
+    </div>
+    <p class="popup-message">This email is already registered but not yet verified. What would you like to do?</p>
+
+    <div class="popup-actions">
+      <button (click)="handleConfirmation(false)" class="popup-button secondary">Resend Link</button>
+      <button (click)="handleConfirmation(true)" class="popup-button primary">Update Password & Resend</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="showPopup" class="popup-overlay" (click)="closePopup()">
+  <div class="popup-card" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <i [class]="popupIcon + ' popup-icon ' + popupType"></i>
+      <h2 class="popup-title">{{ popupTitle }}</h2>
+    </div>
+    <p class="popup-message">{{ popupMessage }}</p>
+    <button (click)="closePopup()" class="popup-close-btn">Close</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner" style="border-top-color: #FF5722;"></div>
+</div>

@@ -1,0 +1,145 @@
+<!--<div class="performance-card">-->
+<!--  <div class="card-header">-->
+<!--    <h3 class="card-title">Employee Performance</h3>-->
+<!--    <div class="filters">-->
+<!--      <select class="filter-select" [(ngModel)]="selectedMonth" (change)="filterData()">-->
+<!--        <option *ngFor="let month of months" [value]="month">{{ month }}</option>-->
+<!--      </select>-->
+<!--      <select class="filter-select" [(ngModel)]="selectedDepartment" (change)="filterData()">-->
+<!--        <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>-->
+<!--      </select>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div *ngIf="topPerformer" class="top-performer-highlight">-->
+<!--    <div class="trophy-icon">🏆</div>-->
+<!--    <div class="performer-details">-->
+<!--      <span class="performer-title">Top Performer of the Month</span>-->
+<!--      <span class="performer-name">{{ topPerformer.name }}</span>-->
+<!--    </div>-->
+<!--    <div class="performer-stats">-->
+<!--      <span class="stat-value">{{ topPerformer.completed }}</span>-->
+<!--      <span class="stat-label">Tasks Completed</span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="table-wrapper" *ngIf="allEmployees.length > 0; else noDataTemplate">-->
+<!--    <table class="performance-table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Employee</th>-->
+<!--        <th>Department</th>-->
+<!--        <th>Processed</th>-->
+<!--        <th>Avg. Time</th>-->
+<!--        <th>Approval Rate</th>-->
+<!--        <th>Performance</th>-->
+<!--        <th>Actions</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let employee of filteredEmployees; let i = index" class="table-row">-->
+<!--        <td>{{employee.name}}</td>-->
+<!--        <td>{{employee.department}}</td>-->
+<!--        <td>{{employee.processed}}</td>-->
+<!--        <td>{{employee.avgTime}}</td>-->
+<!--        <td>{{employee.approvalRate}}</td>-->
+<!--        <td>-->
+<!--            <span class="performance-badge" [ngClass]="getPerformanceClass(employee.performance)">-->
+<!--              <i class="fas fa-circle badge-icon"></i> {{employee.performance}}-->
+<!--            </span>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <a href="#employee-details-modal" class="action-button" (click)="onViewDetails(employee)">-->
+<!--            <i class="fas fa-eye"></i> View-->
+<!--          </a>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--      <tr *ngIf="filteredEmployees.length === 0">-->
+<!--        <td colspan="7" class="empty-state">No employee data available for the selected filters.</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+
+<!--  <ng-template #noDataTemplate>-->
+<!--    <div class="empty-state-container">-->
+<!--      <p>No employee performance data is currently available.</p>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+
+<!--</div>-->
+
+
+<div class="performance-card">
+  <div class="card-header">
+    <h3 class="card-title">Employee Performance</h3>
+    <div class="filters">
+      <select class="filter-select" [(ngModel)]="selectedMonth" (change)="filterData()">
+        <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+      </select>
+
+      <ng-container *ngIf="managerScope === 'SUPER_MANAGER' || managerScope === 'DEPARTMENT'">
+        <select class="filter-select" [(ngModel)]="selectedCard" (change)="filterData()">
+          <option *ngFor="let card of cards" [value]="card">{{ card }}</option>
+        </select>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="topPerformer" class="top-performer-highlight">
+    <div class="trophy-icon">🏆</div>
+    <div class="performer-details">
+      <span class="performer-title">Top Performer of the Month</span>
+      <span class="performer-name">{{ topPerformer.name }}</span>
+    </div>
+    <div class="performer-stats">
+      <span class="stat-value">{{ topPerformer.completed }}</span>
+      <span class="stat-label">Tasks Completed</span>
+    </div>
+  </div>
+  <div class="table-wrapper" *ngIf="allEmployees.length > 0; else noDataTemplate">
+    <table class="performance-table">
+      <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Department</th>
+        <th>Processed</th>
+        <th>Avg. Time</th>
+        <th>Approval Rate</th>
+        <th>Performance</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of filteredEmployees; let i = index" class="table-row">
+        <td>{{employee.name}}</td>
+        <td>{{employee.department}}</td>
+        <td>{{employee.processed}}</td>
+        <td>{{employee.avgTime}}</td>
+        <td>{{employee.approvalRate}}</td>
+        <td>
+            <span class="performance-badge" [ngClass]="getPerformanceClass(employee.performance)">
+              <i class="fas fa-circle badge-icon"></i> {{employee.performance}}
+            </span>
+        </td>
+        <td>
+          <button type="button" class="action-button" (click)="onViewDetails(employee)">
+            <i class="fas fa-eye"></i> View
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="filteredEmployees.length === 0">
+        <td colspan="7" class="empty-state">No employee data available for the selected filters.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noDataTemplate>
+    <div class="empty-state-container">
+      <p>No employee performance data is currently available.</p>
+    </div>
+  </ng-template>
+
+</div>
+
+

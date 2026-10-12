@@ -1,0 +1,561 @@
+/* =================================
+    1. Global Page Styles
+   ================================= */
+.page-container {
+  padding: 2rem;
+  background-color: #f8f9fa; /* Lighter background */
+  min-height: 100vh;
+}
+.breadcrumb ol {
+  list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: #6c757d;
+}
+.breadcrumb a { color: #495057; text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: #FF5722; }
+.page-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;
+}
+.page-header h1 { font-size: 2.25rem; font-weight: 700; color: #343a40; }
+.page-subtitle { color: #6c757d; margin: 0 0 2rem 0; font-size: 1rem; }
+
+/* =================================
+    2. Alert (Pop-up) Styles
+   ================================= */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  min-width: 320px;
+  background-color: #fff;
+  border-left: 5px solid;
+  animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.alert-success {
+  border-color: #28a745;
+  color: #155724;
+}
+.alert-danger {
+  border-color: #dc3545;
+  color: #721c24;
+}
+.alert i {
+  font-size: 1.5rem;
+}
+.alert-success i { color: #28a745; }
+.alert-danger i { color: #dc3545; }
+.alert span {
+  flex-grow: 1;
+  font-weight: 500;
+}
+.close-alert {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.close-alert:hover {
+  opacity: 1;
+}
+
+/* =================================
+    3. Table Styles
+   ================================= */
+.table-card { background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05); padding: 2rem; }
+.employees-table { width: 100%; border-collapse: collapse; }
+.employees-table th {
+  padding: 1rem; text-align: left; font-size: 0.8rem; font-weight: 600; color: #6c757d; text-transform: uppercase; border-bottom: 2px solid #dee2e6;
+}
+.employees-table td { padding: 1.25rem 1rem; font-size: 0.95rem; color: #212529; border-bottom: 1px solid #f1f3f5; }
+.employees-table tbody tr:hover { background-color: #f8f9fa; }
+.employee-cell { display: flex; align-items: center; gap: 1rem; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: #FF5722; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+.emp-name { font-weight: 600; margin: 0; }
+.emp-email { font-size: 0.85rem; color: #6c757d; margin: 0; }
+.status-badge { padding: 0.3rem 0.8rem; border-radius: 99px; font-size: 0.8rem; font-weight: 500; }
+.status-active { background-color: #d4edda; color: #155724; }
+
+/* =================================
+    4. Button Styles
+   ================================= */
+/* General Buttons */
+.add-btn, .btn-primary, .btn-secondary, .btn-danger {
+  border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.add-btn, .btn-primary { background-color: #FF5722; color: #FFFFFF; }
+.add-btn:hover, .btn-primary:hover { background-color: #E64A19; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3); }
+.btn-secondary { background-color: #f1f3f5; color: #495057; }
+.btn-secondary:hover { background-color: #e9ecef; }
+.btn-danger { background-color: #dc3545; color: #FFFFFF; }
+.btn-danger:hover { background-color: #c82333; }
+.btn-primary:disabled { background-color: #ffc9b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Table Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+.action-btn {
+  background: none;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.view-btn {
+  color: #495057;
+}
+.view-btn:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+.delete-btn {
+  color: #dc3545;
+  border-color: #f8d7da;
+}
+.delete-btn:hover {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+/* =================================
+    5. Modal Styles (Common)
+   ================================= */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+.modal-content { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); width: 90%; max-width: 650px; border-top: 5px solid #FF5722; animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid #e9ecef; }
+.modal-title { font-size: 1.7rem; font-weight: 600; color: #212529; margin: 0; display: flex; align-items: center; gap: 0.75rem; justify-content: center;
+  text-align: center; }
+.modal-icon { color: #FF5722; }
+.close-modal-btn { background: none; border: none; font-size: 2rem; color: #adb5bd; cursor: pointer; transition: color 0.2s; }
+.close-modal-btn:hover { color: #495057; }
+.modal-subtitle { margin: 0; font-size: 1rem; color: #6c757d; padding: 1rem 2rem; background-color: #f8f9fa; }
+.modal-body { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; padding: 1.5rem 2rem; background-color: #f8f9fa; border-top: 1px solid #e9ecef; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; }
+
+/* =================================
+    6. Form Styles (Inside Modals)
+   ================================= */
+/* ✅ START: تم إضافة هذا الجزء لإصلاح تنسيق الحقول */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.form-group { display: flex; flex-direction: column; }
+.form-group label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 600; color: #495057; margin-bottom: 0.5rem; }
+.form-group label i { color: #adb5bd; }
+.form-group input, .form-group select { width: 100%; padding: 0.8rem 1rem; border: 1px solid #ced4da; border-radius: 8px; transition: border-color 0.2s, box-shadow 0.2s; font-size: 1rem; }
+.form-group input:focus, .form-group select:focus { border-color: #FF5722; box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15); outline: none; }
+.form-group.full-width { grid-column: 1 / -1; }
+.readonly-input { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+.validation-error { color: #dc3545; font-size: 0.8rem; font-weight: 500; margin-top: 0.35rem; display: block; }
+
+/* تعديل لضبط حجم حقول الإدخال بشكل ثابت */
+.form-group input,
+.form-group select {
+  width: 100%;
+  min-width: 280px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* ✅ END: نهاية التعديل */
+
+/* =================================
+    7. Specific Modal Variations
+   ================================= */
+
+/* A. Employee Details Success Card */
+.details-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+  overflow: hidden;
+}
+.details-card-header {
+  background-color: #28a745;
+  color: white;
+  padding: 2rem;
+}
+.header-icon-container {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid white;
+}
+.details-card-header .fa-check-circle {
+  font-size: 2.5rem;
+  color: white;
+}
+.details-card-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+.details-card-header p {
+  margin: 0.5rem 0 0;
+  opacity: 0.9;
+}
+.details-card-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.detail-item {
+  text-align: left;
+}
+.detail-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+.detail-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+.detail-value span {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #343a40;
+  letter-spacing: 0.5px;
+}
+.copy-btn {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+.copy-btn:hover {
+  color: #FF5722;
+}
+.details-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 2rem 2rem;
+}
+.download-btn, .close-details-btn {
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.download-btn {
+  background-color: #FF5722;
+  color: white;
+}
+.download-btn:hover {
+  background-color: #E64A19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 87, 34, 0.3);
+}
+.close-details-btn {
+  background-color: #f1f3f5;
+  color: #495057;
+}
+.close-details-btn:hover {
+  background-color: #e9ecef;
+}
+
+/* B. View Employee Card Modal */
+.view-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 450px;
+  animation: fadeIn 0.4s ease-out;
+  overflow: hidden;
+  border-top: 5px solid #FF5722;
+}
+.view-card-header {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+.avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #FF5722;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 0 auto 1rem auto;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.view-card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #343a40;
+}
+.view-card-header p {
+  margin: 0.25rem 0 0;
+  color: #6c757d;
+  font-size: 1rem;
+}
+.view-card-body {
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.view-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f1f3f5;
+}
+.view-detail-item:last-child {
+  border-bottom: none;
+}
+.view-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+.view-value {
+  font-size: 1rem;
+  color: #212529;
+  font-weight: 600;
+  text-align: right;
+}
+.view-card-footer {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+/* C. Delete Confirmation Modal */
+.confirm-modal {
+  padding: 2rem;
+  text-align: center;
+}
+.confirm-icon {
+  font-size: 3rem;
+  color: #fd7e14;
+  margin-bottom: 1rem;
+}
+.confirm-text {
+  color: #6c757d;
+  margin: 1rem 0 2rem 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.confirm-modal .modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 0.5rem;
+  text-align: center;   /* توسيط العنوان */
+}
+.confirm-modal .modal-actions {
+  display: flex;
+  justify-content: center;   /* الأزرار في النص */
+  gap: 1rem;
+  padding: 1rem 0 0 0;
+  background: none;
+  border: none;
+}
+.confirm-modal .btn-secondary,
+.confirm-modal .btn-danger {
+  min-width: 120px;         /* نفس العرض */
+  justify-content: center;
+  transition: all 0.3s ease; /* انيميشن ناعم */
+}
+.confirm-modal .btn-secondary:hover {
+  background-color: #5c636a;
+  color: #fff;
+  transform: scale(1.05);
+}
+.confirm-modal .btn-danger:hover {
+  background-color: #bb2d3b;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* <<< ✍ START: تم إضافة هذه التنسيقات في نهاية الملف */
+/* Styles for new Statuses */
+.status-registered {
+  background-color: #d1fae5; /* Green */
+  color: #065f46;
+}
+.status-pending {
+  background-color: #fef3c7; /* Yellow */
+  color: #92400e;
+}
+.status-deleted {
+  background-color: #fee2e2; /* Red */
+  color: #991b1b;
+}
+
+/* Restore button style */
+.action-btn.restore-btn {
+  color: #059669; /* Green */
+  border-color: #a7f3d0;
+}
+.action-btn.restore-btn:hover {
+  background-color: #d1fae5;
+  border-color: #6ee7b7;
+}
+
+/* Style for soft-deleted rows */
+.deleted-row {
+  opacity: 0.6;
+  background-color: #f9fafb;
+}
+
+.deleted-row td {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+.text-center {
+  text-align: center;
+}
+.p-4 {
+  padding: 1.5rem;
+}
+
+
+/* Styles for new Statuses */
+.status-registered {
+  background-color: #d1fae5; /* Green */
+  color: #065f46;
+}
+.status-pending {
+  background-color: #fef3c7; /* Yellow */
+  color: #92400e;
+}
+
+/* ================================================
+   ✅ The Final Responsive Fix
+   ================================================ */
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1rem; /* تقليل الهوامش الخارجية */
+  }
+
+  .page-header {
+    flex-direction: column; /* جعل العنوان والزر تحت بعض */
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  /* أهم إصلاح: جعل الجدول يقبل التمرير الأفقي */
+  .table-card {
+    overflow-x: auto;
+  }
+
+  /* جعل حقول فورم الإضافة تحت بعض */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 1.5rem; /* تقليل هوامش المودال */
+  }
+  .modal-body {
+    padding: 1.5rem;
+  }
+}
+.employee-cell { display: flex; align-items: center; gap: 1rem; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: #FF5722; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+
+/* ================================================ */
+/* ✅ START: التعديل المطلوب: تنسيق الصورة           */
+/* ================================================ */
+.avatar-img {
+  object-fit: cover; /* يضمن أن الصورة تملأ الدائرة بدون تشويه */
+  width: 100%;       /* يجعل الصورة تأخذ عرض الحاوية (الدائرة) */
+  height: 100%;      /* يجعل الصورة تأخذ ارتفاع الحاوية (الدائرة) */
+}
+/* ================================================ */
+/* ✅ END: نهاية التعديل                             */
+/* ================================================ */
+
+.emp-name { font-weight: 600; margin: 0; }
+.emp-email { font-size: 0.85rem; color: #6c757d; margin: 0; }
+
+/* ... existing styles ... */
+
+.view-card-header {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+.avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #FF5722;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 0 auto 1rem auto;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}

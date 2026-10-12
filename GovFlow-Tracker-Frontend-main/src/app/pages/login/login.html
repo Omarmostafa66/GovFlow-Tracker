@@ -1,0 +1,122 @@
+<div class="login-card">
+  <div class="login-header">
+    <i class="fas fa-building login-icon"></i>
+    <h1 class="login-title">GovFlow Tracker</h1>
+    <p class="login-subtitle">Digital Government Services Portal</p>
+  </div>
+
+  <form #loginForm="ngForm" (ngSubmit)="login()" class="login-form" autocomplete="off">
+    <div class="role-toggles">
+      <button type="button"
+              [class.active]="role === 'citizen'"
+              (click)="setRole('citizen')">
+        Citizen
+      </button>
+      <button type="button"
+              [class.active]="role === 'employee' || role === 'manager'"
+              (click)="setRole('employee')">
+        Employee / Manager
+      </button>
+    </div>
+    <div *ngIf="role === 'citizen'" class="form-group">
+      <label for="nationalId" class="form-label">National ID</label>
+      <input
+        type="text"
+        id="nationalId"
+        [(ngModel)]="nationalId"
+        name="nationalId"
+        placeholder="Enter your 14-digit National ID"
+        [required]="role === 'citizen'"
+        pattern="^[0-9]{14}$"
+        maxlength="14"
+        #nationalIdInput="ngModel"
+        class="form-input"
+        autocomplete="off">
+      <div *ngIf="nationalIdInput.invalid && (nationalIdInput.dirty || nationalIdInput.touched)" class="form-error">
+        Please enter a valid 14-digit National ID.
+      </div>
+    </div>
+
+    <div *ngIf="role !== 'citizen'" class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Enter your email address"
+        [required]="role !== 'citizen'"
+        #emailInput="ngModel"
+        class="form-input"
+        autocomplete="off"
+
+        pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|hotmail\.com|yahoo\.com)$"
+      >
+
+      <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="form-error">
+        <div *ngIf="emailInput.errors?.['required']">
+          Email is required.
+        </div>
+        <div *ngIf="emailInput.errors?.['pattern']">
+          Please enter a valid Gmail, Outlook, Hotmail, or Yahoo email.
+        </div>
+      </div>
+    </div>
+    <select *ngIf="role === 'employee' || role === 'manager'" name="role" [(ngModel)]="role" class="form-input">
+      <option value="employee">Employee</option>
+      <option value="manager">Manager</option>
+    </select>
+
+    <div class="form-group">
+      <label for="password" class="form-label">Password</label>
+      <div class="password-wrapper">
+        <input
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          class="form-input"
+          (copy)="false" (paste)="false"
+          autocomplete="new-password">
+        <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+          <i class="fas" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-options">
+      <div class="form-checkbox">
+        <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" name="rememberMe" class="checkbox-input">
+        <label for="rememberMe" class="checkbox-label">Remember me</label>
+      </div>
+      <a routerLink="/forgot-password" class="link-action">Forgot Password?</a>
+    </div>
+    <button type="submit" [disabled]="!loginForm.form.valid" class="login-button">
+      <i class="fas fa-sign-in-alt button-icon"></i>Login
+    </button>
+  </form>
+
+  <div class="login-links">
+    <a routerLink="/register" class="link-action">Don't have an account? Register</a>
+  </div>
+
+  <div class="login-warning">
+    <p class="warning-text">
+      <i class="fas fa-exclamation-triangle warning-icon"></i>
+      This system is a simulation and not connected to real government entities
+    </p>
+  </div>
+</div>
+
+<div *ngIf="showPopup" class="popup-overlay" (click)="closePopup()">
+  <div class="popup-card" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <i [class]="popupIcon + ' popup-icon ' + popupType"></i>
+      <h2 class="popup-title">{{ popupTitle }}</h2>
+    </div>
+    <p class="popup-message">{{ popupMessage }}</p>
+    <button (click)="closePopup()" class="popup-close-btn">Close</button>
+  </div>
+</div>

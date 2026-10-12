@@ -1,0 +1,72 @@
+/*!* src/styles.css *!*/
+
+/*html, body {*/
+/*  height: 100%;*/
+/*  margin: 0;*/
+/*  padding: 0; !* تمت الإضافة لضمان إزالة أي هوامش داخلية افتراضية *!*/
+/*}*/
+
+/*html {*/
+/*  scroll-behavior: smooth;*/
+/*}*/
+
+/*body {*/
+/*  font-family: Roboto, "Helvetica Neue", sans-serif;*/
+/*  !* ✅ START: تمت إضافة هذه الأسطر لتطبيق حل الـ Sticky Footer *!*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  !* ✅ END: نهاية الإضافة *!*/
+/*}*/
+
+
+/* In src/styles.css */
+
+/* ================================================
+   Global Variables & Design System
+  ================================================ */
+:root {
+  /* 1. Colors */
+  --primary-color: #2D4059;      /* اللون الأساسي الغامق */
+  --secondary-color: #3A4A7B;    /* درجة أغمق شوية من الأساسي */
+  --accent-color: #FF5722;       /* اللون البرتقالي المميز */
+  --accent-color-dark: #E64A19;   /* درجة أغمق من البرتقالي للـ hover */
+  --text-color-light: #FFFFFF;   /* لون النصوص الفاتحة */
+  --text-color-dark: #2D4059;    /* لون النصوص الغامقة */
+  --text-color-muted: #6B7B9B;   /* لون النصوص الفرعية (الرمادي) */
+  --body-background: #F5F7FA;   /* لون خلفية الصفحة */
+  --card-background: #FFFFFF;    /* لون خلفية الكروت والأقسام */
+  --border-color: #e5e7eb;      /* لون الحواف (borders) */
+
+  /* 2. Typography */
+  --font-family-main: 'Cairo', sans-serif;
+
+  /* 3. Layout & Spacing */
+  --border-radius-medium: 8px;   /* للحواف الصغيرة زي الأزرار */
+  --border-radius-large: 16px;   /* للحواف الكبيرة زي الكروت والأقسام */
+  --container-max-width: 1366px; /* أقصى عرض للمحتوى */
+  --navbar-height: 70px;         /* ارتفاع الـ Navbar */
+}
+
+/* ================================================
+   Global Styles & Resets
+  ================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-main);
+  background-color: var(--body-background);
+  color: var(--text-color-dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

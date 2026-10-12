@@ -1,0 +1,82 @@
+<nav class="navbar">
+  <div class="navbar-container">
+
+    <div class="logo">
+
+      <a href="https://ntgclarity.com/" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/NTG-Logo-2.png" alt="NTG Logo" class="ntg-logo">
+      </a>
+
+      <span (click)="navigateHome()">GovFlow Tracker</span>
+    </div>
+
+
+    <div class="menu-right">
+      <ng-container *ngIf="!currentUser()">
+        <div class="auth-buttons">
+          <a routerLink="/help" class="menu-btn">
+            <i class="fas fa-question-circle"></i>
+            <span>Help</span>
+          </a>
+          <a routerLink="/login" class="login-btn">Login</a>
+          <a routerLink="/register" class="register-btn">Register</a>
+        </div>
+      </ng-container>
+
+      <div *ngIf="currentUser() as user" class="user-menu">
+
+        <div class="notifications-wrapper">
+          <button class="notif-btn" (click)="showNotifications.set(!showNotifications())">
+            <i class="fas fa-bell"></i>
+            <span *ngIf="unreadCount() > 0" class="notif-badge">
+              {{ unreadCount() }}
+            </span>
+          </button>
+
+          <div class="notif-menu" *ngIf="showNotifications()">
+            <div class="notif-header">Notifications</div>
+            <div class="notif-list">
+              <div *ngFor="let notif of notifications()" class="notif-item">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                  <p class="notif-title">{{ notif.title }}</p>
+                  <p class="notif-message">{{ notif.message }}</p>
+                </div>
+              </div>
+              <div *ngIf="notifications().length === 0" class="notif-item">
+                <p>No new notifications.</p>
+              </div>
+            </div>
+            <div class="notif-footer">
+              <a routerLink="/notifications" (click)="showNotifications.set(false)">View All</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dropdown-wrapper">
+          <button class="avatar-btn" (click)="showUserMenu.set(!showUserMenu())">
+
+            <img *ngIf="user.avatar"
+                 [src]="'http://localhost:8080/uploads/' + user.avatar"
+                 alt="User Avatar"
+                 class="avatar-circle avatar-img">
+
+            <span *ngIf="!user.avatar" class="avatar-circle">{{ userInitial }}</span>
+
+            <span class="username">{{ user.fullName }}</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+
+          <div class="dropdown-menu" *ngIf="showUserMenu()">
+            <a (click)="navigateToDashboard()">My Dashboard</a>
+            <a routerLink="/profile" (click)="showUserMenu.set(false)">My Profile</a>
+            <a routerLink="/help" (click)="showUserMenu.set(false)">Help</a>
+            <a (click)="logout()">Logout</a>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>

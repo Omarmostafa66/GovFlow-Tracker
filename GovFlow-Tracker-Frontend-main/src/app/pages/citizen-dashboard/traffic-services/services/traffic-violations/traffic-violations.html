@@ -1,0 +1,222 @@
+<!--<div class="page">-->
+<!--  <nav class="breadcrumb-nav">-->
+<!--    <ol class="breadcrumb-list">-->
+<!--      <li><a routerLink="/citizen-dashboard" class="breadcrumb-link">Dashboard</a></li>-->
+<!--      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>-->
+<!--      <li><a routerLink="/traffic-services" class="breadcrumb-link">Traffic Services</a></li>-->
+<!--      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>-->
+<!--      <li class="breadcrumb-item active">Traffic Violations</li>-->
+<!--    </ol>-->
+<!--  </nav>-->
+
+<!--  <div *ngIf="!showViolationsList; else resultsView">-->
+<!--    <div class="form-container">-->
+<!--      <div class="form-header">-->
+<!--        <h1 class="form-title">Traffic Violations Inquiry</h1>-->
+<!--        <p class="form-description">Inquire about and pay your outstanding traffic violations.</p>-->
+<!--        <div class="documents-container">-->
+<!--          <h3 class="documents-title">Required Information:</h3>-->
+<!--          <ul class="documents-list">-->
+<!--            <li class="document-item">• License Number</li>-->
+<!--            <li class="document-item">• Vehicle Plate Number</li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <form [formGroup]="violationForm" (ngSubmit)="onSubmit()" class="service-form">-->
+<!--        <div class="form-row">-->
+<!--          <div class="form-group">-->
+<!--            <label class="form-label">Full Name</label>-->
+<!--            <input type="text" [value]="userInfo?.fullName" readonly class="form-input readonly-input">-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label class="form-label">National ID</label>-->
+<!--            <input type="text" [value]="userInfo?.nationalId" readonly class="form-input readonly-input">-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="form-row">-->
+<!--          <div class="form-group">-->
+<!--            <label class="form-label">License Number *</label>-->
+<!--            <input type="text" formControlName="licenseNumber" class="form-input" [class.input-error]="violationForm.get('licenseNumber')?.invalid && violationForm.get('licenseNumber')?.touched">-->
+<!--            <div *ngIf="violationForm.get('licenseNumber')?.invalid && violationForm.get('licenseNumber')?.touched" class="error-message">-->
+<!--              License number is required-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label class="form-label">Vehicle Plate Number *</label>-->
+<!--            <input type="text" formControlName="vehiclePlate" class="form-input" [class.input-error]="violationForm.get('vehiclePlate')?.invalid && violationForm.get('vehiclePlate')?.touched">-->
+<!--            <div *ngIf="violationForm.get('vehiclePlate')?.invalid && violationForm.get('vehiclePlate')?.touched" class="error-message">-->
+<!--              Vehicle plate number is required-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+<!--        <div class="processing-info">-->
+<!--          <p class="processing-text"><i class="fas fa-info-circle"></i> Enter your details to retrieve your violation history.</p>-->
+<!--        </div>-->
+
+<!--        <div class="form-actions">-->
+<!--          <button type="submit" [disabled]="isSubmitting || violationForm.invalid" class="submit-button">-->
+<!--            <i class="fas fa-search"></i>-->
+<!--            {{ isSubmitting ? 'Searching...' : 'Search for Violations' }}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <ng-template #resultsView>-->
+<!--    <div class="results-container">-->
+<!--      <div class="results-header">-->
+<!--        <h1 class="results-title">Violations Found</h1>-->
+<!--        <p class="results-description">-->
+<!--          Based on License Number: <strong>{{ violationForm.get('licenseNumber')?.value }}</strong>-->
+<!--        </p>-->
+<!--      </div>-->
+
+<!--      <div *ngIf="violations.length > 0; else noViolations">-->
+<!--        <div class="violations-table-container">-->
+<!--          <table class="violations-table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th class="column-select"></th>-->
+<!--              <th>Violation Type</th>-->
+<!--              <th>Date</th>-->
+<!--              <th>Amount</th>-->
+<!--              <th>Status</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr *ngFor="let violation of violations" [class.paid]="violation.status === 'Paid'">-->
+<!--              <td class="column-select">-->
+<!--                <input-->
+<!--                  *ngIf="violation.status === 'Unpaid'"-->
+<!--                  type="checkbox"-->
+<!--                  class="violation-checkbox"-->
+<!--                  (change)="onViolationSelectionChange($event, violation.id)">-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <div class="violation-type">{{ violation.type }}</div>-->
+<!--                <div class="violation-location">{{ violation.location }}</div>-->
+<!--              </td>-->
+<!--              <td>{{ violation.date | date: 'longDate' }}</td>-->
+<!--              <td>{{ violation.amount | currency:'EGP ' }}</td>-->
+<!--              <td>-->
+<!--                  <span class="status-badge" [ngClass]="violation.status === 'Paid' ? 'status-paid' : 'status-unpaid'">-->
+<!--                    {{ violation.status }}-->
+<!--                  </span>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+
+<!--        <div class="violations-summary">-->
+<!--          <div class="total-amount">-->
+<!--            <span>Selected for Payment:</span>-->
+<!--            <span class="amount">{{ totalAmount | currency:'EGP ' }}</span>-->
+<!--          </div>-->
+<!--          <div class="summary-actions">-->
+<!--            <button type="button" (click)="searchAgain()" class="cancel-button">-->
+<!--              <i class="fas fa-arrow-left"></i> Search Again-->
+<!--            </button>-->
+<!--            <button type="button" (click)="payViolations()" class="submit-button" [disabled]="totalAmount === 0">-->
+<!--              <i class="fas fa-credit-card"></i> Pay Now-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <ng-template #noViolations>-->
+<!--        <div class="no-results">-->
+<!--          <i class="fas fa-check-circle no-results-icon"></i>-->
+<!--          <h2 class="no-results-title">No Outstanding Violations Found</h2>-->
+<!--          <p class="no-results-text">-->
+<!--            There are no unpaid violations associated with the provided information.-->
+<!--          </p>-->
+<!--          <button type="button" (click)="searchAgain()" class="submit-button">-->
+<!--            <i class="fas fa-search"></i> Search Again-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </ng-template>-->
+
+<!--    </div>-->
+<!--  </ng-template>-->
+<!--  <div class="modal-backdrop" *ngIf="isAlertVisible" (click)="hideAlert()">-->
+<!--    <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="alertType">-->
+<!--      <div class="icon-wrapper">-->
+<!--        <i *ngIf="alertType === 'success'" class="fas fa-check-circle"></i>-->
+<!--        <i *ngIf="alertType === 'error'" class="fas fa-times-circle"></i>-->
+<!--      </div>-->
+<!--      <h2 class="modal-title">{{ alertTitle }}</h2>-->
+<!--      <p class="modal-message">{{ alertMessage }}</p>-->
+<!--      <button class="modal-button" (click)="hideAlert()">Close</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<div class="service-page-container">
+  <aside class="sidebar">
+    <a routerLink="/citizen-dashboard" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+    <div class="service-header">
+      <i class="fas fa-car service-icon"></i>
+      <h2>Traffic Services</h2>
+    </div>
+    <nav class="service-nav">
+      <a routerLink="/traffic-violations" class="nav-item active">
+        <i class="fas fa-exclamation-triangle nav-icon"></i> Pay Traffic Violation
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="content-header">
+      <h1>Pay Traffic Violation</h1>
+      <p>View and pay your outstanding traffic violations quickly and easily.</p>
+    </header>
+
+    <section class="service-cards-grid">
+      <div class="service-card out-of-service">
+        <div class="service-content">
+          <div class="service-card-header">
+            <i class="fas fa-dollar-sign service-card-icon"></i>
+            <h3>Pay Traffic Violation</h3>
+          </div>
+          <p class="service-description">View and pay your outstanding traffic violations.</p>
+
+          <div class="card-section">
+            <label class="section-label">Required Documents:</label>
+            <div class="tags">
+              <span>Vehicle Plate Number</span>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="details">
+              <i class="fas fa-clock"></i>
+              <span>Instant</span>
+            </div>
+            <div class="details-fee">
+              <span>Varies</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-apply" disabled>Apply Now</button>
+
+        <div class="out-of-service-overlay">
+          <div class="overlay-content">
+            <h3>Out of Service</h3>
+            <p>This service is currently under development.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

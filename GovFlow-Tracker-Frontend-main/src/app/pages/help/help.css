@@ -1,0 +1,274 @@
+/* ================================================
+   New Help Center Styles with GovFlow Theme
+   ================================================ */
+
+.help-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #f9fafb; /* Lighter background */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+}
+
+/* === Header Section === */
+.help-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.help-icon {
+  font-size: 3rem;
+  color: #2D4059; /* Main dark blue */
+  margin-bottom: 1rem;
+}
+
+.help-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 2rem;
+  line-height: 1.3;
+}
+
+.help-subtitle {
+  font-size: 1.1rem;
+  color: #4B5563;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* === Role Tabs (Buttons) === */
+.role-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* Allows tabs to wrap on smaller screens */
+}
+
+.tab-btn {
+  background-color: #FFFFFF;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.4rem; /* Slightly more padding for a "fuller" look */
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* Increased gap between icon and text */
+}
+
+.tab-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.tab-btn.active {
+  background-color: #FF5722; /* Accent orange */
+  color: #FFFFFF;
+  border-color: #FF5722;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Ensure focus visibility for accessibility */
+.tab-btn:focus-visible {
+  outline: none;
+  border-color: #3A4A7B;
+  box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2);
+}
+
+/* === Search and Filter Controls === */
+.help-controls {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 1.2rem; /* Increased gap between search and filter */
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap; /* Allow elements to wrap on smaller screens */
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 3; /* Give search more flexibility to grow */
+  min-width: 250px; /* Ensure search input is not too small */
+}
+
+.help-search {
+  width: 90%;
+  padding: 0.9rem 1rem 0.9rem 2.8rem; /* Adjusted padding for better vertical alignment */
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: all 0.2s;
+  font-size: 1rem;
+  color: #000000; /* Darker text color */
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fd5622;
+  font-size: 1.1rem; /* Slightly larger icon */
+}
+
+.help-filter {
+  flex: 1; /* Allow filter to grow */
+  min-width: 180px; /* Ensure filter has enough space */
+  padding: 0.9rem 1rem; /* Match search input padding */
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: all 0.2s;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #374151; /* Darker text color */
+  appearance: none; /* Remove default browser arrow */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239ca3af%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203-16.3%208.4S-2.7%2084.7%20.8%2090.7l139%20140.4c6.2%206.2%2016.3%206.2%2022.6%200l139-140.4c3.6-3.6%204.6-9.6%202.9-14.9s-6.3-8.8-12.7-8.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.8em auto;
+  padding-right: 2.5rem; /* Make space for custom arrow */
+}
+
+
+.help-search:focus, .help-filter:focus {
+  border-color: #ff9271;
+  box-shadow: 0 0 0 3px rgb(255, 146, 113);
+}
+
+/* === FAQ List and Items === */
+.faq-content {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background-color: #FFFFFF;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: #3A4A7B;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.faq-question-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.faq-question {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2D4059;
+  margin: 0;
+}
+
+.faq-toggle {
+  font-size: 1rem;
+  color: #9ca3af;
+  transition: transform 0.3s ease;
+}
+
+.faq-toggle.open {
+  transform: rotate(180deg);
+  color: #FF5722;
+}
+
+.faq-answer {
+  color: #4B5563;
+  line-height: 1.6;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.no-results-message {
+  text-align: center;
+  color: #6b7b8c;
+  font-size: 1.1rem;
+  padding: 2rem;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.no-results-message i {
+  margin-right: 0.5rem;
+  color: #9ca3af;
+}
+
+/* === Responsive Styles === */
+
+/* === شاشات التابلت والموبايل (أقل من 768 بكسل) === */
+@media (max-width: 768px) {
+  .help-container {
+    margin: 1.5rem auto; /* تعديل الهامش ليكون متناسق */
+    padding: 1.5rem;
+  }
+
+  /* تصغير حجم العناوين الرئيسية في الموبايل */
+  .help-title {
+    font-size: 1.8rem;
+  }
+  .help-subtitle {
+    font-size: 1rem;
+  }
+
+  /* جعل الفلاتر والبحث تحت بعض (الكود ده موجود وصح) */
+  .help-controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-wrapper,
+  .help-search,
+  .help-filter {
+    width: 100%; /* جعلهم يأخذون العرض الكامل */
+    min-width: unset;
+  }
+}
+
+/* === شاشات الموبايل الصغيرة جدًا (أقل من 480 بكسل) === */
+@media (max-width: 480px) {
+  .help-container {
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  /* تقليل هوامش الأزرار والأسئلة لتناسب الشاشة الصغيرة */
+  .tab-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .faq-item {
+    padding: 1rem;
+  }
+
+  .faq-question {
+    font-size: 1rem;
+  }
+}

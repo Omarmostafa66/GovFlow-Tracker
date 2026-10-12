@@ -1,0 +1,292 @@
+/* ===== Card ===== */
+.login-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 100%;
+  margin: 3rem auto 0;
+  border-top: 5px solid #3A4A7B;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* ===== Header ===== */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.login-icon {
+  font-size: 3rem;
+  color: #3A4A7B;
+  margin-bottom: 1rem;
+}
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2D4059;
+}
+.login-subtitle {
+  color: #6B7B9B;
+  margin-top: 0.5rem;
+}
+
+/* ===== Form ===== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3A4A7B;
+  margin-bottom: 0.5rem;
+}
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: #F5F7FA;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.form-input:focus {
+  border-color: #3A4A7B;
+  box-shadow: 0 0 0 3px rgba(58, 74, 123, 0.2);
+  background-color: #FFFFFF;
+}
+.password-wrapper {
+  position: relative;
+}
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.password-toggle:hover {
+  color: #374151;
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: #EF4444;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* ===== Role Toggles ===== */
+.role-toggles {
+  display: flex;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  overflow: hidden;
+  margin-bottom: 1rem; /* Added margin below the toggles */
+}
+.role-toggles button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  background-color: #F9FAFB;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 0.9rem;
+}
+.role-toggles button:not(:last-child) {
+  border-right: 1px solid #D1D5DB;
+}
+.role-toggles button.active {
+  background-color: #3A4A7B;
+  color: #FFFFFF;
+}
+
+/* ===== Form Options (Remember me & Forgot Password) ===== */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* تنسيق رابط "نسيت كلمة المرور" ليكون أصغر حجمًا */
+.form-options .link-action {
+  font-size: 0.8rem;
+}
+/* END: نهاية التعديل */
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.checkbox-input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: #FF5722;
+}
+.checkbox-label {
+  margin-left: 0.5rem;
+  color: #374151;
+}
+
+/* ===== Button ===== */
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #FF5722;
+  color: #ffffff;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.login-button:hover:not(:disabled) {
+  background-color: #E64A19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+}
+.login-button:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
+}
+.button-icon {
+  font-size: 1.1rem;
+}
+
+/* ===== Links ===== */
+.login-links {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+.link-action {
+  color: #3A4A7B;
+  text-decoration: none;
+  font-weight: 500;
+}
+.link-action:hover {
+  color: #FF5722;
+  text-decoration: underline;
+}
+
+/* ===== Warning ===== */
+.login-warning {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: 8px;
+  text-align: center;
+}
+.warning-text {
+  font-size: 0.875rem;
+  color: #B45309;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .login-card {
+    margin: 1.5rem 1rem;
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* =================================
+   Inline Popup Styles
+   ================================= */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: 'Cairo', sans-serif;
+}
+.popup-card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  border-top: 5px solid #3A4A7B;
+}
+.popup-header { margin-bottom: 1.5rem; }
+.popup-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.popup-icon.success { color: #22C55E; }
+.popup-icon.error { color: #EF4444; }
+.popup-icon.warning { color: #F59E0B; }
+.popup-icon.info { color: #3B82F6; }
+.popup-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2D4059;
+  margin: 0;
+}
+.popup-message {
+  font-size: 1rem;
+  color: #6B7B9B;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+.popup-close-btn {
+  background-color: #FF5722;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.popup-close-btn:hover {
+  background-color: #E64A19;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+}
+
+
+/* إلغاء أيقونة العين الافتراضية في المتصفحات */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+  display: none !important;
+}

@@ -1,0 +1,162 @@
+<div class="page">
+  <nav class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      <li><a routerLink="/citizen-dashboard" class="breadcrumb-link">Dashboard</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/traffic-services" class="breadcrumb-link">Traffic Services</a></li>
+      <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
+      <li class="breadcrumb-item active">Apply for Service</li>
+    </ol>
+  </nav>
+
+  <div class="form-container">
+    <div class="form-header">
+      <h1 class="form-title">{{ serviceInfo.title }}</h1>
+      <p class="form-description">{{ serviceInfo.description }}</p>
+      <div class="documents-container">
+        <h3 class="documents-title">Required Documents:</h3>
+        <ul class="documents-list">
+          <li *ngFor="let doc of requiredDocuments" class="document-item">
+            • {{ doc.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <form [formGroup]="licenseForm" (ngSubmit)="submitRequest()" class="service-form">
+      <h3 class="form-section-title">Personal Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" formControlName="fullName" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">National ID</label>
+          <input type="text" formControlName="nationalId" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="governorate" class="form-label">Governorate<span class="required-asterisk">*</span></label>
+          <select id="governorate" formControlName="governorate" class="form-select"
+                  [ngClass]="{ 'input-error': licenseForm.get('governorate')?.invalid && licenseForm.get('governorate')?.touched }">
+            <option value="" disabled>Select Governorate</option>
+            <option *ngFor="let gov of governorates" [value]="gov">{{ gov }}</option>
+          </select>
+          <div *ngIf="licenseForm.get('governorate')?.invalid && licenseForm.get('governorate')?.touched" class="error-message">
+            <span>Governorate is required.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="currentAddress" class="form-label">Address Details</label>
+          <input id="currentAddress" type="text" formControlName="currentAddress" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age" class="form-label">Age</label>
+          <input id="age" type="text" formControlName="age" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label for="mobileNumber" class="form-label">Mobile Number</label>
+          <input id="mobileNumber" type="tel" formControlName="mobileNumber" readonly class="form-input readonly-input">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input id="email" type="email" formControlName="email" readonly class="form-input readonly-input">
+        </div>
+        <div class="form-group">
+          <label for="bloodType" class="form-label">Blood Type<span class="required-asterisk">*</span></label>
+          <select id="bloodType" formControlName="bloodType" class="form-select"
+                  [ngClass]="{ 'input-error': licenseForm.get('bloodType')?.invalid && licenseForm.get('bloodType')?.touched }">
+            <option value="" disabled>Select Blood Type</option>
+            <option *ngFor="let type of bloodTypes" [value]="type">{{ type }}</option>
+          </select>
+          <div *ngIf="licenseForm.get('bloodType')?.invalid && licenseForm.get('bloodType')?.touched" class="error-message">
+            <span>Blood type is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="form-section-title">License Application Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="qualification" class="form-label">Educational Qualification<span class="required-asterisk">*</span></label>
+          <select id="qualification" formControlName="qualification" class="form-select"
+                  [ngClass]="{ 'input-error': licenseForm.get('qualification')?.invalid && licenseForm.get('qualification')?.touched }">
+            <option value="" disabled>Select Qualification</option>
+            <option *ngFor="let qual of qualifications" [value]="qual">{{ qual }}</option>
+          </select>
+          <div *ngIf="licenseForm.get('qualification')?.invalid && licenseForm.get('qualification')?.touched" class="error-message">
+            <span>Educational qualification is required.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="licenseCategory" class="form-label">License Category<span class="required-asterisk">*</span></label>
+          <select id="licenseCategory" formControlName="licenseCategory" class="form-select">
+            <option *ngFor="let category of licenseCategories" [value]="category" [disabled]="isCategoryDisabled(category)">
+              {{ getCategoryLabel(category) }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Document Attachments<span class="required-asterisk">*</span></label>
+        <div class="documents-upload-list">
+          <div *ngFor="let doc of requiredDocuments; let i = index" class="document-upload-item">
+            <div class="document-info">
+              <span class="document-name">{{ doc.name }}</span>
+              <span class="document-description">{{ doc.description }}</span>
+            </div>
+
+            <div *ngIf="doc.file" class="file-uploaded-state">
+              <span class="file-name">{{ doc.file.name }}</span>
+              <button type="button" (click)="removeFile(i)" class="remove-file-button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div *ngIf="!doc.file" class="file-upload-action">
+              <input type="file" [id]="doc.id" (change)="onFileSelected($event, i)" class="file-input" #fileInput>
+              <button type="button" class="upload-button" (click)="fileInput.click()">
+                Choose File
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="processing-info">
+        <p class="processing-text"><i class="fas fa-clock"></i> Estimated processing time: {{ serviceInfo.processingTime }}</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!licenseForm.valid || isLoading || !areAllDocumentsUploaded()" class="submit-button">
+          <i class="fas fa-paper-plane"></i>
+          {{ isLoading ? 'Submitting...' : 'Submit Request' }}
+        </button>
+        <button type="button" (click)="cancel()" class="cancel-button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="isAlertVisible" (click)="hideAlert()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="alertType">
+    <div class="icon-wrapper">
+      <i *ngIf="alertType === 'success'" class="fas fa-check-circle"></i>
+      <i *ngIf="alertType === 'error'" class="fas fa-times-circle"></i>
+    </div>
+    <h2 class="modal-title">{{ alertTitle }}</h2>
+    <p class="modal-message">{{ alertMessage }}</p>
+    <button class="modal-button" (click)="hideAlert()">Close</button>
+  </div>
+</div>

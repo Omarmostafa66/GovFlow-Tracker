@@ -1,0 +1,433 @@
+/* ================================================
+   Navbar Styles with New Color Palette
+  ================================================
+*/
+
+/* ====== Navbar Layout ====== */
+.navbar {
+  background-color: #2D4059;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #3A4A7B;
+}
+
+.navbar-container {
+  max-width: 1550px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+/* ====== Logo ====== */
+.logo {
+  display: flex;
+  align-items: center;
+  /* UPDATED: Removed cursor: pointer from the parent div */
+  font-weight: bold;
+  text-decoration: none;
+  color: #FFFFFF;
+  padding-left: 110px;
+  /* REMOVED: gap property as the icon is now gone */
+}
+
+/* ADDED: Specific styling for the logo text for more control */
+.logo span {
+  font-size: 1.4rem; /* INCREASED: Font size for "GovFlow Tracker" */
+  letter-spacing: 0.5px; /* ADDED: Slight spacing for a cleaner look */
+  transition: all 0.3s ease-in-out; /* ADDED: Smooth transition for the animation */
+  cursor: pointer; /* ADDED: Cursor is now only on the text */
+}
+
+/* ================================================= */
+/* ===> تم استرجاع وتعديل تأثير الـ Hover على النص فقط <=== */
+/* ================================================= */
+.logo span:hover { /* ===> تغير الـ selector ليصبح .logo span:hover <=== */
+  color: #FF9A6C; /* لون الإشعاع */
+  text-shadow: 0 0 15px rgba(255, 154, 108, 0.8); /* إشعاع أقوى */
+  transform: scale(1.03); /* تكبير بسيط */
+}
+/* ================================================= */
+
+/* ===> ADDED: Styling reset for the new logo <a> tag <=== */
+/* هذا الكود يمنع ظهور خط سفلي أو حدود زرقاء حول اللوجو */
+/* ================================================= */
+/* ===> تم التعديل هنا: نقل الخصائص من .ntg-logo إلى هنا <=== */
+/* ===> لجعل الرابط هو الذي يحمل الأبعاد والمكان <=== */
+/* ================================================= */
+.logo a {
+  text-decoration: none;
+  border: none;
+  line-height: 1; /* Fixes potential vertical alignment shift */
+
+  /* === START: Properties MOVED from .ntg-logo === */
+  /* هذه الخصائص نُقلت من الصورة إلى الرابط */
+  display: block; /* ضروري ليقبل الأبعاد */
+  position: absolute;
+  top: -17.5px;
+  left: 50px;
+  height: 110px; /* الرابط الآن هو الذي يملك الارتفاع */
+  width: auto; /* العرض سيعتمد على الصورة بالداخل */
+  z-index: 1010;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease, filter 0.3s ease;
+  /* === END: MOVED Properties === */
+}
+/* ================================================= */
+
+/* ================================================= */
+/* ===> تم التعديل هنا: جعل الصورة تملأ الرابط الأب <=== */
+/* ================================================= */
+.ntg-logo {
+  /* أغلب الخصائص نُقلت للرابط الأب (.logo a) */
+
+  /* هذا يضمن أن الصورة تملأ الرابط (الذي ارتفاعه 110px) */
+  height: 100%;
+  width: auto;
+  /* لإصلاح أي مسافات إضافية قد يسببها line-height */
+  vertical-align: middle;
+
+}
+
+
+/*.logo i {*/
+/* font-size: 1.5rem;*/
+/* color: #f87a44;*/
+/*}*/
+
+/* ====== Right Side Menu ====== */
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* ====== General Buttons & Links ====== */
+.menu-btn, .login-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
+  font-weight: 500;
+}
+.menu-btn:hover, .login-btn:hover {
+  background-color: #3A4A7B;
+}
+
+/* ====== Auth Buttons (Login/Register) ====== */
+.auth-buttons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+
+.avatar-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #4a90e2;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.avatar-img {
+  object-fit: cover;
+}
+
+
+
+.register-btn {
+  background-color: #FF5722;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.register-btn:hover {
+  background-color: #E64A19;
+  transform: scale(1.05);
+}
+
+/* ====== Dropdown Wrappers (General) ====== */
+.notifications-wrapper,
+.dropdown-wrapper {
+  position: relative;
+}
+
+/* ====== User Avatar & Dropdown ====== */
+.avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0.5rem;
+  border-radius: 50px; /* Make it a pill shape */
+  transition: background-color 0.2s;
+}
+.avatar-btn:hover {
+  background-color: #3A4A7B;
+}
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3A4A7B;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  /* ADDED: Border for professional look */
+  border: 2px solid #6B7B9B;
+  transition: border-color 0.3s;
+}
+.avatar-btn:hover .avatar-circle {
+  border-color: #FF9A6C; /* Highlight on hover */
+}
+.username {
+  font-weight: 500;
+}
+.avatar-btn .fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+.avatar-btn:hover .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+/* ====== Dropdown Menu Styling ====== */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: white;
+  color: #2D4059;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  z-index: 1001;
+  min-width: 240px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #2D4059;
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.2s, color 0.2s;
+}
+.dropdown-menu a:hover {
+  background: #FF5722;
+  color: #FFFFFF;
+}
+
+/* ====== Notifications (No major changes, just ensuring consistency) ====== */
+/* ====== Notifications ====== */
+.notif-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+.notif-btn:hover {
+  background-color: #3A4A7B;
+}
+.notif-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #FF5722;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2D4059;
+}
+
+/* Container for the notification dropdown */
+.notif-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: white;
+  color: #2D4059;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  z-index: 1001;
+  min-width: 340px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ==== ADDED: Missing Notification Styles ==== */
+.notif-header {
+  font-weight: 600;
+  padding: 0.75rem 1.2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.notif-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #F5F7FA;
+}
+.notif-item:last-child {
+  border-bottom: none;
+}
+.notif-item:hover {
+  background: #F5F7FA;
+}
+.notif-item i {
+  font-size: 1rem;
+  color: #3A4A7B;
+  margin-top: 3px;
+}
+.notif-title {
+  font-weight: 600;
+  color: #2D4059;
+  margin: 0 0 2px 0;
+}
+.notif-message {
+  font-size: 0.8rem;
+  color: #6B7B9B;
+  margin: 0;
+}
+.notif-footer {
+  text-align: center;
+  padding: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+.notif-footer a {
+  color: #3A4A7B;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+.notif-footer a:hover {
+  background-color: #F5F7FA;
+}
+
+/*!* Responsive Styles *!*/
+/*@media (max-width: 768px) {*/
+/*  .navbar { padding: 0 1rem; }*/
+/*  .navbar-container { height: 64px; }*/
+/*  .ntg-logo { height: 55px; } !* This rule is now overridden by '.logo a' height, but we leave it for responsiveness if we were to change the parent *!*/
+/*  .username { display: none; }*/
+/*  .menu-right, .user-menu, .auth-buttons { gap: 0.5rem; }*/
+/*}*/
+
+/*@media (max-width: 480px) {*/
+/*  .logo span { display: none; }*/
+/*  .register-btn, .login-btn { padding: 0.5rem 0.8rem; }*/
+/*}*/
+
+
+
+/* ================================================
+   📱 2. كود التجاوب مع الموبايل (The Responsive Part)
+   ================================================ */
+
+/* === شاشات التابلت والموبايل (أقل من 992 بكسل) === */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0 1rem; /* تقليل الهوامش الجانبية */
+  }
+
+  .logo span,      /* إخفاء كلمة "GovFlow Tracker" */
+  .username {     /* إخفاء اسم المستخدم */
+    display: none;
+  }
+
+  .menu-right,
+  .user-menu,
+  .auth-buttons {
+    gap: 0.5rem; /* تقليل المسافات بين الأيقونات */
+  }
+}
+
+/* === شاشات الموبايل الصغيرة (أقل من 480 بكسل) === */
+@media (max-width: 480px) {
+  /* إخفاء الأزرار النصية وترك الأيقونات والزرار الرئيسي */
+  .login-btn,
+  .menu-btn {
+    display: none;
+  }
+
+  .register-btn {
+    padding: 0.5rem 0.8rem; /* تصغير حجم زر التسجيل */
+    font-size: 0.8rem;
+  }
+}

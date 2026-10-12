@@ -1,0 +1,285 @@
+<div id="home" class="home-wrapper">
+
+  <style>
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Allows the card body to grow and fill available space */
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-body .btn {
+      margin-top: auto; /* Pushes the button to the bottom of the card body */
+    }
+  </style>
+  <section class="hero">
+    <div class="hero-slider">
+      <div class="slide" style="background-image: url('https://images.pexels.com/photos/955395/pexels-photo-955395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
+      <div class="slide" style="background-image: url('https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
+      <div class="slide" style="background-image: url('https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
+      <div class="slide" style="background-image: url('https://images.pexels.com/photos/955395/pexels-photo-955395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
+    </div>
+
+    <div class="hero-content">
+      <h1>GovFlow: Government Services Made Easy</h1>
+      <p>Access all government services in one place - fast, secure, and convenient</p>
+
+      <div class="hero-buttons" *ngIf="!isLoggedIn">
+        <button routerLink="/login" class="btn-primary">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <button routerLink="/register" class="btn-outline">
+          <i class="fas fa-user-plus"></i> Register
+        </button>
+      </div>
+
+      <div class="hero-buttons" *ngIf="isLoggedIn">
+        <div class="welcome-message">
+          <p>Welcome back, <strong>{{ userName }}</strong>!</p>
+        </div>
+        <button (click)="navigateToDashboard()" class="btn-primary">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </button>
+        <button (click)="logout()" class="btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles-section">
+    <div class="principles-header">
+      <h2>Our Core Principles</h2>
+      <p>The driving force behind our commitment to digital transformation.</p>
+    </div>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon vision-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Our Vision</h3>
+          <p>To create a unified digital ecosystem where all government services are seamlessly integrated, citizen-centric, and fully transparent.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon mission-icon">
+          <i class="fas fa-bullseye"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Our Mission</h3>
+          <p>To simplify access to essential services, ensure the highest standards of data security, and empower citizens with efficient digital tools.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon efficiency-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Efficiency</h3>
+          <p>Streamlining complex procedures into simple, fast, and effective digital workflows to save you time and effort.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon security-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Security</h3>
+          <p>Protecting your data with robust, enterprise-grade security measures to ensure privacy and build trust.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon transparency-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Transparency</h3>
+          <p>Providing clear, open, and trackable processes to foster trust and keep you informed every step of the way.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon accessibility-icon">
+          <i class="fas fa-universal-access"></i>
+        </div>
+        <div class="principle-content">
+          <h3>Accessibility</h3>
+          <p>Ensuring everyone can access our services 24/7 from any device, anywhere, without barriers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="about" class="about-us">
+    <div class="about-container">
+      <div class="about-image-wrapper">
+        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Our Team in a meeting">
+      </div>
+      <div class="about-content">
+        <h2>About GovFlow</h2>
+        <p>
+          GovFlow is a forward-thinking initiative designed to revolutionize the way citizens interact with government bodies. Our platform centralizes essential services, from traffic and municipality management to official documentation, into one secure and easy-to-navigate portal.
+        </p>
+        <p>
+          We are committed to eliminating long queues and complex paperwork, building a future where government services are efficient, transparent, and accessible to all.
+        </p>
+        <div class="about-key-points">
+          <div class="key-point">
+            <i class="fas fa-check-circle"></i>
+            <span><strong>Efficiency:</strong> Streamlined digital processes.</span>
+          </div>
+          <div class="key-point">
+            <i class="fas fa-check-circle"></i>
+            <span><strong>Transparency:</strong> Clear and trackable services.</span>
+          </div>
+          <div class="key-point">
+            <i class="fas fa-check-circle"></i>
+            <span><strong>Accessibility:</strong> 24/7 access from any device.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="services">
+    <h2>Our Services</h2>
+    <div class="service-cards">
+      <div class="cards-container">
+        <div class="card">
+          <div class="card-header blue-bg">
+            <i class="fas fa-car"></i>
+            <h3>Traffic Department</h3>
+          </div>
+          <div class="card-body">
+            <p>Manage all your traffic-related services including licenses, violations, and vehicle registrations.</p>
+            <ul>
+              <li><i class="fas fa-check"></i> Driver's license issuance and renewal</li>
+              <li><i class="fas fa-check"></i> License replacement for lost/damaged cards</li>
+              <li><i class="fas fa-check"></i> View and pay traffic violations</li>
+              <li><i class="fas fa-check"></i> Vehicle registration services</li>
+            </ul>
+            <button routerLink="/traffic-services" class="btn blue-btn">Explore Traffic Services</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header green-bg">
+            <i class="fas fa-city"></i>
+            <h3>Local Municipality</h3>
+          </div>
+          <div class="card-body">
+            <p>Access municipal services including building permits, complaints, and local regulations.</p>
+            <ul>
+              <li><i class="fas fa-check"></i> Building permit issuance and renewal</li>
+              <li><i class="fas fa-check"></i> Report building violations</li>
+              <li><i class="fas fa-check"></i> Submit cleanliness complaints</li>
+              <li><i class="fas fa-check"></i> Request renovation permits</li>
+            </ul>
+            <button routerLink="/municipality-services" class="btn green-btn">Explore Municipal Services</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Why Choose GovFlow Tracker?</h2>
+    <div class="feature-cards">
+      <div class="feature">
+        <div class="icon blue"><i class="fas fa-clock"></i></div>
+        <h3>Save Time</h3>
+        <p>Complete government procedures in minutes instead of days with our streamlined digital services.</p>
+      </div>
+      <div class="feature">
+        <div class="icon green"><i class="fas fa-mobile-alt"></i></div>
+        <h3>Anywhere Access</h3>
+        <p>Access services 24/7 from any device without visiting government offices.</p>
+      </div>
+      <div class="feature">
+        <div class="icon yellow"><i class="fas fa-shield-alt"></i></div>
+        <h3>Secure & Private</h3>
+        <p>Your data is protected with enterprise-grade security and encryption.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <h2>Meet Our Team</h2>
+    <p class="team-subtitle">The dedicated individuals bringing GovFlow to life.</p>
+
+    <div class="team-toggle-buttons">
+      <button class="team-toggle-btn"
+              [class.active]="activeTeam === 'developers'"
+              (click)="activeTeam = 'developers'">Development Team</button>
+      <button class="team-toggle-btn"
+              [class.active]="activeTeam === 'testers'"
+              (click)="activeTeam = 'testers'">Testing Team</button>
+    </div>
+
+    <div class="team-grid" id="developers-team" [class.active]="activeTeam === 'developers'">
+      <div class="team-card">
+        <img src="../../../assets/images/Youssef Atef.jpg" alt="Youssef Atef" class="profile-image">
+        <h3>Youssef Atef</h3>
+        <p class="role">Full Stack Developer</p>
+        <div class="social-links">
+          <a href="https://github.com/YoussefAtef15" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="http://www.linkedin.com/in/youssef--atef15" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="../../../assets/images/OMAR YASSER.jpg" alt="Omar Yasser" class="profile-image">
+        <h3>Omar Yasser</h3>
+        <p class="role">Full Stack Developer</p>
+        <div class="social-links">
+          <a href="https://github.com/omaryasser3060" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="http://www.linkedin.com/in/omar-yasser-software-engineer" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="../../../assets/images/Omar Mustafa.jpg" alt="Omar Mostafa" class="profile-image">
+        <h3>Omar Mostafa</h3>
+        <p class="role">Full Stack Developer</p>
+        <div class="social-links">
+          <a href="https://github.com/Omarmostafa66" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/omar-mostafa-abdsttar-b2b72134b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-grid" id="testers-team" [class.active]="activeTeam === 'testers'">
+      <div class="team-card">
+        <img src="../../../assets/images/OIP.webp" alt="Israa Gamal" class="profile-image">
+        <h3>Israa Gamal</h3>
+        <p class="role">Software Tester</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/israa-gamal-adel-728915297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img src="../../../assets/images/Mohammed Mosleh.jpg" alt="Mohammed Mosleh" class="profile-image">
+        <h3>Mohammed Mosleh</h3>
+        <p class="role">Software Tester</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/mahammed-mosleh-299a0631a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img src="../../../assets/images/Mohamed Khaled.jpg" alt="Mohamed Khaled" class="profile-image">
+        <h3>Mohamed Khaled</h3>
+        <p class="role">Software Tester</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/mohamed-khaled-0bb406311/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

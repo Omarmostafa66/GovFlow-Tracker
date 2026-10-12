@@ -1,0 +1,302 @@
+<div class="page-container">
+
+  <nav class="breadcrumb">
+    <ol>
+      <li><a routerLink="/citizen-dashboard">Dashboard</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">Payments</li>
+    </ol>
+  </nav>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading payment details...</p>
+  </div>
+  <div *ngIf="error && !loading" class="error-state">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="payment-container">
+    <div class="payment-layout">
+
+      <div class="payment-summary">
+        <div class="summary-card" *ngIf="paymentSummary">
+          <div class="summary-header">
+            <p class="summary-title">TOTAL RECEIVED</p>
+            <p class="summary-amount">
+              <span class="currency">EGP</span>{{ paymentSummary.totalReceived | number:'1.0-0' }}
+              <span class="decimal">.{{ (paymentSummary.totalReceived || 0) | number:'1.2-2' | slice:-2 }}</span>
+            </p>
+            <span class="growth-badge">
+              <i class="fas fa-arrow-up"></i>+0% since last month
+            </span>
+          </div>
+          <div class="summary-details">
+            <div class="detail-item">
+              <span class="status-indicator pending"></span>
+              <div>
+                <p class="detail-label">Pending</p>
+                <p class="detail-value">{{ paymentSummary.totalPending | currency:'EGP ' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-card">
+          <div class="card-header">
+            <h3>Payment History</h3>
+            <a routerLink="/payment-history" class="view-all-btn" *ngIf="allPaymentHistory.length > 3">
+              View All <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          <div class="history-list">
+            <div *ngIf="allPaymentHistory.length === 0" class="no-history">
+              <p>No payment history found</p>
+            </div>
+            <div *ngFor="let item of recentPaymentHistory" class="history-item">
+              <div class="history-info">
+                <p class="service-name">{{ item.serviceName }}</p>
+                <p class="payment-date">{{ item.date | date:'mediumDate' }}</p>
+              </div>
+              <div class="history-actions">
+                <p class="payment-amount">{{ item.amount | currency:'EGP ' }}</p>
+                <button class="view-invoice-btn" *ngIf="item.invoiceNumber" (click)="viewInvoice(item)" title="View Invoice {{item.invoiceNumber}}">View Invoice</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-form" *ngIf="userProfile">
+        <div class="form-card">
+          <div class="form-section">
+            <label for="serviceSelect">Select Service to Pay:</label>
+            <select id="serviceSelect" [(ngModel)]="selectedServiceId" (change)="updatePaymentDetails()">
+              <option *ngIf="payableServices.length === 0" [ngValue]="null">No services require payment</option>
+              <option *ngFor="let service of payableServices" [value]="service.id">
+                {{ service.name }} - {{ service.amount | currency:'EGP ' }}
+              </option>
+            </select>
+          </div>
+
+          <div *ngIf="currentPayment">
+            <div class="invoice-section">
+              <h4>Invoice</h4>
+              <div class="invoice-address">
+                <p class="customer-name">{{ userProfile.name }}</p>
+                <p>{{ userProfile.addressLine1 }}</p>
+                <p *ngIf="userProfile.addressLine2">{{ userProfile.addressLine2 }}</p>
+              </div>
+
+              <div class="invoice-details">
+                <table>
+                  <thead>
+                  <tr>
+                    <th>Items</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>{{ currentPayment.serviceName }}</td>
+                    <td>1</td>
+                    <td>{{ currentPayment.processingFee | currency:'EGP ' }}</td>
+                    <td>{{ currentPayment.processingFee | currency:'EGP ' }}</td>
+                  </tr>
+                  <tr>
+                    <td>VAT (14%)</td>
+                    <td>1</td>
+                    <td>{{ currentPayment.serviceFee | currency:'EGP ' }}</td>
+                    <td>{{ currentPayment.serviceFee | currency:'EGP ' }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="invoice-total">
+                <p>Total Amount</p>
+                <p class="total-amount">{{ currentPayment.totalAmount | currency:'EGP ' }}</p>
+              </div>
+
+              <p class="disclaimer">This is a demo payment for government services. No real money will be charged.</p>
+            </div>
+
+            <div class="payment-section">
+              <h4>Pay this Invoice</h4>
+              <p class="section-description">Make payment for this invoice by filling in the details</p>
+
+              <form (ngSubmit)="processPayment($event)">
+                <div class="form-group">
+                  <label for="cardNumber">Card Number</label>
+                  <div class="input-with-icon">
+                    <i class="far fa-credit-card"></i>
+                    <input id="cardNumber" type="text" placeholder="XXXX XXXXXX XXXXX"
+                           [(ngModel)]="cardNumber"
+                           (input)="formatCardNumber()"
+                           (blur)="validateCardNumber()"
+                           name="cardNumber"
+                           [attr.maxlength]="cardType === 'amex' ? 17 : 19">
+                    <span class="card-type-icon" *ngIf="cardType !== 'unknown'">
+                      <i [class]="'fab fa-cc-' + cardType"></i>
+                    </span>
+                  </div>
+                  <div *ngIf="formErrors.cardNumber" class="field-error">{{ formErrors.cardNumber }}</div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input id="expiryDate" type="text" placeholder="MM/YY" [(ngModel)]="expiryDate" (input)="formatExpiryDate()" (blur)="validateExpiryDate()" name="expiryDate" maxlength="5">
+                    <div *ngIf="formErrors.expiryDate" class="field-error">{{ formErrors.expiryDate }}</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input id="cvv" type="password"
+                           [placeholder]="cardType === 'amex' ? '1234' : '123'"
+                           [(ngModel)]="cvv"
+                           (input)="formatCvv()"
+                           name="cvv"
+                           [maxlength]="cardType === 'amex' ? 4 : 3">
+                  </div>
+                </div>
+
+                <button type="submit" class="pay-button" [disabled]="!isFormValid() || loading || !selectedServiceId">
+                  PAY {{ currentPayment.totalAmount | currency:'EGP ' }}
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPopup" (click)="closePopup()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="popupType" [class.invoice-modal]="popupType === 'invoice'">
+
+    <ng-container *ngIf="popupType === 'success' || popupType === 'error'">
+      <div class="icon-wrapper">
+        <i *ngIf="popupType === 'success'" class="fas fa-check-circle"></i>
+        <i *ngIf="popupType === 'error'" class="fas fa-times-circle"></i>
+      </div>
+      <h2 class="modal-title">{{ popupTitle }}</h2>
+      <p class="modal-message">{{ popupMessage }}</p>
+      <div *ngIf="popupType === 'success' && lastSuccessfulPayment" class="success-actions">
+        <button class="modal-button primary-view" (click)="viewInvoice(lastSuccessfulPayment!)">
+          <i class="fas fa-eye"></i> View Invoice
+        </button>
+      </div>
+      <button class="modal-button close-btn-simple" (click)="closePopup()">Close</button>
+    </ng-container>
+
+    <ng-container *ngIf="popupType === 'invoice' && lastSuccessfulPayment">
+      <div class="modal-header">
+        <h2 class="modal-title">Invoice Details</h2>
+        <button class="close-icon-btn" (click)="closePopup()" title="Close">&times;</button>
+      </div>
+      <div class="invoice-viewer">
+        <div id="invoice-preview-content"></div>
+      </div>
+      <div class="invoice-actions">
+        <button class="modal-button action-secondary" (click)="printInvoice()">
+          <i class="fas fa-print"></i> Print Invoice
+        </button>
+        <button class="modal-button action-primary" (click)="downloadInvoiceAsPDF()">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<div class="hidden-for-export" *ngIf="userProfile">
+  <div id="invoice-content-for-export">
+    <div class="professional-invoice-box">
+      <header class="invoice-header">
+        <div class="brand-logo">
+          <h1>GovFlow</h1>
+          <p>Government Service Portal</p>
+        </div>
+        <div class="invoice-details-header">
+          <h2>INVOICE</h2>
+          <p><strong>Invoice #:</strong> {{ lastSuccessfulPayment?.invoiceNumber }}</p>
+          <p><strong>Date:</strong> {{ lastSuccessfulPayment?.date | date:'longDate' }}</p>
+        </div>
+      </header>
+
+      <section class="party-details">
+        <div class="bill-from">
+          <h3>FROM</h3>
+          <p>
+            <strong>GovFlow Services</strong><br>
+            123 Government Plaza<br>
+            Cairo, Egypt
+          </p>
+        </div>
+        <div class="bill-to">
+          <h3>BILL TO</h3>
+          <p>
+            <strong>{{ userProfile.name }}</strong><br>
+            {{ userProfile.addressLine1 }}<br>
+            <ng-container *ngIf="userProfile.addressLine2">{{ userProfile.addressLine2 }}</ng-container>
+          </p>
+        </div>
+      </section>
+
+      <section class="invoice-table-section">
+        <table>
+          <thead>
+          <tr>
+            <th>SERVICE DESCRIPTION</th>
+            <th>PAYMENT METHOD</th>
+            <th>TOTAL</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- MODIFICATION: This now correctly displays base fee and VAT from the payment record -->
+          <tr>
+            <td>
+              <span class="item-name">{{ lastSuccessfulPayment?.serviceName }}</span>
+              <span class="item-meta">Base Service Fee</span>
+            </td>
+            <td>
+              <span class="item-name">{{ getCardTypeName() }}</span>
+              <span class="item-meta">**** **** **** {{ cardNumber.slice(-4) }}</span>
+            </td>
+            <td class="amount">{{ lastSuccessfulPayment?.processingFee | currency:'EGP ' }}</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">VAT (14%)</span>
+              <span class="item-meta">Value Added Tax</span>
+            </td>
+            <td></td>
+            <td class="amount">{{ lastSuccessfulPayment?.serviceFee | currency:'EGP ' }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="invoice-summary">
+        <div class="summary-item">
+          <p>Subtotal (inc. VAT)</p>
+          <p>{{ lastSuccessfulPayment?.amount | currency:'EGP ' }}</p>
+        </div>
+        <div class="summary-item total">
+          <p>TOTAL</p>
+          <p>{{ lastSuccessfulPayment?.amount | currency:'EGP ' }}</p>
+        </div>
+      </section>
+      <footer class="invoice-footer">
+        <p>Thank you for your payment.</p>
+        <p>This is an official invoice for government services. No real money has been charged in this demo environment.</p>
+      </footer>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,362 @@
+<!--<div *ngIf="currentUser() as user" class="employee-dashboard">-->
+<!--  <div class="dashboard-container">-->
+<!--    <div class="dashboard-layout">-->
+<!--      <div class="sidebar">-->
+<!--        <a routerLink="/profile" class="user-info-link">-->
+<!--          <div class="employee-info">-->
+<!--            <img *ngIf="user.avatar"-->
+<!--                 [src]="'http://localhost:8080/uploads/' + user.avatar"-->
+<!--                 alt="User Avatar"-->
+<!--                 class="avatar avatar-img">-->
+<!--            <div *ngIf="!user.avatar" class="avatar">-->
+<!--              {{ getInitials(user.fullName) }}-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <p class="employee-name">{{ user.fullName }}</p>-->
+<!--              <p class="employee-department">{{ formatRole(user.role) }}</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </a>-->
+<!--        <nav class="sidebar-nav">-->
+<!--          <a routerLink="/employee-dashboard" class="nav-item active">-->
+<!--            <i class="fas fa-tachometer-alt nav-icon"></i>-->
+<!--            Dashboard-->
+<!--          </a>-->
+<!--          <a routerLink="/employee-tasks" class="nav-item">-->
+<!--            <i class="fas fa-tasks nav-icon"></i>-->
+<!--            My Tasks-->
+<!--          </a>-->
+<!--          <a routerLink="/profile" class="nav-item">-->
+<!--            <i class="fas fa-user nav-icon"></i>-->
+<!--            Profile-->
+<!--          </a>-->
+<!--          <a routerLink="/help" class="nav-item">-->
+<!--            <i class="fas fa-question-circle nav-icon"></i>-->
+<!--            Help Center-->
+<!--          </a>-->
+<!--        </nav>-->
+<!--      </div>-->
+
+<!--      <div class="main-content">-->
+<!--        <div class="dashboard-header">-->
+<!--          <h1 class="dashboard-title">Employee Dashboard</h1>-->
+<!--          <p class="dashboard-subtitle">Manage and process service requests</p>-->
+<!--        </div>-->
+
+<!--        <div class="stats-grid">-->
+<!--          <div class="stat-card">-->
+<!--            <div class="stat-content">-->
+<!--              <div class="stat-icon pending"><i class="fas fa-clock"></i></div>-->
+<!--              <div>-->
+<!--                <p class="stat-number">{{ stats.pending }}</p>-->
+<!--                <p class="stat-label">Pending</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="stat-card">-->
+<!--            <div class="stat-content">-->
+<!--              <div class="stat-icon review"><i class="fas fa-eye"></i></div>-->
+<!--              <div>-->
+<!--                <p class="stat-number">{{ stats.underReview }}</p>-->
+<!--                <p class="stat-label">Under Review</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="stat-card">-->
+<!--            <div class="stat-content">-->
+<!--              <div class="stat-icon approved"><i class="fas fa-check"></i></div>-->
+<!--              <div>-->
+<!--                <p class="stat-number">{{ stats.approved }}</p>-->
+<!--                <p class="stat-label">Approved</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="stat-card">-->
+<!--            <div class="stat-content">-->
+<!--              <div class="stat-icon rejected"><i class="fas fa-times"></i></div>-->
+<!--              <div>-->
+<!--                <p class="stat-number">{{ stats.rejected }}</p>-->
+<!--                <p class="stat-label">Rejected</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="dashboard-grid">-->
+<!--          <div class="dashboard-section">-->
+<!--            <div class="section-header">-->
+<!--              <h3 class="section-title"><i class="fas fa-exclamation-triangle section-icon urgent"></i> Urgent Requests</h3>-->
+<!--              <a routerLink="/employee-tasks" class="section-view-all">View All</a>-->
+<!--            </div>-->
+<!--            <div class="table-container minimal-table">-->
+<!--              <table>-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                  <th>ID</th>-->
+<!--                  <th>Citizen</th>-->
+<!--                  <th>Service</th>-->
+<!--                  <th>Actions</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr *ngFor="let request of highPriorityRequests">-->
+<!--                  <td>#{{ request.id }}</td>-->
+<!--                  <td>{{ request.citizenName }}</td>-->
+<!--                  <td>{{ request.serviceType }}</td>-->
+<!--                  <td>-->
+<!--                    <button class="action-btn view-btn" (click)="viewDocuments(request.id)">-->
+<!--                      <i class="fas fa-eye"></i> View-->
+<!--                    </button>-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--                <tr *ngIf="!loading && highPriorityRequests.length === 0">-->
+<!--                  <td colspan="4" class="no-data-cell">No urgent requests found.</td>-->
+<!--                </tr>-->
+<!--                <tr *ngIf="loading">-->
+<!--                  <td colspan="4" class="no-data-cell">Loading...</td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="dashboard-section">-->
+<!--            <div class="section-header">-->
+<!--              <h3 class="section-title"><i class="fas fa-history section-icon activity"></i> Recent Activity</h3>-->
+<!--              <a routerLink="/employee-tasks" class="section-view-all">View All</a>-->
+<!--            </div>-->
+<!--            <div class="activity-feed">-->
+<!--              <div *ngFor="let request of recentActivity" class="activity-item">-->
+<!--                <div class="activity-icon-container">-->
+<!--                  <i class="fas fa-file-alt activity-icon"></i>-->
+<!--                </div>-->
+<!--                <div class="activity-details">-->
+<!--                  <p class="activity-text">-->
+<!--                    New request <strong>#{{request.id}}</strong> for "{{request.serviceType}}"-->
+<!--                  </p>-->
+<!--                  <p class="activity-time">{{ request.date | date:'MMM d, h:mm a' }}</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngIf="!loading && recentActivity.length === 0" class="no-data-cell padded">-->
+<!--                No recent activity.-->
+<!--              </div>-->
+<!--              <div *ngIf="loading" class="no-data-cell padded">-->
+<!--                Loading...-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+<!--        <div *ngIf="isModalVisible" class="modal-overlay" (click)="closeModal()">-->
+<!--          <div class="modal-content" (click)="$event.stopPropagation()">-->
+<!--            <div class="modal-header">-->
+<!--              <h2 class="modal-title">Request Documents</h2>-->
+<!--              <button class="modal-close-btn" (click)="closeModal()">&times;</button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--              <div *ngIf="selectedRequest">-->
+<!--                <p><strong>Request ID:</strong> #{{ selectedRequest.id }}</p>-->
+<!--                <p><strong>Citizen:</strong> {{ selectedRequest.citizenName }}</p>-->
+<!--                <hr class="modal-divider">-->
+<!--                <h3 class="documents-subtitle">Attached Documents</h3>-->
+<!--                <ul *ngIf="selectedRequestDocuments.length > 0" class="document-list">-->
+<!--                  <li *ngFor="let doc of selectedRequestDocuments" class="document-item">-->
+<!--                    <i class="fas fa-file-alt document-icon"></i>-->
+<!--                    <span class="document-name">{{ doc.name }}</span>-->
+<!--                    <a [href]="doc.url" target="_blank" class="document-download-link">Download</a>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--                <div *ngIf="selectedRequestDocuments.length === 0" class="no-documents">-->
+<!--                  <p>No documents found for this request.</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div *ngIf="currentUser() as user" class="employee-dashboard">
+  <div class="dashboard-container">
+    <div class="dashboard-layout">
+      <div class="sidebar">
+        <a routerLink="/profile" class="user-info-link">
+          <div class="employee-info">
+            <img *ngIf="user.avatar"
+                 [src]="'http://localhost:8080/uploads/' + user.avatar"
+                 alt="User Avatar"
+                 class="avatar avatar-img">
+            <div *ngIf="!user.avatar" class="avatar">
+              {{ getInitials(user.fullName) }}
+            </div>
+            <div>
+              <p class="employee-name">{{ user.fullName }}</p>
+              <p class="employee-department">{{ formatRole(user.role) }}</p>
+            </div>
+          </div>
+        </a>
+        <nav class="sidebar-nav">
+          <a routerLink="/employee-dashboard" class="nav-item active">
+            <i class="fas fa-tachometer-alt nav-icon"></i>
+            Dashboard
+          </a>
+          <a routerLink="/employee-tasks" class="nav-item">
+            <i class="fas fa-tasks nav-icon"></i>
+            My Tasks
+          </a>
+          <a routerLink="/profile" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            Profile
+          </a>
+          <a routerLink="/help" class="nav-item">
+            <i class="fas fa-question-circle nav-icon"></i>
+            Help Center
+          </a>
+        </nav>
+      </div>
+
+      <div class="main-content">
+        <div class="dashboard-header">
+          <h1 class="dashboard-title">Employee Dashboard</h1>
+          <p class="dashboard-subtitle">Manage and process service requests</p>
+        </div>
+
+        <div class="stats-grid">
+          <a class="stat-card" [routerLink]="['/employee-tasks']" [queryParams]="{ status: 'PENDING_CITIZEN_ACTION' }">
+            <div class="stat-content">
+              <div class="stat-icon pending"><i class="fas fa-clock"></i></div>
+              <div>
+                <p class="stat-number">{{ stats.pending }}</p>
+                <p class="stat-label">Pending</p>
+              </div>
+            </div>
+          </a>
+          <a class="stat-card" [routerLink]="['/employee-tasks']" [queryParams]="{ status: 'UNDER_REVIEW' }">
+            <div class="stat-content">
+              <div class="stat-icon review"><i class="fas fa-eye"></i></div>
+              <div>
+                <p class="stat-number">{{ stats.underReview }}</p>
+                <p class="stat-label">Under Review</p>
+              </div>
+            </div>
+          </a>
+          <a class="stat-card" [routerLink]="['/employee-tasks']" [queryParams]="{ status: 'COMPLETED' }">
+            <div class="stat-content">
+              <div class="stat-icon approved"><i class="fas fa-check"></i></div>
+              <div>
+                <p class="stat-number">{{ stats.approved }}</p>
+                <p class="stat-label">Approved</p>
+              </div>
+            </div>
+          </a>
+          <a class="stat-card" [routerLink]="['/employee-tasks']" [queryParams]="{ status: 'REJECTED' }">
+            <div class="stat-content">
+              <div class="stat-icon rejected"><i class="fas fa-times"></i></div>
+              <div>
+                <p class="stat-number">{{ stats.rejected }}</p>
+                <p class="stat-label">Rejected</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="dashboard-grid">
+<!--          <div class="dashboard-section">-->
+<!--            <div class="section-header">-->
+<!--              <h3 class="section-title"><i class="fas fa-exclamation-triangle section-icon urgent"></i> Urgent Requests</h3>-->
+<!--              <a routerLink="/employee-tasks" class="section-view-all">View All</a>-->
+<!--            </div>-->
+<!--            <div class="table-container minimal-table">-->
+<!--              <table>-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                  <th>ID</th>-->
+<!--                  <th>Citizen</th>-->
+<!--                  <th>Service</th>-->
+<!--                  <th>Actions</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr *ngFor="let request of highPriorityRequests">-->
+<!--                  <td>#{{ request.id }}</td>-->
+<!--                  <td>{{ request.citizenName }}</td>-->
+<!--                  <td>{{ request.serviceType }}</td>-->
+<!--                  <td>-->
+<!--                    <button class="action-btn view-btn" (click)="viewDocuments(request.id)">-->
+<!--                      <i class="fas fa-eye"></i> View-->
+<!--                    </button>-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--                <tr *ngIf="!loading && highPriorityRequests.length === 0">-->
+<!--                  <td colspan="4" class="no-data-cell">No urgent requests found.</td>-->
+<!--                </tr>-->
+<!--                <tr *ngIf="loading">-->
+<!--                  <td colspan="4" class="no-data-cell">Loading...</td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <div class="dashboard-section">
+            <div class="section-header">
+              <h3 class="section-title"><i class="fas fa-history section-icon activity"></i> Recent Activity</h3>
+              <a routerLink="/employee-tasks" class="section-view-all">View All</a>
+            </div>
+            <div class="activity-feed">
+              <div *ngFor="let request of recentActivity" class="activity-item">
+                <div class="activity-icon-container">
+                  <i class="fas fa-file-alt activity-icon"></i>
+                </div>
+                <div class="activity-details">
+                  <p class="activity-text">
+                    New request <strong>#{{request.id}}</strong> for "{{request.serviceType}}"
+                  </p>
+                  <p class="activity-time">{{ request.date | date:'MMM d, h:mm a' }}</p>
+                </div>
+              </div>
+              <div *ngIf="!loading && recentActivity.length === 0" class="no-data-cell padded">
+                No recent activity.
+              </div>
+              <div *ngIf="loading" class="no-data-cell padded">
+                Loading...
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="isModalVisible" class="modal-overlay" (click)="closeModal()">
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <h2 class="modal-title">Request Documents</h2>
+              <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="selectedRequest">
+                <p><strong>Request ID:</strong> #{{ selectedRequest.id }}</p>
+                <p><strong>Citizen:</strong> {{ selectedRequest.citizenName }}</p>
+                <hr class="modal-divider">
+                <h3 class="documents-subtitle">Attached Documents</h3>
+                <ul *ngIf="selectedRequestDocuments.length > 0" class="document-list">
+                  <li *ngFor="let doc of selectedRequestDocuments" class="document-item">
+                    <i class="fas fa-file-alt document-icon"></i>
+                    <span class="document-name">{{ doc.name }}</span>
+                    <a [href]="doc.url" target="_blank" class="document-download-link">Download</a>
+                  </li>
+                </ul>
+                <div *ngIf="selectedRequestDocuments.length === 0" class="no-documents">
+                  <p>No documents found for this request.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

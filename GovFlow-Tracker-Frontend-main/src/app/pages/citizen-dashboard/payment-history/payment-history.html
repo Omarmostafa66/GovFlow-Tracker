@@ -1,0 +1,163 @@
+<div class="page-container">
+
+  <nav class="breadcrumb">
+    <ol>
+      <li><a routerLink="/citizen-dashboard">Dashboard</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li><a routerLink="/payments">Payments</a></li>
+      <li><i class="fas fa-chevron-right"></i></li>
+      <li class="active">Full Payment History</li>
+    </ol>
+  </nav>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading full payment history...</p>
+  </div>
+  <div *ngIf="error && !loading" class="error-state">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="payment-container payment-history-full-page">
+    <div class="history-card">
+      <div class="card-header">
+        <h3>Full Payment History</h3>
+      </div>
+
+      <div class="history-list">
+        <div *ngIf="allPaymentHistory.length === 0" class="no-history">
+          <p>No payment history found</p>
+        </div>
+        <div *ngFor="let item of allPaymentHistory" class="history-item">
+          <div class="history-info">
+            <p class="service-name">{{ item.serviceName }}</p>
+            <p class="payment-date">{{ item.date | date:'mediumDate' }}</p>
+          </div>
+          <div class="history-actions">
+            <p class="payment-amount">{{ item.amount | currency:'EGP ' }}</p>
+            <button class="view-invoice-btn" *ngIf="item.invoiceNumber" (click)="viewInvoice(item)" title="View Invoice {{item.invoiceNumber}}">View Invoice</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPopup" (click)="closePopup()">
+  <div class="modal-content" (click)="$event.stopPropagation()" [ngClass]="popupType" [class.invoice-modal]="popupType === 'invoice'">
+
+    <ng-container *ngIf="popupType === 'error'">
+      <div class="icon-wrapper">
+        <i class="fas fa-times-circle"></i>
+      </div>
+      <h2 class="modal-title">{{ popupTitle }}</h2>
+      <p class="modal-message">{{ popupMessage }}</p>
+      <button class="modal-button close-btn-simple" (click)="closePopup()">Close</button>
+    </ng-container>
+
+    <ng-container *ngIf="popupType === 'invoice' && lastSuccessfulPayment">
+      <div class="modal-header">
+        <h2 class="modal-title">Invoice Details</h2>
+        <button class="close-icon-btn" (click)="closePopup()" title="Close">&times;</button>
+      </div>
+      <div class="invoice-viewer">
+        <div id="invoice-preview-content"></div>
+      </div>
+      <div class="invoice-actions">
+        <button class="modal-button action-secondary" (click)="printInvoice()">
+          <i class="fas fa-print"></i> Print Invoice
+        </button>
+        <button class="modal-button action-primary" (click)="downloadInvoiceAsPDF()">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<div class="hidden-for-export" *ngIf="userProfile">
+  <div id="invoice-content-for-export">
+    <div class="professional-invoice-box">
+      <header class="invoice-header">
+        <div class="brand-logo">
+          <h1>GovFlow</h1>
+          <p>Government Service Portal</p>
+        </div>
+        <div class="invoice-details-header">
+          <h2>INVOICE</h2>
+          <p><strong>Invoice #:</strong> {{ lastSuccessfulPayment?.invoiceNumber }}</p>
+          <p><strong>Date:</strong> {{ lastSuccessfulPayment?.date | date:'longDate' }}</p>
+        </div>
+      </header>
+
+      <section class="party-details">
+        <div class="bill-from">
+          <h3>FROM</h3>
+          <p>
+            <strong>GovFlow Services</strong><br>
+            123 Government Plaza<br>
+            Cairo, Egypt
+          </p>
+        </div>
+        <div class="bill-to">
+          <h3>BILL TO</h3>
+          <p>
+            <strong>{{ userProfile.name }}</strong><br>
+            {{ userProfile.addressLine1 }}<br>
+            <ng-container *ngIf="userProfile.addressLine2">{{ userProfile.addressLine2 }}</ng-container>
+          </p>
+        </div>
+      </section>
+
+      <section class="invoice-table-section">
+        <table>
+          <thead>
+          <tr>
+            <th>SERVICE DESCRIPTION</th>
+            <th>PAYMENT METHOD</th>
+            <th>TOTAL</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <span class="item-name">{{ lastSuccessfulPayment?.serviceName }}</span>
+              <span class="item-meta">Base Service Fee</span>
+            </td>
+            <td>
+              <span class="item-name">Online Payment</span>
+              <span class="item-meta">Paid via GovFlow Portal</span>
+            </td>
+            <td class="amount">{{ (lastSuccessfulPayment?.amount || 0) / 1.14 | currency:'EGP ' }}</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">VAT (14%)</span>
+              <span class="item-meta">Value Added Tax</span>
+            </td>
+            <td></td>
+            <td class="amount">{{ ((lastSuccessfulPayment?.amount || 0) - ((lastSuccessfulPayment?.amount || 0) / 1.14)) | currency:'EGP ' }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="invoice-summary">
+        <div class="summary-item">
+          <p>Subtotal (inc. VAT)</p>
+          <p>{{ lastSuccessfulPayment?.amount | currency:'EGP ' }}</p>
+        </div>
+        <div class="summary-item total">
+          <p>TOTAL</p>
+          <p>{{ lastSuccessfulPayment?.amount | currency:'EGP ' }}</p>
+        </div>
+      </section>
+      <footer class="invoice-footer">
+        <p>Thank you for your payment.</p>
+        <p>This is an official invoice for government services. No real money has been charged in this demo environment.</p>
+      </footer>
+    </div>
+  </div>
+</div>
